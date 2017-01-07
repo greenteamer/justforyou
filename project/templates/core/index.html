@@ -9,38 +9,50 @@
       {% category request %}
     </ul>
   </div>
+  <div class="row filter-price">
+    <div class="col-md-12">
+      <div class="sidebar">
+        <h4>Фильтр по цене</h4>
+        <div id="react-price-slider"></div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
 
 {% block content %}
-  {% for product in products %}
-    <div id="product {{ product.id }}" class="col-xs-3 product-item">
-      <div class="product-container">
-        <img src={{ product.get_image.get_url }} alt="" />
-        <p class="price" id="price-product-{{ product.id }}">{{ product.price }}р.</p>
-        <a href="/products/{{ product.slug }}/" class="product-name">{{ product.name }}</a>
-        <div id="properties-product-{{ product.id }}">
-          {% for property in product.get_properties %}
-            <button
-              id="property-{{ property.id }}"
-              class="property btn btn-mini btn-success">{{ property.value }} {{ property.type.unit }}</button>
-          {% endfor %}
-        </div>
-        <div class="add-to-cart-container" id="add-to-cart-container-{{ product.id }}">
-          <div
-              class="add-to-cart"
-              id="add-to-cart-product-{{ product.id }}"
-              productId="{{ product.id }}">
-            <img
-              productId="{{ product.id }}"
-              width="22"
-              src="/static/src/img/shopping-bag-4.png"
-              srcset="/static/src/img/shopping-bag-4.png 1x,
-                /static/src/img/shopping-bag-4@2x.png 2x,
-                /static/src/img/shopping-bag-4@3x.png 3x" />
-            <span productId="{{ product.id }}">Добавить в корзину</span>
+  <div class="col-xs-9" id="react-product-list">
+    <div class="row">
+      {% for product in products %}
+        <div id="product {{ product.id }}" class="col-xs-3 product-item">
+          <div class="product-container">
+            <img src={{ product.get_image.get_url }} alt="" />
+            <p class="price" id="price-product-{{ product.id }}">{{ product.price }}р.</p>
+            <a href="/products/{{ product.slug }}/" class="product-name">{{ product.name }}</a>
+            <div id="properties-product-{{ product.id }}">
+              {% for property in product.get_properties %}
+                <button
+                  id="property-{{ property.id }}"
+                  class="property btn btn-mini btn-success">{{ property.value }} {{ property.type.unit }}</button>
+              {% endfor %}
+            </div>
+            <div class="add-to-cart-container" id="add-to-cart-container-{{ product.id }}">
+              <div
+                  class="add-to-cart"
+                  id="add-to-cart-product-{{ product.id }}"
+                  productId="{{ product.id }}">
+                <img
+                  productId="{{ product.id }}"
+                  width="22"
+                  src="/static/src/img/shopping-bag-4.png"
+                  srcset="/static/src/img/shopping-bag-4.png 1x,
+                    /static/src/img/shopping-bag-4@2x.png 2x,
+                    /static/src/img/shopping-bag-4@3x.png 3x" />
+                <span productId="{{ product.id }}">Добавить в корзину</span>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      {% endfor %}
     </div>
-  {% endfor %}
+  </div>
 {% endblock %}
