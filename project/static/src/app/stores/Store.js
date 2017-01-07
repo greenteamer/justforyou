@@ -1,12 +1,10 @@
-import { action, autorun, observable, runInAction, computed, toJS} from 'mobx';
+import { action, observable, runInAction, computed, toJS} from 'mobx';
 import * as API from '../api';
 import Product from './Product';
 import Property from './Property';
 import CartItem from './CartItems';
 import uiStore from './UIStore';
 import singleton from 'singleton';
-import { getCookie } from '../utils';
-import { renderCartbox } from '../reactions/renderCart';
 
 
 class Store extends singleton {
@@ -15,7 +13,7 @@ class Store extends singleton {
   @observable images;
   @observable types;
   @observable properties;
-  @observable cartitems = [];
+  @observable cartitems;
   @observable orders;
   @observable isLoading;
 
@@ -27,6 +25,7 @@ class Store extends singleton {
     this.images = [];
     this.properties = [];
     this.types = [];
+    this.cartitems = [];
     this.orders = [];
 
     this.pullProducts();
@@ -36,9 +35,10 @@ class Store extends singleton {
     this.pullTypes();
     this.pullCartItems();
 
-    autorun(() => {
-      renderCartbox(this.totalPrice, this.totalItems);
-    });
+    // autorun(() => {
+    //   console.log('cartitems: ', toJS(this.cartitems));
+    //   console.log('total price: ', this.totalPrice);
+    // });
 
     window.mobx = {action, observable, runInAction, computed, toJS};
     window.store = this;
@@ -75,7 +75,7 @@ class Store extends singleton {
     uiStore.startLoading();
     const properties = await API.request(API.ENDPOINTS.GET_PROPERTIES());
     runInAction('update after fetching data', () => {
-      this.properties.replace(properties.map(prop => new Property(prop)));
+      this.properties.replace(properties.map(prop => new Property(this, prop)));
       uiStore.finishLoading();
     });
   }
@@ -105,33 +105,32 @@ class Store extends singleton {
       property: product.activeProperty ? product.activeProperty.id : null,
       count: 1,
     };
-    if (product.activeCartitem) {
-      product.activeCartitem.increment();
-      data.count = product.activeCartitem.count;
+    const existCartItem = this.findCartItem(product);
+    if (existCartItem) {
+      existCartItem.increment();
+      data.count = existCartItem.count;
     }
     else {
       this.cartitems.push(new CartItem(data, this));
     }
     const response = await API.request(API.ENDPOINTS.POST_CARTITEM(), data);
-    // обновляем сохранненые в базу id и cartId у cartitem
-    product.activeCartitem.setId(response.data.id);
-    product.activeCartitem.setCartId(response.data.cart_id);
+    this.findCartItem(product).setId(response.data.id);
   }
 
-  @action removeCartItem = async (productId) => {
-    const product = this.products.find(p => p.id === productId);
+  @action removeCartItem = async (product) => {
     const data = {
       product: product.id,
       property: product.activeProperty ? product.activeProperty.id : null,
       count: 1,
       cart_id: this.getCartId,
     };
-    if (product.activeCartitem) {
-      product.activeCartitem.decrement();
-      data.count = product.activeCartitem.count;
-      if (product.activeCartitem.count === 0) {
-        await API.request(API.ENDPOINTS.DELETE_CARTITEM(product.activeCartitem.id), data);
-        this.cartitems = this.cartitems.filter(item => item.id !== product.activeCartitem.id);
+    const existCartItem = this.findCartItem(product);
+    if (existCartItem) {
+      existCartItem.decrement();
+      data.count = existCartItem.count;
+      if (existCartItem.count === 0) {
+        await API.request(API.ENDPOINTS.DELETE_CARTITEM(existCartItem.id), data);
+        this.cartitems = this.cartitems.filter(item => item.id !== existCartItem.id);
       }
       else {
         await API.request(API.ENDPOINTS.POST_CARTITEM(), data);
@@ -140,7 +139,15 @@ class Store extends singleton {
   }
 
   @computed get getCartId() {
-    return getCookie('cart_id');
+    const cartId = localStorage.getItem('cart_id');
+    if (cartId === null) return this.setCartId();
+    return cartId;
+  }
+
+  setCartId = () => {
+    const cartId = makeId();
+    localStorage.setItem('cart_id', cartId);
+    return cartId;
   }
 
   @computed get productsByCategory() {
@@ -149,21 +156,21 @@ class Store extends singleton {
       : this.products;
   }
 
-  // findCartItem(product) {
-  //   // finding existing cartItem by product.id, cartId & product.property
-  //   const propertyId = product.activeProperty ? product.activeProperty.id : null;
-  //   return this.cartitems
-  //     .find(item => {
-  //       return item.product === product.id
-  //         && item.cartId === this.getCartId
-  //         && item.property === propertyId;
-  //     });
-  // }
+  findCartItem(product) {
+    // finding existing cartItem by product.id, cartId & product.property
+    const propertyId = product.activeProperty ? product.activeProperty.id : null;
+    return this.cartitems
+      .find(item => {
+        return item.product === product.id
+          // && item.cartId === this.getCartId
+          && item.property === propertyId;
+      });
+  }
 
   @computed get totalPrice() {
     if (this.isLoading) return null;
-    const filteredByCartId = this.cartitems.filter(item => item.cartId === this.getCartId);
-    return filteredByCartId
+    return this.cartitems
+      .filter(item => item.cartId === this.getCartId)
       .reduce((sum, current) => {
         return sum + current.totalPrice;
       }, 0);

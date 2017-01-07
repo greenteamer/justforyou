@@ -1,25 +1,21 @@
-// @flow
-
 import { autorun, action, observable, computed, toJS} from 'mobx';
 
 
 class UIStore {
   @observable catalogFilter = null;
-  @observable isLoading = false;
+  @observable isLoading = true;
+  @observable priceFilter = []
 
   constructor() {
-    this.isLoading = false;
-    this.catalogFilter = null;
-
-    autorun(() => {
-      console.log('UIStore catalogFilter: ', this.catalogFilter);
-    });
-
     window.UIStore = this;
   }
 
-  @action setCatalogFilter = (catalogId: number) => {
+  @action setCatalogFilter = (catalogId) => {
     this.catalogFilter = catalogId;
+  }
+
+  @action setPriceFilter = (value) => {
+    this.priceFilter = value;
   }
 
   @action startLoading = () => {

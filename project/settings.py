@@ -25,6 +25,7 @@ SECRET_KEY = 's7z+3m49iktgu*o3lh2d77ynzw#p@%!n3*-n_+(mz8^on-!-v='
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+WEBPACK_DEV_SERVER = True
 
 ALLOWED_HOSTS = []
 
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
     'mptt_tree_editor',
     'sitetree',
     'rest_framework',
+    # 'corsheaders',
     # custom apps:
     'core',
     'cart',
@@ -70,6 +72,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'core.middleware.CookieProcessingMiddleware',
+    # 'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',

@@ -7,6 +7,7 @@ from cart import utils as cartutils
 
 def index_view(request, template_name='core/index.html'):
     products = models.Product.objects.all()
+    cart_id = cartutils.set_cart_id(request)
     return render(request, template_name, {
         "products": products,
     })

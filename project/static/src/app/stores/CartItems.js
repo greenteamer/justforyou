@@ -4,7 +4,6 @@ import { observable, action, computed, toJS } from 'mobx';
 export default class CartItems {
   @observable count;
   @observable id;
-  @observable cartId;
   @observable property;
 
   constructor(obj, store) {
@@ -30,10 +29,6 @@ export default class CartItems {
 
   @action setId = (id) => {
     this.id = id;
-  }
-
-  @action setCartId = (id) => {
-    this.cartId = id;
   }
 
   @computed get totalPrice() {

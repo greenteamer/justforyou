@@ -1,6 +1,5 @@
 import { autorun, observable, action, toJS, computed } from 'mobx';
-import _ from 'underscore';
-import $ from 'jquery';
+import { getCookie } from '../utils';
 
 
 export default class Product {
@@ -30,13 +29,11 @@ export default class Product {
         this.properties[0].setActive();
       }
     });
-  }
 
-  // @action getProperties(store, obj) {
-  //   const properties = store.properties.filter(prop => obj.properties.includes(prop.id));
-  //   if (properties.length !== 0) properties[0].setActive();
-  //   this.properties.replace(properties);
-  // }
+    // autorun(() => {
+    //   console.log('Product - maxPrice ' + this.id, this.maxPrice);
+    // });
+  }
 
   @action getImages(store, obj) {
     const images = store.images.slice()
@@ -53,11 +50,11 @@ export default class Product {
   }
 
   @action addToCart = () => {
-    this._store.addCartItem(this);
+    this._store.addCartItem(this.id);
   }
 
   @action removeFromCart = () => {
-    this._store.removeCartItem(this);
+    this._store.removeCartItem(this.id);
   }
 
   @computed get productProperties() {
@@ -66,8 +63,42 @@ export default class Product {
       .sort((a, b) => parseInt(a.value, 10) - parseInt(b.value, 10));
   }
 
+  @computed get currentPrice() {
+    return this.productProperties.length !== 0
+      ? this.activeProperty.price
+      : this.price;
+  }
+
+  @computed get maxPrice() {
+    return this.properties.length !== 0
+      ? this.properties
+          .sort((a, b) => a.price - b.price)
+          [this.properties.length-1]
+          .price
+      : this.price;
+  }
+
+  @computed get minPrice() {
+    return this.properties.length !== 0
+      ? this.properties
+          .sort((a, b) => a.price - b.price)[0]
+          .price
+      : this.price;
+  }
+
   @computed get activeProperty() {
     return this.properties.find(prop => prop.isActive);
+  }
+
+  @computed get activeCartitem() {
+    if (this.activeProperty) {
+      // возвращаем cartitem по активному property и cartId
+      return store.cartitems.find(i => i.property === this.activeProperty.id && i.cartId === getCookie('cart_id'));
+    }
+    else {
+      // возвращаем cartitem по продукту и cartId если нет дополнительных properties
+      return store.cartitems.find(i => i.product === this.id && i.cartId === getCookie('cart_id'));
+    }
   }
 
   @computed get toJS() {
