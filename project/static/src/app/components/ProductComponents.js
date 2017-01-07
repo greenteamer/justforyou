@@ -61,13 +61,10 @@ export const productProperties = (product, properties) => {
 const propertyButton = (product, prop) => {
   const button = $(`<button
       id="property-${prop.id}"
-      productId="${product.id}"
-      propertyId="${prop.id}"
       class="property btn btn-mini btn-success ${prop.isActive ? 'active' : ''}">
         ${prop.value} ${prop.type ? prop.type.unit: ''}
     </button>`);
     $(button).on('click', function() {
-      console.log('productProperties Button click: ', button);
       product.setActiveProperty(prop.id);
     });
   return button;
