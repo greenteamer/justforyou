@@ -1,6 +1,8 @@
 import $ from 'jquery';
 import renderCart from './reactions/renderCart';
-import './stores';
+import addToCart from './reactions/addToCart';
 
 
-// $('#cart').html(renderCart());
+console.log('test index.js');
+
+$('#cart').html(renderCart());

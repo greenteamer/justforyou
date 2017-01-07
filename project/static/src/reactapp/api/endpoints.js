@@ -11,7 +11,6 @@ export const GET_CATEGORY = (id) => ({url: `api/v1/categories/${id}`, method: 'G
 export const GET_CARTITEMS = () => ({url: 'api/v1/cartitems', method: 'GET'});
 export const GET_CARTITEM = (id) => ({url: `api/v1/cartitems/${id}`, method: 'GET'});
 export const DELETE_CARTITEM = (id) => ({url: `api/v1/cartitems/${id}`, method: 'DELETE'});
-// export const POST_CARTITEM = () => ({url: 'api/v1/cartitems/', method: 'POST'});
-export const POST_CARTITEM = () => ({url: 'api/v1/add-to-cart/', method: 'POST'});
+export const POST_CARTITEM = () => ({url: 'api/v1/cartitems/', method: 'POST'});
 export const GET_ORDERS = () => ({url: 'api/v1/orders', method: 'GET'});
 export const GET_ORDER = (id) => ({url: `api/v1/orders/${id}`, method: 'GET'});

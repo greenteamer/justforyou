@@ -1,10 +1,10 @@
 import { observable, action, autorun, computed, toJS } from 'mobx';
-import $ from 'jquery';
 
 
 export default class Property {
 
   @observable isActive = false;
+  @observable type = {};
 
   constructor(store, obj) {
     this.id = obj.id;
@@ -12,20 +12,9 @@ export default class Property {
     this.value = obj.value;
     this.price = obj.price;
 
-    this.getType(store, obj);
     autorun(() => {
-      if (this.isActive) {
-        $(`#property-${this.id}`).addClass('active');
-      }
-      else {
-        $(`#property-${this.id}`).removeClass('active');
-      }
+      this.type = store.types.find(type => type.id === obj.type);
     });
-  }
-
-  @action getType(store, obj) {
-    const typeObject = store.types.find(type => type.id === obj.type);
-    this.type = typeObject;
   }
 
   @action setActive() {
