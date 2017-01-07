@@ -1,5 +1,15 @@
 {% extends "base.html" %}
 {% load static from staticfiles %}
+{% load header_tags %}
+
+{% block sidebar %}
+  <div class="catalog sidebar">
+    <h4>Каталог</h4>
+    <ul class="catalog-list">
+      {% category request %}
+    </ul>
+  </div>
+{% endblock %}
 
 {% block content %}
   {% for product in products %}
@@ -12,8 +22,6 @@
           {% for property in product.get_properties %}
             <button
               id="property-{{ property.id }}"
-              productId="{{ product.id }}"
-              propertyId="{{ property.id }}"
               class="property btn btn-mini btn-success">{{ property.value }} {{ property.type.unit }}</button>
           {% endfor %}
         </div>
