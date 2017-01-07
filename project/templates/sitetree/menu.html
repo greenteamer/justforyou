@@ -1,0 +1,28 @@
+{% load sitetree %}
+
+
+<ul class="nav navbar-nav">
+  <li class="nav-item">
+    {% if request.path == '/' %}
+      <a class="nav-link active" name="/"><i class="icon-home icons"></i></a>
+    {% else %}
+      <a class="nav-link" href="/"><i class="icon-home icons"></i></a>
+    {% endif %}
+  </li>
+  {% for item in sitetree_items %}
+  <li class="nav-item dropdown">
+    {% if item.has_children %}
+      <a class="nav-link dropdown-toggle {% if request.path == item.url %}active{% endif %} {% if item.url == '/catalog' %}catalog{% endif %}"
+         href="{% sitetree_url for item %}"
+         id="supportedContentDropdown"
+         data-toggle="dropdown"
+         aria-haspopup="true"
+         aria-expanded="false">{{ item.title_resolved }}</a>
+      {% sitetree_children of item for menu template "sitetree/menu_dropdown.html" %}
+    {% else %}
+      <a class="nav-link" href="{% sitetree_url for item %}">{{ item.title_resolved }}</a>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>
+<ul id="cart" class="nav navbar-nav float-xs-right navbar-right"></ul>

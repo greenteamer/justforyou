@@ -1,0 +1,79 @@
+{% load static from staticfiles %}
+{% load header_tags %}
+{% load mptt_tags %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta name="author" content="Kamleshyadav"/>
+  <meta name="MobileOptimized" content="320">
+  {% block head %}
+    <title>{{ title }}</title>
+    <meta name="description" content="{{ description }}"/>
+    <meta name="keywords" content="">
+  {% endblock %}
+  <link rel="stylesheet" type="text/css" href="{% static "dist/bundle.css" %}">
+  <link rel="stylesheet" href="{% static "src/libs/ionicons/css/ionicons.min.css" %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h1>Здравствуй, {{ user }}</h1>
+      </div>
+    </div>
+  </div>
+  <nav class="navbar navbar-light bg-faded">
+    <div class="container navbar-container">
+      {% top_menu request %}
+    </div>
+  </nav>
+  <div class="container">
+    <div class="row">
+
+      {% block header %}
+      {% endblock %}
+
+      <div class="col-xs-3 sidebar">
+        <h2>Список Категорий</h2>
+      </div>
+      <div class="col-xs-9">
+
+        <div class="row">
+          {% block content %}
+          {% endblock %}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div id="dnd"></div>
+        </div>
+      </div>
+
+      {% block articles %}
+      {% endblock %}
+
+      <div class="col-xs-12">
+        <div class="row">
+          {% block footer %}
+            <div class="col-xs-4">
+              Это текст футера
+            </div>
+            <div class="col-xs-2">
+              <h4>Контакты</h4>
+              <p>090909</p>
+              <p>mail</p>
+            </div>
+          {% endblock %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="{% static "dist/bundle.js" %}"></script>
+</body>
+</html>

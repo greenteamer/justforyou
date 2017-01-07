@@ -1,0 +1,7 @@
+{% load sitetree %}
+
+<div class="dropdown-menu" aria-labelledby="supportedContentDropdown">
+  {% for item in sitetree_items %}
+  <a class="dropdown-item" href="{% sitetree_url for item %}">{{ item.title_resolved }}</a>
+  {% endfor %}
+</div>

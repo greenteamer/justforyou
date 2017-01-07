@@ -1,0 +1,6 @@
+{% load mptt_tags%}
+
+{% recursetree nodes %}
+{#    <li><a href="/category/{{ node.slug }}">{{ node.name }}</a></li>#}
+   <li> <a href="/category/{{ node.slug }}" class="btn btn-flat btn-primary">{{ node.name }}<div class="ripple-wrapper"></div></a></li>
+{% endrecursetree %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+
+{% block content %}
+
+    <div class="col-md-12">
+        <div class="row">
+            {% for product in products %}
+
+                    <div class="col-md-4 product">
+                        <img style="height:150px;" src="/media/{{ product.get_image.image }}" alt=""/>
+{#                        <p>{{ product.image.image }}</p>#}
+                        <h3>{{ product.name }}</h3>
+                        <p>{{ product.description|truncatewords:12 }}</p>
+                        <p> цена : {{ product.price }}  рублей</p>
+                        <form action="" method="post">{% csrf_token %}
+                            <input type="hidden" name="id" value="{{ product.id }}"/>
+                            <input size="3" type="text" name="count" value="1" placeholder="Шт"/>
+                            <div class="btn btn-primary">
+                                <i class="mdi-action-add-shopping-cart"></i>
+                                <input type="submit" class="hidden_style" value="Добавить" />
+                            </div>
+                        </form>
+                        <a class="btn btn-success" href="/product/{{ product.slug }}">подробнее</a>
+                    </div>
+
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block articles %}
+{#    <div class="col-md-12">#}
+{#        {% for article in articles %}#}
+{#            <img src="/media/{{ article.image.url }}" alt=""/>#}
+{#            <h4>{{ article.name }} - {{ article.date }}</h4>#}
+{#            <p>{{ article.text }}</p>#}
+{#             <a href="/article/{{ article.id }}">далее</a>#}
+{##}
+{#        {% endfor %}#}
+{#    </div>#}
+{#    <div class="col-md-12">#}
+{#        {% for page in pages  %}#}
+{#            <img src="/media/{{ page.image.url }}" alt=""/>#}
+{#            <h4>{{ page.name }} </h4>#}
+{#            <p>{{ page.page }}</p>#}
+{#            <a href="/page/{{ page.slug }}">подробнее</a>#}
+{##}
+{#        {% endfor %}#}
+{#    </div>#}
+{% endblock %}
+

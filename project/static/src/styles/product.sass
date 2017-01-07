@@ -1,0 +1,65 @@
+@import "colors"
+
+.product-item
+
+  .product-container
+    padding: 8px 8px 0 8px
+    border: 1px solid $mild-grey
+    min-height: 250px
+    margin-top: 30px
+
+    img
+      height: 140px
+      width: auto
+    a
+      &.product-name
+        text-align: center
+        max-height: 32px
+        overflow: hidden
+        color: $brown
+
+    .price
+      max-height: 45px
+      text-align: center
+      font-weight: bold
+      color: $grey
+      font-size: 1.875rem
+
+    .properties
+      text-align: center
+    
+    .add-to-cart
+      display: flex
+      justify-content: space-between
+      align-items: center
+      min-height: 52px
+      cursor: pointer
+      border-top: 1px solid $mild-grey
+      margin-top: 5px
+      margin-left: -9px
+      margin-right: -9px
+      padding: 8px
+      color: $green
+      text-align: center
+
+      .count
+        margin-left: 0
+        font-size: 30px
+        line-height: 34px
+        color: $dark-grey
+      i
+        font-size: 34px
+        line-height: 24px
+      button
+        height: 25px
+        width: 25px
+        padding: 0
+        -webkit-border-radius: 13px
+        -moz-border-radius: 13px
+        border-radius: 13px
+      span
+        margin-left: 10px
+        font-size: 14px
+      img
+        width: 25px
+        height: 25px

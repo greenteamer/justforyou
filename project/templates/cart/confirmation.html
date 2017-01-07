@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+
+
+{% block content %}
+
+
+
+{#        <div class="col-md-12">#}
+{##}
+{#            <div class="col-md-6" style="background: white; min-height: 400px;">#}
+{##}
+{#                <div class="col-md-6" style="background: blue">#}
+{#                    <p style="color:white">kadhjflajdl;faj alsjd lfajsdlkgj ldfjkgl sl;fdjg l;sjflgj sldfjg lsdjflg s#}
+{#                         laksjdglsjfdgl sdfjlg lsfjg </p>#}
+{#                    <div class="col-md-6" style="background: red">#}
+{#                        <p style="color:white">kadhjflajdl;faj alsjd lfajsdlkgj ldfjkgl sl;fdjg l;sjflgj sldfjg lsdjflg s#}
+{#                             laksjdglsjfdgl sdfjlg lsfjg </p>#}
+{#                    </div>#}
+{#                    <div class="col-md-6" style="background: red">#}
+{#                        <p style="color:white">kadhjflajdl;faj alsjd lfajsdlkgj ldfjkgl sl;fdjg l;sjflgj sldfjg lsdjflg s#}
+{#                             laksjdglsjfdgl sdfjlg lsfjg </p>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="col-md-6" style="background: blue">#}
+{#                    <p style="color:white">kadhjflajdl;faj alsjd lfajsdlkgj ldfjkgl sl;fdjg l;sjflgj sldfjg lsdjflg s#}
+{#                         laksjdglsjfdgl sdfjlg lsfjg </p>#}
+{#                </div>#}
+{##}
+{#            </div>#}
+{##}
+{#            <div class="col-md-6" style="background: white; min-height: 400px;">#}
+{#                <div class="row">#}
+{#                    <div class="col-md-6" style="background: blue">#}
+{#                        <p style="color:white">kadhjflajdl;faj alsjd lfajsdlkgj ldfjkgl sl;fdjg l;sjflgj sldfjg lsdjflg s#}
+{#                         laksjdglsjfdgl sdfjlg lsfjg </p>#}
+{#                        <div class="row">#}
+{#                            <div class="col-md-6" style="background: red">#}
+{#                                <p style="color:white">kadhjflajdl;faj alsjd lfajsdlkgj ldfjkgl sl;fdjg l;sjflgj sldfjg lsdjflg s#}
+{#                                     laksjdglsjfdgl sdfjlg lsfjg </p>#}
+{#                            </div>#}
+{#                            <div class="col-md-6" style="background: red">#}
+{#                                <p style="color:white">kadhjflajdl;faj alsjd lfajsdlkgj ldfjkgl sl;fdjg l;sjflgj sldfjg lsdjflg s#}
+{#                                     laksjdglsjfdgl sdfjlg lsfjg </p>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class="col-md-6" style="background: blue">#}
+{#                        <p style="color:white">kadhjflajdl;faj alsjd lfajsdlkgj ldfjkgl sl;fdjg l;sjflgj sldfjg lsdjflg s#}
+{#                         laksjdglsjfdgl sdfjlg lsfjg </p>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+
+        <div class="col-md-12">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">ВАШ ЗАКАЗ</h3>
+            </div>
+                <div class="panel-body">
+                      <table class="table">
+                        <tbody>
+                            {% for item in order.get_all_cart_items %}
+                                <tr>
+                                    <td>{{ item.product.name }}</td>
+                                    <td> Цена - {{ item.total_price }} руб </td>
+                                </tr>
+                            {% endfor %}
+                            <tr><td>Общая сумма заказа</td><td>{{ order.total_price }} руб </td></tr>
+                        </tbody>
+                      </table>
+                </div>
+        </div>
+            <table class="table">
+{#                <tbody>#}
+{#                    {% for item in order.get_all_cart_items %}#}
+{#                        <tr><td>ВАШ ЗАКАЗ</td><td>{{ item.product.name }}</td> </tr></tr>#}
+{#                    {% endfor %}#}
+{#                </tbody>#}
+                <tbody>
+                    <tr><td>ГОРОД ДОСТАВКИ</td><td>{{ user.city }}</td></tr>
+                    <tr><td>АДРЕС ДОСТАВКИ</td><td>{{ user.address }} </td></tr>
+                    <tr><td>Телефон</td><td>{{ order.user.phone }}</td></tr>
+                    <tr><td>ФАМИЛИЯ</td><td>{{ user.last_name }} </td></tr>
+                    <tr><td>ИМЯ</td><td>{{ user.first_name }}</td></tr
+                </tbody>
+            </table>
+            <form action="{{ form.target }}" method="POST">
+                <p>{{ form.as_p }}</p>
+                <p><input type="submit" class="btn btn-primary" value="Подтвердить"></p>
+            </form>
+        </div>
+
+{#    <div class="col-md-12">#}
+{#        <td>ГОРОД ДОСТАВКИ<td><p>{{ order.id }}</p>#}
+{#        <tr><td>ГОРОД ДОСТАВКИ</td><p>{{ city }}</p><td>#}
+{#        <tr><td>AДРЕС ДОСТАВКИ</td><p>{{ address }}</p><td>#}
+{#    </div>#}
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+
+
+{% block page_js %}
+    <script type="text/javascript" src="{% static "gammarus/js/form_validate.js" %}"></script>
+{% endblock %}
+
+
+{% block content %}
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>id_заказа</th>
+                            <th>Имя клиента</th>
+                            <th>Стоимость корзины</th>
+                            <th>Имена</th>
+                            <th>Статус заказа</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders %}
+                            <tr>
+                                <td>{{ order.id }}</td>
+                                <td>{{ order.user.get_full_name }}</td>
+                                <td>{{ order.total_price }}</td>
+                                <td>
+                                    {% for item in order.items %}
+                                        <a href="{{ item.url }}">{{ item.name }}</a><br/>
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    {% if order.is_paid %}
+                                        <p>Олачен</p>
+                                    {% else %}
+                                        <p>Не оплачен</p>
+                                    {% endif %}
+                                </td>
+                                <td><a href="/order/{{ order.id }}" class="btn btn-primary">Подробнее</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

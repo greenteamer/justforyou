@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+
+{% block content %}
+
+    <div class="col-md-12">
+        <div class="row">
+
+            <div class="col-md-4">
+                {% if page.pageimage %}
+                    <img style="height:150px;" src="/media/{{ page.pageimage.url}}" alt=""/>
+                {% endif %}
+{#                        <p>{{ product.image.image }}</p>#}
+                <h3>{{ page.name }}</h3>
+                <p>{{ page.page}}</p>
+            </div>
+
+{#            <div class="col-md-12">#}
+{#                {% for article in articles  %}#}
+{#                    <p>{{ article.name }} </p> <p> {{ article.text }} </p>#}
+{#                    <a href="/article/{{article.id}}">далее</a>#}
+{#                {% endfor %}#}
+{##}
+{#            </div>#}
+
+        </div>
+    </div>
+
+{% endblock %}

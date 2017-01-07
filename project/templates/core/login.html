@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+
+
+{% block page_js %}
+    <script type="text/javascript" src="{% static "gammarus/js/form_validate.js" %}"></script>
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="col-md-12">
+        <div class="row">
+
+
+
+                    <div class="col-md-6">
+                    <p>{{ message }}</p>
+                        <div class="pure_form">
+                            <h3>Вход на сайт</h3>
+                            <form action="" method="post" id="form_cart">{% csrf_token %}
+                                {% if not user.is_authenticated %}
+                                    <br/>
+                                    <input type="email" name="username" class="form-control"  />
+                                    <br/>
+                                    <input type="password" name="password" class="form-control"  />
+                                {% endif %}
+                                <input type="submit" name="checkout" class="btn btn-primary" value="Войти" />
+                            </form>
+                        </div>
+                    </div>
+{#                 <form action="" method="post">{% csrf_token %}#}
+{#                    {% if not user.is_authenticated %}#}
+{#                        <input type="email" name="email" placeholder="email"/>#}
+{#                        <br/>#}
+{#                        <input type="text" name="username" placeholder="Имя"/>#}
+{#                        <br/>#}
+{#                        <input type="password" name="password" placeholder="Пароль"/>#}
+{#                        <br/>#}
+{#                    {% endif %}#}
+{#                    <input type="text" name="zip" placeholder="Индекс" value="{{ user.username }}" />#}
+{#                    <br/>#}
+{#                    <input type="text" name="city" placeholder="Город"/>#}
+{#                    <br/>#}
+{#                    <input type="text" name="address" placeholder="Адрес"/>#}
+{#                    <br/>#}
+{#                    <input type="text" name="phone" placeholder="Телефон"/>#}
+{#                    <input type="submit" value="Оформить заказ" />#}
+{#                </form>#}
+        </div>
+    </div>
+
+{% endblock %}

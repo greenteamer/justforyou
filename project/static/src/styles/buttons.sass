@@ -1,0 +1,31 @@
+@import "colors"
+
+.btn
+  border: none
+  &:focus
+    outline: none!important
+  &:hover
+    border: none
+
+.btn-mini
+  height: 24px
+  font-size: 12px
+  border-radius: 12px
+  padding: 0 10px
+  margin: 2px
+  -o-box-shadow: 1px 1px 2px #818a91
+  -moz-box-shadow: 1px 1px 2px #818a91
+  -webkit-box-shadow: 1px 1px 2px #818a91
+  box-shadow: 1px 1px 2px #818a91
+
+  &.active
+    -o-box-shadow: none
+    -moz-box-shadow: none
+    -webkit-box-shadow: none
+    box-shadow: none
+    border: none
+
+.btn-success
+  background-color: $green
+  &.active
+    background-color: $dark-green

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+
+
+{% block page_js %}
+    <script type="text/javascript" src="{% static "gammarus/js/form_validate.js" %}"></script>
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="col-md-12">
+
+
+
+            <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Имя продукта</th>
+                        <th>Количесво</th>
+                        <th>Цена</th>
+                        <th>Стоимость</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in order.get_all_cart_items %}
+                            <tr>
+                                <td><a href="{{ item.url }}">{{ item.product.name }}</a></td>
+                                <td>{{ item.count }}</td>
+                                <td>{{ item.product.price }}</td>
+                                <td>{{ item.total_price }}</td>
+                            </tr>
+                        {% endfor %}
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>Итого:</td>
+                                <td>{{ order.total_price }}</td>
+                            </tr>
+                    </tbody>
+                  </table>
+                <table class="table">
+                        <tbody>
+                            <tr><td>ГОРОД ДОСТАВКИ</td><td>{{ delivery.city }}</td></tr>
+                            <tr><td>СУММА ДОСТАВКИ</td><td>{{ delivery.price }} руб</td></tr>
+                        </tbody>
+                </table>
+
+                <table class="table">
+                    <tbody>
+                         <tr>
+                             <td>Имя</td><td>{{ order.user.get_full_name }}</td>
+                         </tr>
+                        <tr>
+                            <td>Телефон</td><td>{{ order.user.phone }}</td>
+                        </tr>
+                        <tr>
+                            <td>Индекс</td><td>{{ order.user.zip }}</td>
+                        </tr>
+                        <tr>
+                            <td>Город</td><td>{{ order.user.city }}</td>
+                        </tr>
+                        <tr>
+                            <td>Адрес</td><td>{{ order.user.address }}</td>
+                        </tr>
+                        <tr>
+                            <td>email</td><td>{{ order.user.email }}</td>
+                        </tr>
+                    </tbody>
+                  </table>
+    </div>
+
+{% endblock %}
