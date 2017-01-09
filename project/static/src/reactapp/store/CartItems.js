@@ -34,7 +34,9 @@ export default class CartItems {
 
   @computed get totalPrice() {
     const product = this._store.products.find(product => product.id === this.product);
-    return this.count * product.currentPrice;
+    const property = this._store.properties.find(p => p.id === this.property);
+    const price = property? property.price : product.price;
+    return this.count * price;
   }
 
   @computed get toJS() {
