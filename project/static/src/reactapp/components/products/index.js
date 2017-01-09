@@ -1,3 +1,8 @@
 import Product from './Product';
+import ProductMenu from './ProductMenu';
 
-export { Product };
+
+export {
+  Product,
+  ProductMenu,
+};

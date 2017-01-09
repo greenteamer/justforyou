@@ -1,50 +1,92 @@
-import { action, autorun, observable, runInAction, computed, toJS} from 'mobx';
+/*
+  products - начальный массив... может менятся только при запросе актуальных данных с сервера
+    products служит локальным источником правды (все существующие продукты)
+  computedProducts - вычесленный массив продуктов ... меняется в результате действий на сайте
+    таких как фильтрация, сортировка и т.д.
+*/
+
+
+import { action, autorun, observable, runInAction, computed, toJS, peek} from 'mobx';
 import { makeId, getCookie } from '../utils';
 import * as API from '../api';
 import Product from './Product';
 import Property from './Property';
 import CartItem from './CartItems';
 import uiStore from './UIStore';
+import singleton from 'singleton';
 
 
-class Store {
-  @observable categories;
-  @observable products;
-  @observable images;
-  @observable types;
-  @observable properties;
-  @observable cartitems;
-  @observable orders;
-  @observable isLoading;
+class Store extends singleton {
+  @observable categories = [];
+  @observable products = [];
+  @observable computedProducts = [];
+  @observable images = [];
+  @observable types = [];
+  @observable properties = [];
+  @observable cartitems = [];
+  @observable orders = [];
 
   constructor() {
-    this.isLoading = false;
-    this.categories = [];
-    this.products = [];
-    this.images = [];
-    this.properties = [];
-    this.types = [];
-    this.cartitems = [];
-    this.orders = [];
-
+    super();
     this.pullAll();
 
     autorun(() => {
-      const path = window.location.pathname.split('/');
-      const catalogSlug = path[1] === 'catalog' ? path[2] : null;
-      if (this.categories.length !== 0 && catalogSlug) {
-        const catalog = this.categories.find(c => c.slug === catalogSlug);
-        uiStore.setCatalogFilter(catalog.id);
-      };
+      if (!uiStore.isLoading) {
+        const path = window.location.pathname.split('/');
+        const catalogSlug = path[1] === 'catalog' ? path[2] : null;
+        if (this.categories.length !== 0 && catalogSlug) {
+          const catalog = this.categories.find(c => c.slug === catalogSlug);
+          uiStore.setCatalogFilter(catalog.id);
+        };
+      }
     });
 
-    // autorun(() => {
-    //   console.log('***** store maxProductPrice: ', this.maxProductPrice);
-    //   console.log('***** store minProductPrice: ', this.minProductPrice);
-    // });
+    autorun(() => {
+      console.log('***** store products: ', toJS(this.products));
+      // console.log('***** store : ', this.toJS);
+      // console.log('***** store maxProductPrice: ', this.maxProductPrice);
+      // console.log('***** store minProductPrice: ', this.minProductPrice);
+    });
 
-    window.mobx = {action, observable, runInAction, computed, toJS};
+    window.mobx = {action, observable, runInAction, computed, toJS, peek};
     window.store = this;
+  }
+
+  // ФИЛЬТРАЦИЯ / СОРТИРОВКА
+  @computed get sortedProducts() {
+    // console.log('start filterProductsByPrice this.productsByCategory: ', this.productsByCategory);
+    if (uiStore.sorting === 'byMinPrice') {
+      return observable(this.filterProductsByPrice.sort((a, b) => a.minPrice - b.minPrice));
+    }
+    else if (uiStore.sorting === 'byMaxPrice') {
+      return observable(this.filterProductsByPrice.sort((a, b) => b.minPrice - a.minPrice));
+    }
+    else if (uiStore.sorting === 'byName') {
+      const newArr = this.filterProductsByPrice
+        .map(p => p.name)
+        .sort()
+        .map(name => this.products.find(prod => prod.name === name));
+      console.log('newArr1: ', newArr);
+      return observable(newArr);
+    }
+    else {
+      return this.filterProductsByPrice;
+    }
+  }
+
+  @computed get productsByCategory() {
+    // console.log('start productsByCategory this.products: ', this.products);
+    return uiStore.catalogFilter !== null
+      ? observable(this.products.filter(product => product.category.includes(uiStore.catalogFilter)))
+      : this.products;
+  }
+
+  @computed get filterProductsByPrice() {
+    // console.log('start filterProductsByPrice this.productsByCategory: ', this.productsByCategory);
+    return uiStore.priceFilter.length !== 0
+      ? observable(this.productsByCategory
+          .filter(p => p.minPrice >= uiStore.priceFilter[0] && p.maxPrice <= uiStore.priceFilter[1]))
+      : this.productsByCategory;
   }
 
   async pullAll() {
@@ -122,25 +164,6 @@ class Store {
     return getCookie('cart_id');
   }
 
-  // ФИЛЬТРАЦИЯ / СОРТИРОВКА
-  @computed get productsByCategory() {
-    return uiStore.catalogFilter !== null
-      ? this.products.filter(product => product.category.includes(uiStore.catalogFilter))
-      : this.products;
-  }
-
-  @computed get sortedProductsByPrice() {
-    return this.productsByCategory
-      .sort((a, b) => a.currentPrice - b.currentPrice);
-  }
-
-  @computed get filterProductsByPrice() {
-    return uiStore.priceFilter.length !== 0
-      ? this.productsByCategory
-        .filter(p => p.minPrice >= uiStore.priceFilter[0] && p.maxPrice <= uiStore.priceFilter[1])
-      : this.productsByCategory;
-  }
-
   @computed get maxProductPrice() {
     if (this.products.length === 0) return null;
     return this.products
@@ -181,4 +204,5 @@ class Store {
 
 }
 
-export default Store;
+const store = Store.get();
+export default store;
