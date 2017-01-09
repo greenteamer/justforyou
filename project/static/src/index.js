@@ -12,5 +12,6 @@ import './styles/slider.sass';
 
 // plain js
 import './libs/bootstrap/dropdown';
+import './libs/bootstrap/collapse';
 // import './app';
 import './reactapp/index';

@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { observer } from 'mobx-react';
-import { Product } from './components/products';
+import { Product, ProductMenu } from '../components/products';
+import { toJS } from 'mobx';
 
 
 @observer
@@ -13,22 +14,19 @@ class ProductList extends Component {
 
   render() {
     const { store, uiStore } = this.props;
-    if (uiStore.isLoading) return <h1>...Loading</h1>;
+    console.log('ProductList sortedProducts: ', store.sortedProducts);
     return <div className="row">
       <div className="col-md-12">
-        <div className="btn-group" role="group" aria-label="Basic example">
-          <button type="button" className="btn btn-secondary">Left</button>
-          <button type="button" className="btn btn-secondary">Middle</button>
-          <button type="button" className="btn btn-secondary">Right</button>
-        </div>
+        <ProductMenu uiStore={uiStore} store={store}/>
       </div>
-      {store.filterProductsByPrice.length > 0
-        && store.filterProductsByPrice
+      {store.sortedProducts.length > 0
+        && store.sortedProducts
           .map((product, index) => <Product key={index} product={product} store={store} />)
         || <h1>No products in this category</h1>
       }
     </div>;
   }
 }
+
 
 export default ProductList;
