@@ -19,6 +19,9 @@ class Category(MPTTModel):
     def __unicode__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return "/catalog/{0}/".format(self.slug)
+
 
 class Product(models.Model):
     name = models.CharField(max_length=150)
@@ -35,14 +38,14 @@ class Product(models.Model):
     def __unicode__(self):
         return self.name
 
-    def url(self):
-        return '/product/' + self.slug
-
     def get_image(self):
         return ProductImage.objects.filter(product=self)[0]
 
     def get_properties(self):
         return PropertyValue.objects.filter(product=self)
+
+    def get_absolute_url(self):
+        return "{0}{1}/".format(self.category.all()[0].get_absolute_url(), self.slug)
 
 
 class ProductImage(models.Model):

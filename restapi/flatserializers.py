@@ -17,6 +17,7 @@ class ProductImageObj(serializers.ModelSerializer):
 
 
 class PropertyTypeObj(serializers.ModelSerializer):
+    # url = serializers.CharField(read_only=True)
 
     class Meta:
         model = PropertyType

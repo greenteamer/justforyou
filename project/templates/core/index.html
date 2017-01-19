@@ -27,7 +27,7 @@
           <div class="product-container">
             <img src={{ product.get_image.get_url }} alt="" />
             <p class="price" id="price-product-{{ product.id }}">{{ product.price }}р.</p>
-            <a href="/products/{{ product.slug }}/" class="product-name">{{ product.name }}</a>
+            <a href="{{ product.get_absolute_url }}" class="product-name">{{ product.name }}</a>
             <div id="properties-product-{{ product.id }}">
               {% for property in product.get_properties %}
                 <button

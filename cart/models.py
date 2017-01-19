@@ -19,8 +19,8 @@ class CartItem(models.Model):
     def total_price(self):
         return self.count * self.product.price
 
-    def url(self):
-        return self.product.url()
+    # def url(self):
+    #     return self.product.url()
 
     def __unicode__(self):
         return u"cartItem - " + self.product.name
