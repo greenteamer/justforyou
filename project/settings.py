@@ -28,6 +28,7 @@ DEBUG = True
 WEBPACK_DEV_SERVER = True
 
 ALLOWED_HOSTS = []
+SITE_ID = 1
 
 
 # Application definition
@@ -39,11 +40,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django.contrib.flatpages',
     # installed apps:
     'mptt',
     'mptt_tree_editor',
     'sitetree',
     'rest_framework',
+    'breadcrumbs',
     # 'corsheaders',
     # custom apps:
     'core',
@@ -78,6 +82,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.contrib.sites.middleware.CurrentSiteMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'breadcrumbs.middleware.BreadcrumbsMiddleware',
 ]
 
 ROOT_URLCONF = 'project.urls'

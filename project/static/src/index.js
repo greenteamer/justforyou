@@ -7,6 +7,7 @@ import './styles/navbar.sass';
 import './styles/sidebar.sass';
 import './styles/product.sass';
 import './styles/slider.sass';
+import './styles/breadcrumbs.sass';
 
 
 

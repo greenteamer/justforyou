@@ -37,6 +37,24 @@
       {% block header %}
       {% endblock %}
 
+      {% block breadcrumbs %}
+        <div class="col-md-12">
+          <ol class="breadcrumb">
+            {% if request.path_info == "/" %}
+              <li class="active">Главная</li>
+            {% else %}
+              <li><a href="/">Главная</a></li>
+            {% endif %}
+            {% for breadcrumb in request.breadcrumbs %}
+              {% if not forloop.last %}
+                <li>/</li>
+                <li><a href="{{ breadcrumb.url }}">{{ breadcrumb.name }}</a></li>
+              {% else %} <li>/</li><li class="active">{{ breadcrumb.name }}</li> {% endif %}
+            {% endfor %}
+          </ol>
+        </div>
+      {% endblock %}
+
       <div class="col-xs-3 border-right">
         {% block sidebar %}
         {% endblock %}
