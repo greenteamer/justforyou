@@ -8,6 +8,7 @@ import './styles/_rem_sizing.sass';
 import './styles/_px_sizing.sass';
 import './styles/_colorizing.sass';
 import './styles/_buttons.sass';
+import './styles/swiper.sass';
 import './styles/buttons.sass';
 import './styles/navbar.sass';
 import './styles/sidebar.sass';
