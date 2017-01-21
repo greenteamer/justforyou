@@ -1,0 +1,53 @@
+@for $i from 1 through 200
+  $mwidth: $i * 5
+  .max-w-#{$mwidth}px
+    max-width: 5px * $i
+  .max-h-#{$mwidth}px
+    max-height: 5px * $i
+  .min-w-#{$mwidth}px
+    min-width: 5px * $i
+  .min-h-#{$mwidth}px
+    min-height: 5px * $i
+
+  .w-#{$mwidth}px
+    width: 5px * $i
+  .h-#{$mwidth}px
+    height: 5px * $i
+
+  .top-#{$mwidth}px
+    top: 5px * $i
+  .bottom-#{$mwidth}px
+    bottom: 5px * $i
+  .right-#{$mwidth}px
+    right: 5px * $i
+  .left-#{$mwidth}px
+    left: 5px * $i
+
+
+@for $i from 1 through 20
+  .bd-#{$i}px
+    border-width: $i + px
+
+
+@for $i from 0 through 50
+  .pl-#{$i}px
+    padding-left: 1px * $i
+  .pr-#{$i}px
+    padding-right: 1px * $i
+  .pb-#{$i}px
+    padding-bottom: 1px * $i
+  .pt-#{$i}px
+    padding-top: 1px * $i
+  .pa-#{$i}px
+    padding: 1px * $i
+
+  .ml-#{$i}px
+    margin-left: 1px * $i
+  .mr-#{$i}px
+    margin-right: 1px * $i
+  .mb-#{$i}px
+    margin-bottom: 1px * $i
+  .mt-#{$i}px
+    margin-top: 1px * $i
+  .ma-#{$i}px
+    margin: 1px * $i

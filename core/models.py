@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
+from image_cropping import ImageRatioField
+from image_cropping.utils import get_backend
 
 # class Parent(models.Model):
 #     name = models.CharField(max_length=40)
@@ -45,7 +47,6 @@ class Product(models.Model):
     def get_properties(self):
         return PropertyValue.objects.filter(product=self)
 
-    @property
     def absoluteUrl(self):
         return "{0}{1}/".format(self.category.all()[0].absoluteUrl, self.slug)
 
@@ -53,6 +54,7 @@ class Product(models.Model):
 class ProductImage(models.Model):
     image = models.ImageField(upload_to="product")
     product = models.ForeignKey(Product, related_name='images')
+    cropping = ImageRatioField('image', '262x377')
 
     class Meta:
         verbose_name = u'Изображение'
@@ -63,6 +65,18 @@ class ProductImage(models.Model):
 
     def get_url(self):
         return "/media/%s" % self.image
+
+    @property
+    def croppedImage(self):
+        return get_backend().get_thumbnail_url(
+            self.image,
+            {
+                'size': (262, 377),
+                'box': self.cropping,
+                'crop': True,
+                'detail': True,
+            }
+        )
 
 
 class PropertyType(models.Model):

@@ -7,17 +7,29 @@ import { ProductList } from './containers';
 import PriceSlider from './PriceSlider';
 
 
-render(
+renderApp(
   <Cart store={store} />,
   document.getElementById('cart')
 );
 
-render(
+
+renderApp(
   <ProductList store={store} uiStore={uiStore} />,
   document.getElementById('react-product-list'),
 );
 
-render(
+
+renderApp(
   <PriceSlider store={store} uiStore={uiStore} />,
   document.getElementById('react-price-slider'),
 );
+
+
+function renderApp(component, domElement) {
+  if (component && domElement) {
+    render(
+      component,
+      domElement,
+    );
+  }
+}

@@ -12,9 +12,10 @@ class CategoryObj(serializers.ModelSerializer):
 
 
 class ProductImageObj(serializers.ModelSerializer):
+    croppedImage = serializers.CharField(max_length=200)
     class Meta:
         model = ProductImage
-        fields = ('id', 'image', 'product')
+        fields = ('id', 'image', 'product', 'cropping', 'croppedImage')
 
 
 class PropertyTypeObj(serializers.ModelSerializer):

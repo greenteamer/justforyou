@@ -2,25 +2,8 @@
 {% load static from staticfiles %}
 {% load header_tags %}
 
-{% block sidebar %}
-  <div class="catalog sidebar">
-    <h4>Каталог</h4>
-    <ul class="catalog-list">
-      {% category request %}
-    </ul>
-  </div>
-  <div class="row filter-price">
-    <div class="col-md-12">
-      <div class="sidebar">
-        <h4>Фильтр по цене</h4>
-        <div id="react-price-slider"></div>
-      </div>
-    </div>
-  </div>
-{% endblock %}
-
 {% block content %}
-  <div class="col-xs-9" id="react-product-list">
+  <div class="col-xs-9 col-md-9 push-md-3" id="react-product-list">
     <div class="row">
       {% for product in products %}
         <div id="product {{ product.id }}" class="col-xs-3 product-item">
@@ -28,7 +11,7 @@
             <img src={{ product.get_image.get_url }} alt="" />
             <p class="price" id="price-product-{{ product.id }}">{{ product.price }}р.</p>
             <a href="{{ product.get_absolute_url }}" class="product-name">{{ product.name }}</a>
-            <div id="properties-product-{{ product.id }}">
+            <div id="">
               {% for property in product.get_properties %}
                 <button
                   id="property-{{ property.id }}"
@@ -53,6 +36,25 @@
           </div>
         </div>
       {% endfor %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block sidebar %}
+  <div class="col-xs-3 col-md-3 pull-md-9 border-right">
+    <div class="catalog sidebar">
+      <h4>Каталог</h4>
+      <ul class="catalog-list">
+        {% category request %}
+      </ul>
+    </div>
+    <div class="row filter-price">
+      <div class="col-md-12">
+        <div class="sidebar">
+          <h4>Фильтр по цене</h4>
+          <div id="react-price-slider"></div>
+        </div>
+      </div>
     </div>
   </div>
 {% endblock %}
