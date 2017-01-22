@@ -41,9 +41,9 @@ class Store extends singleton {
       }
     });
 
-    autorun(() => {
-      console.log('***** store products: ', toJS(this.products));
-    });
+    // autorun(() => {
+    //   console.log('***** store products: ', toJS(this.products));
+    // });
 
     window.mobx = {action, observable, runInAction, computed, toJS, peek};
     window.store = this;
@@ -81,6 +81,12 @@ class Store extends singleton {
       ? observable(this.productsByCategory
           .filter(p => p.minPrice >= uiStore.priceFilter[0] && p.maxPrice <= uiStore.priceFilter[1]))
       : this.productsByCategory;
+  }
+
+  @computed get popularProducts() {
+    return uiStore.catalogFilter !== null
+      ? observable(this.products.filter(product => !!product.isPopular))
+      : [];
   }
 
   async pullAll() {

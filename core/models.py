@@ -34,6 +34,9 @@ class Product(models.Model):
     weight = models.IntegerField()
     category = models.ManyToManyField(Category)
 
+    attached = models.ForeignKey('self', blank=True, null=True)
+    isPopular = models.BooleanField(default=False)
+
     class Meta:
         verbose_name = u'Продукты'
         verbose_name_plural = u'Продукты'

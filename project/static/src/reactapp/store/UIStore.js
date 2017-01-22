@@ -12,23 +12,12 @@ class UIStore extends singleton {
   constructor() {
     super();
     window.UIStore = this;
-
     autorun(() => {
       console.log('-------- UIStore isLoading: ', this.isLoading);
     });
-
-    autorun(() => {
-      console.log('-------- UIStore priceFilter: ', toJS(this.priceFilter));
-    });
-
-    // autorun(() => {
-      // console.log('-------- UIStore catalogFilter: ', this.catalogFilter);
-      // console.log('-------- UIStore sorting: ', toJS(this.sorting));
-    // });
   }
 
   @action setCatalogFilter = (catalogId) => {
-    console.log('test setCatalogFilter catalogId: ', catalogId);
     this.catalogFilter = catalogId;
   }
 

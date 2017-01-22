@@ -14,8 +14,6 @@ export default class Property {
     this.price = obj.price;
 
     autorun(() => {
-      console.log('property store:', this._store);
-      console.log('property in use:', this.id, ': ', this.inUse);
       this.type = store.types.find(type => type.id === obj.type);
     });
   }
