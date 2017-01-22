@@ -66,7 +66,7 @@ class Product extends Component {
       <div className="product-container">
         <img src={product.images[0].image} alt="" />
         <p className="price">{product.activeProperty ? product.activeProperty.price : product.price}р.</p>
-        <a href={`/products/${product.slug}/`} className="product-name">{product.name}</a>
+        <a href={product.absoluteUrl} className="product-name">{product.name}</a>
         <div className="properties">
           {product.properties
           .map((propObject, index) =>

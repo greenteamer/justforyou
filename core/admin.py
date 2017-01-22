@@ -1,6 +1,12 @@
-from django.contrib.admin import TabularInline, ModelAdmin, site
+from django.contrib.admin import TabularInline, StackedInline, ModelAdmin, site
 from core.models import Product, Article, Page, ProductImage, ArticleImage, PageImage, Category, PropertyType, PropertyValue
 from super_inlines.admin import SuperInlineModelAdmin, SuperModelAdmin
+from image_cropping import ImageCroppingMixin
+
+
+class ProductImagesInline(ImageCroppingMixin, StackedInline):
+    model = ProductImage
+    extra = 1
 
 
 class PropertyValueInline(SuperInlineModelAdmin, TabularInline):
@@ -8,7 +14,7 @@ class PropertyValueInline(SuperInlineModelAdmin, TabularInline):
 
 
 class ProductAdmin(SuperModelAdmin):
-    inlines = [PropertyValueInline, ]
+    inlines = [PropertyValueInline, ProductImagesInline, ]
     prepopulated_fields = {'slug': ('name',), }
 
 

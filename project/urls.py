@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^api/v1/', include(router.urls)),
     # url(r'^api/v1/add-to-cart/$', viewsets.ajax_cart, name='add-to-cart'),
     url(r'^', include('core.urls')),
+    url(r'^pages/', include('django.contrib.flatpages.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

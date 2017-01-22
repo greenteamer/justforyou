@@ -1,8 +1,151 @@
 {% extends "base.html" %}
 {% load static from staticfiles %}
+{% load header_tags %}
+
+{% block sidebar %}
+{% endblock %}
 
 {% block first_block %}
-  <div class="col-md-12">
-    <div class="product-app"></div>
+{% endblock %}
+
+{% block content %}
+  <div class="col-md-12" id="react-product-item">
+    <h1>{{ product.name }}</h1>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="product-image ba bd-1px bd-mild-gray2">
+          <img src="{{ product.get_image.croppedImage }}" alt="" />
+        </div>
+      </div>
+      <div class="col-md-4" id="react-product-card">
+        <p class="fs-300r lh-300r b">{{ product.price }} р.</p>
+        <div class="ba bd-1px bd-mild-gray2">
+          <div class="bg-light-gray pa-14px">
+            <p class="fs-150r">Цена с доставкой</p>
+            <ul class="list pl-0px">
+              <li class="ion-android-car fs-125r">
+                <a href="" class="fs-87r c-ocean-green ml-16px">Доставка по Москве и МО: </a>
+                <span class="fs-113r c-brown b fr">400 р.</span>
+              </li>
+              <li class="ion-plane fs-125r">
+                <a href="" class="fs-87r c-ocean-green ml-16px">Доставка в Регионы: </a>
+                <span class="fs-113r c-brown b fr">от 450 р.</span>
+              </li>
+              <li class="ion-android-hand fs-125r">
+                <a href="" class="fs-87r c-ocean-green ml-16px">Самовывоз: </a>
+                <span class="fs-113r c-brown fr">Бесплатно</span>
+              </li>
+            </ul>
+          </div>
+          <div class="pl-14px pr-14px pb-24px pt-24px">
+            <div class="mb-0px inline-flex">
+              {% for property in product.get_properties %}
+                <button class="property btn btn-small btn-white rounded {% if forloop.counter == 1 %}active{% endif %} mr-7px">{{ property.value }} {{ property.type.unit }}</button>
+              {% endfor %}
+            </div>
+            {# <button type="button" name="button" class="btn btn-medium btn-green rounded">#}
+              {# <span class="ion-bag fs-120r mr-10px"></span>#}
+              {# <span>Добавить в корзину</span>#}
+            {# </button>#}
+          </div>
+        </div>
+        <div class="bg-green c-white pa-8px tc br2 br--bottom">
+          <span class="ion-bag fs-120r mr-10px"></span>
+          <span>Добавить в корзину</span>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <p class="fs-150r mb-22px">Краткое описание:</p>
+        <div class="">{{ product.description|safe|truncatewords:100 }}</div>
+      </div>
+      <div class="col-md-7">
+        <div class="inline-flex mt-50px">
+          <button type="button" name="button" class="btn btn-medium btn-green active">Описание</button>
+          <button type="button" name="button" class="btn btn-medium btn-white mr-1px">Отзывы</button>
+          <button type="button" name="button" class="btn btn-medium btn-white mr-1px">Доставка</button>
+          <button type="button" name="button" class="btn btn-medium btn-white mr-1px">Возврат</button>
+        </div>
+        <div class="ba bd-red pa-26px">
+          <p>{{ product.description|safe }}</p>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <p class="mt-50px fs-150r mb-0px pl-10px">С этим товаром покупают:</p>
+        <div class="flex flex-wrap">
+          {% for product in products %}
+            <div class="w-50 pa-10px">
+              <div class="product-container">
+                <div class="ba bd-mild-gray2 pa-10px tc br2 br--top">
+                  <img src={{ product.get_image.croppedImage }} alt="" class="max-h-150px" />
+                  <p class="fs-190r mb-0px">{{ product.price }}р.</p>
+                  <a href="{{ product.get_absolute_url }}" class="product-name c-brown">
+                    {{ product.name }}
+                  </a>
+                  {% if product.get_properties %}
+                    <div class="pb-24px pt-24px">
+                      <div class="inline-flex">
+                        {% for property in product.get_properties %}
+                          <button class="property btn btn-small btn-white rounded {% if forloop.counter == 1 %}active{% endif %} mr-7px">{{ property.value }} {{ property.type.unit }}</button>
+                        {% endfor %}
+                      </div>
+                    </div>
+                  {% endif %}
+                </div>
+                <div class="bg-green c-white pa-8px tc br2 br--bottom">
+                  <span class="ion-bag fs-120r mr-10px"></span>
+                  <span>Добавить в корзину</span>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="col-md-12">
+        <p class="tc fs-150r">Самые продоваемые товары</p>
+        <!-- Slider main container -->
+        <div class="swiper-container">
+          <!-- Additional required wrapper -->
+          <div class="swiper-wrapper">
+            <!-- Slides -->
+            {% for product in products %}
+              <div class="swiper-slide">
+                <div class="pa-10px">
+                  <div class="product-container">
+                    <div class="ba bd-mild-gray2 pa-10px tc br2 br--top">
+                      <img src={{ product.get_image.croppedImage }} alt="" class="max-h-150px" />
+                      <p class="fs-190r mb-0px">{{ product.price }}р.</p>
+                      <a href="{{ product.get_absolute_url }}" class="product-name c-brown">
+                        {{ product.name }}
+                      </a>
+                      {% if product.get_properties %}
+                        <div class="pb-24px pt-24px">
+                          <div class="inline-flex">
+                            {% for property in product.get_properties %}
+                              <button class="property btn btn-small btn-white rounded {% if forloop.counter == 1 %}active{% endif %} mr-7px">{{ property.value }} {{ property.type.unit }}</button>
+                            {% endfor %}
+                          </div>
+                        </div>
+                      {% endif %}
+                    </div>
+                    <div class="bg-green c-white pa-8px tc br2 br--bottom">
+                      <span class="ion-bag fs-120r mr-10px"></span>
+                      <span>Добавить в корзину</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+
+        </div>
+        <!-- If we need navigation buttons -->
+        <div class="swiper-button-prev btn btn-small btn-white rounded w-30px h-30px pa-0px bra-30px justify-center fs-120r">
+          <i class="ion-ios-arrow-left"></i>
+        </div>
+        <div class="swiper-button-next btn btn-small btn-white rounded w-30px h-30px pa-0px bra-30px justify-center fs-120r">
+          <i class="ion-ios-arrow-right"></i>
+        </div>
+      </div>
+    </div>
   </div>
 {% endblock %}

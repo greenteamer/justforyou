@@ -1,0 +1,74 @@
+@import "colors"
+
+
+// generate battons
+$bgColors: $white, $green, $red
+$fontColors: $brown, $white, $white
+$btnColors: (white: (bg: $white, font: $brown), green: (bg: $green, font: $white), red: (bg: $red, font: $white))
+$btnSizes: (small: 24, medium: 40, big: 60)
+// $btnColorsMap: $brown, $white, $white
+
+=btn-inner-shadow($x, $y, $size, $opacity)
+  $var: inset $x + px $y + px $size + px rgba(0, 0, 0, $opacity)
+  -o-box-shadow: $var
+  -webkit-box-shadow: $var
+  -moz-box-shadow: $var
+  box-shadow: $var
+
+=btn-shadow($x, $y, $size, $opacity)
+  $var: $x + px $y + px $size + px rgba(0, 0, 0, $opacity)
+  -o-box-shadow: $var
+  -moz-box-shadow: $var
+  -webkit-box-shadow: $var
+  box-shadow: $var
+
+=btn
+  display: flex
+  align-items: center
+  border: none
+  transition: all 0.3s ease
+  &:focus
+    outline: none!important
+
+=btn-size($size)
+  height: $size + px
+  padding: 0 $size / 3 + px
+  border-radius: 0
+  &.rounded
+    border-radius: $size / 2 + px
+  @if $size >= 40
+    font-size: $size / 3 + px
+    text-transform: uppercase
+    +btn-shadow(2, 2, 3, 0.55)
+    &:hover
+      +btn-shadow(3, 3, 5, 0.65)
+      &.active
+        +btn-inner-shadow(0, 1, 2, 0.75)
+    &.active
+      +btn-inner-shadow(0, 1, 2, 0.75)
+  @else
+    font-size: $size / 2 + px
+    +btn-shadow(1, 1, 3, 0.55)
+    &:hover
+      +btn-shadow(2, 2, 5, 0.75)
+      &.active
+        +btn-inner-shadow(0, 1, 2, 0.75)
+    &.active
+      +btn-inner-shadow(0, 1, 2, 0.75)
+
+=btn-variant($bg, $color)
+  background-color: $bg
+  color: $color
+  &.active
+    background-color: $red
+    color: $white
+
+@each $name, $size in $btnSizes
+  .btn-#{$name}
+    +btn
+    +btn-size($size)
+    @each $name, $hash in $btnColors
+      &.btn-#{$name}
+        $bg: map-get($hash, bg)
+        $font: map-get($hash, font)
+        +btn-variant($bg, $font)

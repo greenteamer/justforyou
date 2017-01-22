@@ -37,13 +37,30 @@
       {% block header %}
       {% endblock %}
 
-      <div class="col-xs-3 border-right">
-        {% block sidebar %}
-        {% endblock %}
-      </div>
+      {% block breadcrumbs %}
+        <div class="col-md-12">
+          <ol class="breadcrumb">
+            {% if request.path_info == "/" %}
+              <li class="active pl-0">Главная</li>
+            {% else %}
+              <li><a href="/">Главная</a></li>
+            {% endif %}
+            {% for breadcrumb in request.breadcrumbs %}
+              {% if not forloop.last %}
+                <li>/</li>
+                <li><a href="{{ breadcrumb.url }}">{{ breadcrumb.name }}</a></li>
+              {% else %} <li>/</li><li class="active">{{ breadcrumb.name }}</li> {% endif %}
+            {% endfor %}
+          </ol>
+        </div>
+      {% endblock %}
 
       {% block content %}
       {% endblock %}
+
+      {% block sidebar %}
+      {% endblock %}
+
 
       <div class="row">
         <div class="col-md-12">
@@ -54,18 +71,25 @@
       {% block articles %}
       {% endblock %}
 
-      <div class="col-xs-12">
-        <div class="row">
-          {% block footer %}
-            <div class="col-xs-4">
-              Это текст футера
-            </div>
-            <div class="col-xs-2">
-              <h4>Контакты</h4>
-              <p>090909</p>
-              <p>mail</p>
-            </div>
-          {% endblock %}
+    </div>
+  </div>
+
+  <div class="bg-green mt-33px c-white pa-33px">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="row">
+            {% block footer %}
+              <div class="col-xs-4">
+                Это текст футера
+              </div>
+              <div class="col-xs-2">
+                <h4>Контакты</h4>
+                <p>090909</p>
+                <p>mail</p>
+              </div>
+            {% endblock %}
+          </div>
         </div>
       </div>
     </div>

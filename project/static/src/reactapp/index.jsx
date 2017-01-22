@@ -3,21 +3,40 @@ import React from 'react';
 import { render } from 'react-dom';
 import { store, uiStore } from './store';
 import Cart from './Cart';
-import { ProductList } from './containers';
+import { ProductList, ProductCard } from './containers';
 import PriceSlider from './PriceSlider';
 
 
-render(
+renderApp(
   <Cart store={store} />,
   document.getElementById('cart')
 );
 
-render(
+
+renderApp(
   <ProductList store={store} uiStore={uiStore} />,
   document.getElementById('react-product-list'),
 );
 
-render(
+
+renderApp(
   <PriceSlider store={store} uiStore={uiStore} />,
   document.getElementById('react-price-slider'),
 );
+
+
+renderApp(
+  <ProductCard store={store} uiStore={uiStore} />,
+  document.getElementById('react-product-card')
+);
+
+
+
+function renderApp(component, domElement) {
+  if (component && domElement) {
+    render(
+      component,
+      domElement,
+    );
+  }
+}

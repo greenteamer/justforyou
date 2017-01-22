@@ -43,9 +43,6 @@ class Store extends singleton {
 
     autorun(() => {
       console.log('***** store products: ', toJS(this.products));
-      // console.log('***** store : ', this.toJS);
-      // console.log('***** store maxProductPrice: ', this.maxProductPrice);
-      // console.log('***** store minProductPrice: ', this.minProductPrice);
     });
 
     window.mobx = {action, observable, runInAction, computed, toJS, peek};
@@ -54,7 +51,6 @@ class Store extends singleton {
 
   // ФИЛЬТРАЦИЯ / СОРТИРОВКА
   @computed get sortedProducts() {
-    // console.log('start filterProductsByPrice this.productsByCategory: ', this.productsByCategory);
     if (uiStore.sorting === 'byMinPrice') {
       return observable(this.filterProductsByPrice.sort((a, b) => a.minPrice - b.minPrice));
     }
@@ -75,14 +71,12 @@ class Store extends singleton {
   }
 
   @computed get productsByCategory() {
-    // console.log('start productsByCategory this.products: ', this.products);
     return uiStore.catalogFilter !== null
       ? observable(this.products.filter(product => product.category.includes(uiStore.catalogFilter)))
       : this.products;
   }
 
   @computed get filterProductsByPrice() {
-    // console.log('start filterProductsByPrice this.productsByCategory: ', this.productsByCategory);
     return uiStore.priceFilter.length !== 0
       ? observable(this.productsByCategory
           .filter(p => p.minPrice >= uiStore.priceFilter[0] && p.maxPrice <= uiStore.priceFilter[1]))

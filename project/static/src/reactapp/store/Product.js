@@ -14,6 +14,7 @@ export default class Product {
     this.description = obj.description;
     this.price = obj.price;
     this.category = obj.category;
+    this.absoluteUrl = obj.absoluteUrl;
 
     // this.getProperties(store, obj);
     this.getImages(store, obj);
@@ -29,10 +30,6 @@ export default class Product {
         this.properties[0].setActive();
       }
     });
-
-    // autorun(() => {
-    //   console.log('Product - maxPrice ' + this.id, this.maxPrice);
-    // });
   }
 
   @action getImages(store, obj) {
