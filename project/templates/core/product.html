@@ -17,7 +17,7 @@
           <img src="{{ product.get_image.croppedImage }}" alt="" />
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-4" id="react-product-card">
         <p class="fs-300r lh-300r b">{{ product.price }} р.</p>
         <div class="ba bd-1px bd-mild-gray2">
           <div class="bg-light-gray pa-14px">
@@ -38,16 +38,20 @@
             </ul>
           </div>
           <div class="pl-14px pr-14px pb-24px pt-24px">
-            <div class="mb-24px inline-flex">
+            <div class="mb-0px inline-flex">
               {% for property in product.get_properties %}
                 <button class="property btn btn-small btn-white rounded {% if forloop.counter == 1 %}active{% endif %} mr-7px">{{ property.value }} {{ property.type.unit }}</button>
               {% endfor %}
             </div>
-            <button type="button" name="button" class="btn btn-medium btn-green rounded">
-              <span class="ion-bag fs-120r mr-10px"></span>
-              <span>Добавить в корзину</span>
-            </button>
+            {# <button type="button" name="button" class="btn btn-medium btn-green rounded">#}
+              {# <span class="ion-bag fs-120r mr-10px"></span>#}
+              {# <span>Добавить в корзину</span>#}
+            {# </button>#}
           </div>
+        </div>
+        <div class="bg-green c-white pa-8px tc br2 br--bottom">
+          <span class="ion-bag fs-120r mr-10px"></span>
+          <span>Добавить в корзину</span>
         </div>
       </div>
       <div class="col-md-5">
