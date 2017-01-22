@@ -3,7 +3,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import { store, uiStore } from './store';
 import Cart from './Cart';
-import { ProductList, ProductCard } from './containers';
+import { ProductList, ProductCard, AttachedProducts } from './containers';
 import PriceSlider from './PriceSlider';
 
 
@@ -30,6 +30,10 @@ renderApp(
   document.getElementById('react-product-card')
 );
 
+renderApp(
+  <AttachedProducts store={store} uiStore={uiStore} />,
+  document.getElementById('react-attached-products')
+);
 
 
 function renderApp(component, domElement) {

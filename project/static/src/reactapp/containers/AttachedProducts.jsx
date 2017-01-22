@@ -15,13 +15,10 @@ class ProductList extends Component {
   render() {
     const { store, uiStore } = this.props;
     console.log('ProductList sortedProducts: ', store.sortedProducts);
-    return <div className="row">
-      <div className="col-md-12 mb-15px">
-        <ProductMenu uiStore={uiStore} store={store}/>
-      </div>
+    return <div className="flex flex-wrap">
       {store.sortedProducts.length > 0
         && store.sortedProducts
-          .map((product, index) => <div className="col-xs-3">
+          .map((product, index) => <div className="w-50 pa-10px">
             <Product key={index} product={product} store={store} />
           </div>)
         || <h1>No products in this category</h1>

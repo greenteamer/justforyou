@@ -7,12 +7,15 @@ export default class Property {
   @observable type = {};
 
   constructor(store, obj) {
+    this._store = store;
     this.id = obj.id;
     this.product = obj.product;
     this.value = obj.value;
     this.price = obj.price;
 
     autorun(() => {
+      console.log('property store:', this._store);
+      console.log('property in use:', this.id, ': ', this.inUse);
       this.type = store.types.find(type => type.id === obj.type);
     });
   }
@@ -23,6 +26,13 @@ export default class Property {
 
   @action setUnactive() {
     this.isActive = false;
+  }
+
+  @computed get inUse() {
+    if (this._store) {
+      return this._store.cartitems.find(c => c.property === this.id)
+    }
+    return null;
   }
 
   @computed get toJS() {

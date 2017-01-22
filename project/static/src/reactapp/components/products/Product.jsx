@@ -12,17 +12,20 @@ class AddToCart extends Component {
   render() {
     const { product } = this.props;
     if (product.activeCartitem) {
-      return <div className="add-to-cart">
-        <i className="ion-ios-minus" onClick={product.removeFromCart} />
-        <span className="count">{product.activeCartitem.count}</span>
-        <i className="ion-ios-plus" onClick={product.addToCart} />
+      return <div className="bg-green c-white pa-8px tc br2 br--bottom pointer flex justify-center items-center min-h-50px">
+        <div onClick={product.removeFromCart}
+          className="btn btn-small btn-white rounded w-30px h-30px pa-0px bra-30px justify-center fs-120r">
+          <i className="ion-android-remove"></i>
+        </div>
+        <span className="count fs-120r pl-10px pr-10px">{product.activeCartitem.count}</span>
+        <div onClick={product.addToCart}
+          className="btn btn-small btn-white rounded w-30px h-30px pa-0px bra-30px justify-center fs-120r">
+          <i className="ion-android-add"></i>
+        </div>
       </div>;
     }
-    return <div className="add-to-cart" onClick={product.addToCart}>
-      <img width="22" src="/static/src/img/shopping-bag-4.png"
-        srcSet="/static/src/img/shopping-bag-4.png 1x,
-          /static/src/img/shopping-bag-4@2x.png 2x,
-          /static/src/img/shopping-bag-4@3x.png 3x" />
+    return <div className="bg-green c-white pa-8px tc br2 br--bottom pointer min-h-50px flex justify-center items-center" onClick={product.addToCart}>
+      <span className="ion-bag fs-120r mr-10px" />
       <span>Добавить в корзину</span>
     </div>;
   }
@@ -46,8 +49,11 @@ class Property extends Component {
     const { propObject } = this.props;
 
     return <button
-      className={`btn btn-mini btn-success ${propObject.isActive ? 'active' : ''}`}
-      onClick={this.setActiveProperty}>{propObject.value} {propObject.type.unit}</button>;
+      className={`property btn btn-small rounded ${propObject.isActive ? 'active' : ''} ${propObject.inUse ? 'btn-green' : 'btn-white'} mr-7px mt-5px`}
+      onClick={this.setActiveProperty}>
+      {propObject.value} {propObject.type.unit}
+    </button>;
+
   }
 }
 
@@ -62,21 +68,26 @@ class Product extends Component {
 
   render() {
     const { product, store } = this.props;
-    return <div className="col-xs-3 product-item">
-      <div className="product-container">
-        <img src={product.images[0].image} alt="" />
-        <p className="price">{product.activeProperty ? product.activeProperty.price : product.price}р.</p>
-        <a href={product.absoluteUrl} className="product-name">{product.name}</a>
-        <div className="properties">
-          {product.properties
-          .map((propObject, index) =>
-            <Property
-              propObject={propObject}
-              product={product}
-              key={index} /> )}
-        </div>
-        <AddToCart product={product} store={store}/>
+    return <div className="product-container">
+      <div className="ba bd-mild-gray2 pa-10px tc br2 br--top">
+        <img src={ product.images[0].croppedImage } alt="" className="max-h-150px" />
+        <p className="fs-190r mb-0px">{product.activeProperty ? product.activeProperty.price : product.price}р.</p>
+        <a href={ product.absoluteUrl } className="product-name c-brown">{ product.name }</a>
+
+          {product.properties &&
+            <div className="pb-24px pt-19px">
+              <div className="flex justify-center flex-wrap">
+                {product.properties.map((propObject, index) =>
+                  <Property
+                    propObject={propObject}
+                    product={product}
+                    key={index} /> )}
+              </div>
+            </div>
+          }
+
       </div>
+      <AddToCart product={product} store={store}/>
     </div>;
   }
 }

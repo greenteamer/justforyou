@@ -37,19 +37,15 @@
               </li>
             </ul>
           </div>
-          <div class="pl-14px pr-14px pb-24px pt-24px">
-            <div class="mb-0px inline-flex">
+          <div class="pl-14px pr-14px pb-24px pt-19px">
+            <div class="mb-0px flex justify-center flex-wrap">
               {% for property in product.get_properties %}
-                <button class="property btn btn-small btn-white rounded {% if forloop.counter == 1 %}active{% endif %} mr-7px">{{ property.value }} {{ property.type.unit }}</button>
+                <button class="property btn btn-small btn-white rounded {% if forloop.counter == 1 %}active{% endif %} mr-7px mt-5px">{{ property.value }} {{ property.type.unit }}</button>
               {% endfor %}
             </div>
-            {# <button type="button" name="button" class="btn btn-medium btn-green rounded">#}
-              {# <span class="ion-bag fs-120r mr-10px"></span>#}
-              {# <span>Добавить в корзину</span>#}
-            {# </button>#}
           </div>
         </div>
-        <div class="bg-green c-white pa-8px tc br2 br--bottom">
+        <div class="bg-green c-white pa-8px tc br2 br--bottom pointer min-h-50px flex justify-center items-center">
           <span class="ion-bag fs-120r mr-10px"></span>
           <span>Добавить в корзину</span>
         </div>
@@ -71,33 +67,35 @@
       </div>
       <div class="col-md-5">
         <p class="mt-50px fs-150r mb-0px pl-10px">С этим товаром покупают:</p>
-        <div class="flex flex-wrap">
-          {% for product in products %}
-            <div class="w-50 pa-10px">
-              <div class="product-container">
-                <div class="ba bd-mild-gray2 pa-10px tc br2 br--top">
-                  <img src={{ product.get_image.croppedImage }} alt="" class="max-h-150px" />
-                  <p class="fs-190r mb-0px">{{ product.price }}р.</p>
-                  <a href="{{ product.get_absolute_url }}" class="product-name c-brown">
-                    {{ product.name }}
-                  </a>
-                  {% if product.get_properties %}
-                    <div class="pb-24px pt-24px">
-                      <div class="inline-flex">
-                        {% for property in product.get_properties %}
-                          <button class="property btn btn-small btn-white rounded {% if forloop.counter == 1 %}active{% endif %} mr-7px">{{ property.value }} {{ property.type.unit }}</button>
-                        {% endfor %}
+        <div id="react-attached-products">
+          <div class="flex flex-wrap">
+            {% for product in products %}
+              <div class="w-50 pa-10px">
+                <div class="product-container">
+                  <div class="ba bd-mild-gray2 pa-10px tc br2 br--top">
+                    <img src={{ product.get_image.croppedImage }} alt="" class="max-h-150px" />
+                    <p class="fs-190r mb-0px">{{ product.price }}р.</p>
+                    <a href="{{ product.get_absolute_url }}" class="product-name c-brown">
+                      {{ product.name }}
+                    </a>
+                    {% if product.get_properties %}
+                      <div class="pb-24px pt-19px">
+                        <div class="flex justify-center flex-wrap">
+                          {% for property in product.get_properties %}
+                            <button class="property btn btn-small btn-white rounded {% if forloop.counter == 1 %}active{% endif %} mr-7px mt-5px">{{ property.value }} {{ property.type.unit }}</button>
+                          {% endfor %}
+                        </div>
                       </div>
-                    </div>
-                  {% endif %}
-                </div>
-                <div class="bg-green c-white pa-8px tc br2 br--bottom">
-                  <span class="ion-bag fs-120r mr-10px"></span>
-                  <span>Добавить в корзину</span>
+                    {% endif %}
+                  </div>
+                  <div class="bg-green c-white pa-8px tc br2 br--bottom">
+                    <span class="ion-bag fs-120r mr-10px"></span>
+                    <span>Добавить в корзину</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          {% endfor %}
+            {% endfor %}
+          </div>
         </div>
       </div>
       <div class="col-md-12">
@@ -117,19 +115,6 @@
                       <a href="{{ product.get_absolute_url }}" class="product-name c-brown">
                         {{ product.name }}
                       </a>
-                      {% if product.get_properties %}
-                        <div class="pb-24px pt-24px">
-                          <div class="inline-flex">
-                            {% for property in product.get_properties %}
-                              <button class="property btn btn-small btn-white rounded {% if forloop.counter == 1 %}active{% endif %} mr-7px">{{ property.value }} {{ property.type.unit }}</button>
-                            {% endfor %}
-                          </div>
-                        </div>
-                      {% endif %}
-                    </div>
-                    <div class="bg-green c-white pa-8px tc br2 br--bottom">
-                      <span class="ion-bag fs-120r mr-10px"></span>
-                      <span>Добавить в корзину</span>
                     </div>
                   </div>
                 </div>
