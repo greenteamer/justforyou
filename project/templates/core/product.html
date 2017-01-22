@@ -69,7 +69,7 @@
         <p class="mt-50px fs-150r mb-0px pl-10px">С этим товаром покупают:</p>
         <div id="react-attached-products">
           <div class="flex flex-wrap">
-            {% for product in products %}
+            {% for product in attachedProducts %}
               <div class="w-50 pa-10px">
                 <div class="product-container">
                   <div class="ba bd-mild-gray2 pa-10px tc br2 br--top">
@@ -105,7 +105,7 @@
           <!-- Additional required wrapper -->
           <div class="swiper-wrapper">
             <!-- Slides -->
-            {% for product in products %}
+            {% for product in popularProducts %}
               <div class="swiper-slide">
                 <div class="pa-10px">
                   <div class="product-container">

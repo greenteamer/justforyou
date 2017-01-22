@@ -15,6 +15,8 @@ export default class Product {
     this.price = obj.price;
     this.category = obj.category;
     this.absoluteUrl = obj.absoluteUrl;
+    this.isPopular = obj.isPopular;
+    this.attached = obj.attached;
 
     // this.getProperties(store, obj);
     this.getImages(store, obj);
@@ -96,6 +98,13 @@ export default class Product {
       // возвращаем cartitem по продукту и cartId если нет дополнительных properties
       return store.cartitems.find(i => i.product === this.id && i.cartId === getCookie('cart_id'));
     }
+  }
+
+  @computed get attachedProducts() {
+    if (this._store.products.length === 0) {
+      return []
+    }
+    return observable(this._store.products.filter(p => p.attached === this.id));
   }
 
   @computed get toJS() {
