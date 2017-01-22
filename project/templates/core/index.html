@@ -3,35 +3,28 @@
 {% load header_tags %}
 
 {% block content %}
-  <div class="col-xs-9 col-md-9 push-md-3" id="react-product-list">
+  <div class="col-xs-9 col-md-9 push-md-3 mt-15px" id="react-product-list">
     <div class="row">
       {% for product in products %}
-        <div id="product {{ product.id }}" class="col-xs-3 product-item">
+        <div class="col-xs-3">
           <div class="product-container">
-            <img src={{ product.get_image.get_url }} alt="" />
-            <p class="price" id="price-product-{{ product.id }}">{{ product.price }}р.</p>
-            <a href="{{ product.get_absolute_url }}" class="product-name">{{ product.name }}</a>
-            <div id="">
-              {% for property in product.get_properties %}
-                <button
-                  id="property-{{ property.id }}"
-                  class="property btn btn-mini btn-success">{{ property.value }} {{ property.type.unit }}</button>
-              {% endfor %}
+            <div class="ba bd-mild-gray2 pa-10px tc br2 br--top">
+              <img src={{ product.get_image.get_url }} alt="" class="max-h-150px"/>
+              <p class="fs-190r mb-0px">{{ product.price }}р.</p>
+              <a href="{{ product.get_absolute_url }}" class="product-name c-brown">{{ product.name }}</a>
+              {% if product.get_properties %}
+                <div class="pb-24px pt-19px">
+                  <div class="flex justify-center flex-wrap">
+                    {% for property in product.get_properties %}
+                      <button class="property btn btn-small btn-white rounded {% if forloop.counter == 1 %}active{% endif %} mr-7px mt-5px">{{ property.value }} {{ property.type.unit }}</button>
+                    {% endfor %}
+                  </div>
+                </div>
+              {% endif %}
             </div>
-            <div class="add-to-cart-container" id="add-to-cart-container-{{ product.id }}">
-              <div
-                  class="add-to-cart"
-                  id="add-to-cart-product-{{ product.id }}"
-                  productId="{{ product.id }}">
-                <img
-                  productId="{{ product.id }}"
-                  width="22"
-                  src="/static/src/img/shopping-bag-4.png"
-                  srcset="/static/src/img/shopping-bag-4.png 1x,
-                    /static/src/img/shopping-bag-4@2x.png 2x,
-                    /static/src/img/shopping-bag-4@3x.png 3x" />
-                <span productId="{{ product.id }}">Добавить в корзину</span>
-              </div>
+            <div class="bg-green c-white pa-8px tc br2 br--bottom">
+              <span class="ion-bag fs-120r mr-10px"></span>
+              <span>Добавить в корзину</span>
             </div>
           </div>
         </div>

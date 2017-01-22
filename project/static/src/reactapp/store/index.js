@@ -1,4 +1,4 @@
-import Store from './Store';
+import store from './Store';
 import uiStore from './UIStore';
 
 

@@ -12,7 +12,7 @@ class AddToCart extends Component {
   render() {
     const { product } = this.props;
     if (product.activeCartitem) {
-      return <div className="bg-green c-white pa-8px tc br2 br--bottom pointer flex justify-center">
+      return <div className="bg-green c-white pa-8px tc br2 br--bottom pointer flex justify-center items-center min-h-50px">
         <div onClick={product.removeFromCart}
           className="btn btn-small btn-white rounded w-30px h-30px pa-0px bra-30px justify-center fs-120r">
           <i className="ion-android-remove"></i>
@@ -24,7 +24,7 @@ class AddToCart extends Component {
         </div>
       </div>;
     }
-    return <div className="bg-green c-white pa-8px tc br2 br--bottom pointer" onClick={product.addToCart}>
+    return <div className="bg-green c-white pa-8px tc br2 br--bottom pointer min-h-50px flex justify-center items-center" onClick={product.addToCart}>
       <span className="ion-bag fs-120r mr-10px" />
       <span>Добавить в корзину</span>
     </div>;
@@ -49,7 +49,7 @@ class Property extends Component {
     const { propObject } = this.props;
 
     return <button
-      className={`property btn btn-small btn-white rounded ${propObject.isActive ? 'active' : ''} mr-7px`}
+      className={`property btn btn-small rounded ${propObject.isActive ? 'active' : ''} ${propObject.inUse ? 'btn-green' : 'btn-white'} mr-7px`}
       onClick={this.setActiveProperty}>
       {propObject.value} {propObject.type.unit}
     </button>;
@@ -92,15 +92,13 @@ class ProductCardComponent extends Component {
             </ul>
           </div>
           <div className="pl-14px pr-14px pb-24px pt-24px">
-            <div className="mb-0px inline-flex">
-
+            <div className="mb-0px flex justify-center">
               {product.properties
               .map((propObject, index) =>
                 <Property
                   propObject={propObject}
                   product={product}
                   key={index} /> )}
-
             </div>
           </div>
         </div>
