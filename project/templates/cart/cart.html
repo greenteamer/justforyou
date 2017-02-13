@@ -3,96 +3,43 @@
 
 
 {% block page_js %}
-    <script type="text/javascript" src="{% static "gammarus/js/form_validate.js" %}"></script>
+<script type="text/javascript" src="{% static "gammarus/js/form_validate.js" %}"></script>
 {% endblock %}
 
 
 {% block content %}
 
-    <div class="col-md-12">
-        <div class="row">
-
-
-                <table class="table">
-                    <thead>
-                      <tr>
-                        <th></th>
-                        <th>Продукт</th>
-                        <th>Цена</th>
-                        <th>Количество</th>
-                          <th></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in cart_items %}
-                            <tr>
-                                <td><img style="height:100px;" src="/media/{{ item.product.get_image.image }}" alt=""/></td>
-                                <td>{{ item.product.name }}</td>
-                                <td>{{ item.product.price }}</td>
-                                <td>
-                                    <form action="" method="post">{% csrf_token %}
-                                        <input type="text" name="count" class="" size="2" value="{{ item.count }}" />
-                                        <input type="text" name="id" class="hidden" value="{{ item.id }}" />
-                                        <input type="submit" name="change_count" class="btn btn-primary" value="Обновить" />
-                                    </form>
-                                </td>
-                                <td>
-                                    <form action="" method="post">{% csrf_token %}
-                                        <input type="text" name="id" class="hidden" value="{{ item.id }}" />
-                                        <input type="submit" name="delete" class="btn btn-danger" value="Удалить" />
-                                    </form>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                  </table>
-                    <div class="col-md-6">
-                        <form action="" method="post">
-                            {% csrf_token %}
-                            {{ delivery_form.region }}<br/>
-                            <input type="submit" name="post_city" class="btn btn-primary" value="Посчитать доставку"/>
-                        </form>
-                        <table class="table">
-                            <tbody>
-                                <tr><td>ГОРОД</td><td>{{ region }}</td></tr>
-                                <tr><td>СУММА ДОСТАВКИ</td><td>{{ cart_info.delivery_price }} руб</td></tr>
-                                <tr><td>ЦЕНА КОРЗИНЫ </td><td>{{ cart_info.item_price }} руб</td></tr>
-                                <tr><td>ОБЩАЯ СУММА </td><td>{{ cart_info.total_price }} руб</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="pure_form">
-                            <h3>Введите ваши данные</h3>
-                            <form action="" method="post" id="form_cart">{% csrf_token %}
-                                {% if not user.is_authenticated %}
-                                    {{ form.as_ul }}
-                                {% else %}
-                                    {{ pureForm.as_p }}<br/>
-                                {% endif %}
-                                <input type="submit" name="checkout" class="btn btn-primary {% if delivery_status %}{% else %}disabled{% endif %}" value="Оформить заказ" />
-                            </form>
-                        </div>
-                    </div>
-{#                 <form action="" method="post">{% csrf_token %}#}
-{#                    {% if not user.is_authenticated %}#}
-{#                        <input type="email" name="email" placeholder="email"/>#}
-{#                        <br/>#}
-{#                        <input type="text" name="username" placeholder="Имя"/>#}
-{#                        <br/>#}
-{#                        <input type="password" name="password" placeholder="Пароль"/>#}
-{#                        <br/>#}
-{#                    {% endif %}#}
-{#                    <input type="text" name="zip" placeholder="Индекс" value="{{ user.username }}" />#}
-{#                    <br/>#}
-{#                    <input type="text" name="city" placeholder="Город"/>#}
-{#                    <br/>#}
-{#                    <input type="text" name="address" placeholder="Адрес"/>#}
-{#                    <br/>#}
-{#                    <input type="text" name="phone" placeholder="Телефон"/>#}
-{#                    <input type="submit" value="Оформить заказ" />#}
-{#                </form>#}
-        </div>
+<div class="col-md-12">
+  <div class="row" id="cart-page">
+    <div class="col-md-6">
+      <form action="" method="post">
+        {% csrf_token %}
+        {{ delivery_form.region }}<br/>
+        <input type="submit" name="post_city" class="btn btn-primary" value="Посчитать доставку"/>
+      </form>
+      <table class="table">
+        <tbody>
+        <tr><td>ГОРОД</td><td>{{ region }}</td></tr>
+        <tr><td>СУММА ДОСТАВКИ</td><td>{{ cart_info.delivery_price }} руб</td></tr>
+        <tr><td>ЦЕНА КОРЗИНЫ </td><td>{{ cart_info.item_price }} руб</td></tr>
+        <tr><td>ОБЩАЯ СУММА </td><td>{{ cart_info.total_price }} руб</td></tr>
+        </tbody>
+      </table>
     </div>
+    <div class="col-md-6">
+      <div class="pure_form">
+        <h3>Введите ваши данные</h3>
+        <form action="" method="post" id="form_cart">{% csrf_token %}
+          {% if not user.is_authenticated %}
+          {{ form.as_ul }}
+          {% else %}
+          {{ pureForm.as_p }}<br/>
+          {% endif %}
+          <input type="submit" name="checkout" class="btn btn-primary {% if delivery_status %}{% else %}disabled{% endif %}" value="Оформить заказ" />
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}

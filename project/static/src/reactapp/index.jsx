@@ -3,13 +3,20 @@ import React from 'react';
 import { render } from 'react-dom';
 import { store, uiStore } from './store';
 import Cart from './Cart';
+import CartPage from './CartPage';
 import { ProductList, ProductCard, AttachedProducts } from './containers';
 import PriceSlider from './PriceSlider';
 
 
 renderApp(
   <Cart store={store} />,
-  document.getElementById('cart')
+  document.getElementById('cart'),
+);
+
+
+renderApp(
+  <CartPage store={store} />,
+  document.getElementById('cart-page'),
 );
 
 
