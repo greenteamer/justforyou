@@ -2,11 +2,8 @@
 
 
 // generate battons
-$bgColors: $white, $green, $red
-$fontColors: $brown, $white, $white
-$btnColors: (white: (bg: $white, font: $brown), green: (bg: $green, font: $white), red: (bg: $red, font: $white))
-$btnSizes: (small: 24, medium: 40, big: 60)
-// $btnColorsMap: $brown, $white, $white
+$btnColors: (white: (bg: $white, font: $brown), green: (bg: $green, font: $white), red: (bg: $red, font: $white), brown: (bg: $brown, font: $white))
+$btnSizes: (small: 24, medium: 40, big: 60, lg: 100)
 
 =btn-inner-shadow($x, $y, $size, $opacity)
   $var: inset $x + px $y + px $size + px rgba(0, 0, 0, $opacity)
