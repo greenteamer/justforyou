@@ -1,4 +1,5 @@
 import { observable, action, autorun, computed, toJS } from 'mobx';
+import { getCookie } from '../utils';
 
 
 export default class Property {
@@ -28,7 +29,9 @@ export default class Property {
 
   @computed get inUse() {
     if (this._store) {
-      return this._store.cartitems.find(c => c.property === this.id)
+      const cartId = getCookie('cart_id');
+      // console.log('property inUse cartId: ', cartId);
+      return this._store.cartitems.find(c => c.property === this.id && c.cartId === cartId);
     }
     return null;
   }

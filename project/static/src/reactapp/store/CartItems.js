@@ -1,4 +1,4 @@
-import { observable, action, autorun, computed, toJS } from 'mobx';
+import { observable, action, computed, toJS } from 'mobx';
 
 
 export default class CartItems {
@@ -35,7 +35,7 @@ export default class CartItems {
   @computed get totalPrice() {
     const product = this._store.products.find(product => product.id === this.product);
     const property = this._store.properties.find(p => p.id === this.property);
-    const price = property? property.price : product.price;
+    const price = property ? property.price : product.price;
     return this.count * price;
   }
 

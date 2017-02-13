@@ -170,6 +170,6 @@ MEDIA_URL = '/media/'
 
 
 try:
-    from settings_local import *
+    from settings_local import *  # noqa
 except Exception:
     pass
