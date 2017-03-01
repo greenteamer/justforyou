@@ -71,8 +71,7 @@ export default class Product {
   @computed get maxPrice() {
     return this.properties.length !== 0
       ? this.properties
-          .sort((a, b) => a.price - b.price)
-          [this.properties.length-1]
+          .sort((a, b) => a.price - b.price)[this.properties.length - 1]
           .price
       : this.price;
   }
@@ -92,17 +91,15 @@ export default class Product {
   @computed get activeCartitem() {
     if (this.activeProperty) {
       // возвращаем cartitem по активному property и cartId
-      return store.cartitems.find(i => i.property === this.activeProperty.id && i.cartId === getCookie('cart_id'));
+      return this._store.cartitems.find(i => i.property === this.activeProperty.id && i.cartId === getCookie('cart_id'));
     }
-    else {
-      // возвращаем cartitem по продукту и cartId если нет дополнительных properties
-      return store.cartitems.find(i => i.product === this.id && i.cartId === getCookie('cart_id'));
-    }
+    // возвращаем cartitem по продукту и cartId если нет дополнительных properties
+    return this._store.cartitems.find(i => i.product === this.id && i.cartId === getCookie('cart_id'));
   }
 
   @computed get attachedProducts() {
     if (this._store.products.length === 0) {
-      return []
+      return [];
     }
     return observable(this._store.products.filter(p => p.attached === this.id));
   }

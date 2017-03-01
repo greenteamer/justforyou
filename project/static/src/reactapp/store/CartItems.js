@@ -1,4 +1,5 @@
-import { observable, action, computed, toJS } from 'mobx';
+import { autorunAsync, observable, action, computed } from 'mobx';
+import * as API from '../api';
 
 
 export default class CartItems {
@@ -14,6 +15,12 @@ export default class CartItems {
     this.property = obj.property;
     this.count = obj.count;
     this.cartId = obj.cart_id;
+
+    autorunAsync(() => {
+      if (this._store.getCartId() === this.cartId) {
+        API.request(API.ENDPOINTS.PUT_CARTITEM(this.id), this.asJson);
+      }
+    }, 600);
   }
 
   @action increment = () => {
@@ -21,7 +28,18 @@ export default class CartItems {
   }
 
   @action decrement = () => {
-    this.count = this.count > 0 ? this.count - 1 : 0;
+    const count = this.count > 0 ? this.count - 1 : 0;
+    if (count === 0) {
+      this.remove();
+    }
+    else {
+      this.count = count;
+    }
+  }
+
+  @action remove = () => {
+    API.request(API.ENDPOINTS.DELETE_CARTITEM(this.id));
+    this._store.cartitems.replace(observable(this._store.cartitems.filter(item => item.id !== this.id)));
   }
 
   @action setId = (id) => {
@@ -33,14 +51,31 @@ export default class CartItems {
   }
 
   @computed get totalPrice() {
-    const product = this._store.products.find(product => product.id === this.product);
-    const property = this._store.properties.find(p => p.id === this.property);
-    const price = property ? property.price : product.price;
+    const price = this.propertyObj
+      ? this.propertyObj.price
+      : this.productObj.price;
     return this.count * price;
   }
 
-  @computed get toJS() {
-    return toJS(this);
+  @computed get productObj() {
+    if (!this._store.products.length) return null;
+    return this._store.products.find(product => product.id === this.product);
+  }
+
+  @computed get propertyObj() {
+    if (!this._store.properties.length) return null;
+    return this._store.properties.find(p => p.id === this.property);
+  }
+
+  @computed get asJson() {
+    return {
+      id: this.id,
+      product: this.product,
+      property: this.property,
+      count: this.count,
+      cart_id: this.cartId,
+    };
   }
 
 }
+

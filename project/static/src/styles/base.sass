@@ -1,4 +1,5 @@
 @import "colors"
+@import "buttons"
 
 
 body
@@ -37,3 +38,9 @@ h6
 
 .border-right
   border-right: 1px solid $light-gray
+
+.btn-shadow
+  transition: all 0.3s ease
+  +btn-shadow(0, 0, 0, 0.55)
+  &:hover
+    +btn-shadow(3, 3, 7, 0.55)
