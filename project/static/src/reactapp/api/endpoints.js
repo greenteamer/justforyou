@@ -21,3 +21,6 @@ export const PUT_CARTITEM = (id) => ({url: `api/v1/cartitems/${id}/`, method: 'P
 
 export const GET_ORDERS = () => ({url: 'api/v1/orders/', method: 'GET'});
 export const GET_ORDER = (id) => ({url: `api/v1/orders/${id}/`, method: 'GET'});
+
+export const GET_SUGGEST_ADDRESS = () => ({url: 'suggest/address', method: 'POST'});
+export const GET_SUGGEST_ADDRESS_BY_IP = () => ({url: 'detectAddressByIp', method: 'GET'});

@@ -15,11 +15,13 @@ import './styles/sidebar.sass';
 import './styles/product.sass';
 import './styles/slider.sass';
 import './styles/breadcrumbs.sass';
+import 'react-select/dist/react-select.css';
 
 
 
 // plain js
 import './libs/bootstrap/dropdown';
 import './libs/bootstrap/collapse';
+import './libs/bootstrap/tooltip';
 import './reactapp/index';
 import './js/index';

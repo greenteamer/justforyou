@@ -14,6 +14,7 @@ import Property from './Property';
 import CartItem from './CartItems';
 import uiStore from './UIStore';
 import singleton from 'singleton';
+import $ from 'jquery';
 
 
 class Store extends singleton {
@@ -38,6 +39,11 @@ class Store extends singleton {
           const catalog = this.categories.find(c => c.slug === catalogSlug);
           uiStore.setCatalogFilter(catalog.id);
         }
+      }
+      else {
+        setTimeout(() => {
+          $('[data-toggle="tooltip"]').tooltip();
+        }, 1000);
       }
     });
 

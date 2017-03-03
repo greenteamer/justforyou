@@ -25,3 +25,12 @@ export const getCookie = (name) => {
   }
   return cookieValue;
 };
+
+
+export const tooltipFn = (title) => {
+  return {
+    'data-toggle': 'tooltip',
+    'data-placement': 'top',
+    title,
+  };
+};

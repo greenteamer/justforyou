@@ -1,4 +1,4 @@
-import { makeId, getCookie } from './utils';
+import { makeId, getCookie, tooltipFn } from './utils';
 
 
-export { makeId, getCookie };
+export { makeId, getCookie, tooltipFn };
