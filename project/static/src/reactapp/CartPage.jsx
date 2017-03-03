@@ -66,7 +66,15 @@ class CartItem extends Component {
 
 @observer
 class CartPage extends Component {
-  @observable cityArray = [];
+  @observable addresIndex = null;
+
+  // constructor() {
+  //   autorun(() => {
+  //     if (this.query.length > 2) {
+
+  //     }
+  //   });
+  // }
 
   static propTypes = {
     store: PropTypes.object,
@@ -74,41 +82,36 @@ class CartPage extends Component {
 
   handleChangeAddress = (value, callback) => {
     // console.log('Selected: ', val);
-    const self = this;
-    if (value.length > 4) {
+    // const self = this;
+    // if (value.length > 4) {
+    // }
+    setTimeout(() => {
       API.suggestion(API.ENDPOINTS.GET_SUGGEST_ADDRESS_BY_IP())
-        .then(
-          result => {
-            console.log('response result ip: ', result);
-            const data = {
-              query: value,
-              locations_boost: [{
-                kladr_id: result.location.data.kladr_id,
-              }],
-            };
-            API.suggestion(API.ENDPOINTS.GET_SUGGEST_ADDRESS(), data)
-              .then(
-                result => {
-                  console.log('response result address: ', result);
-                  // self.cityArray.replace(result.suggestions);
-                  setTimeout(() => {
-                    const options = result.suggestions.map((city, index) => {
-                      return {value: index, label: city.unrestricted_value};
-                    });
-                    callback(null, {
-                      options: options,
-                      // CAREFUL! Only set this to true when there are no more options,
-                      // or more specific queries will not be sent to the server.
-                      complete: false,
-                    });
-                  }, 1000);
-                },
-                error => console.log('response error address: ', error),
-              );
-          },
-          error => console.log('response error ip: ', error),
-        );
-    }
+        .then(result => {
+          const data = {
+            query: value,
+            locations_boost: [{
+              kladr_id: result.location.data.kladr_id,
+            }],
+          };
+          console.log('response result data: ', data);
+          return API.suggestion(API.ENDPOINTS.GET_SUGGEST_ADDRESS(), data);
+        })
+        .then(result => {
+          const options = result.suggestions.map((city, index) => {
+            return {value: index, label: city.unrestricted_value};
+          });
+          console.log('response result options: ', options);
+          callback(null, {
+            options: options,
+            complete: false,
+          });
+        });
+    }, 2000);
+  }
+
+  handleOnChange = (value) => {
+    this.addresIndex = value;
   }
 
   render() {
@@ -143,12 +146,15 @@ class CartPage extends Component {
             Расчитать доставку:
           </h3>
           <div className="row">
-            <div className="col-md-4">
+            <div className="col-md-4" key={this.cityKey}>
               <Select.Async
                 name="to"
                 placeholder="Куда"
+                value={this.addresIndex}
+                isLoading={true}
                 filterOption={() => true}
                 loadOptions={this.handleChangeAddress}
+                onChange={this.handleOnChange}
               />
             </div>
           </div>
