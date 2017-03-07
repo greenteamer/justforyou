@@ -12,6 +12,7 @@ import * as API from '../api';
 import Product from './Product';
 import Property from './Property';
 import CartItem from './CartItems';
+import Delivery from './Delivery';
 import uiStore from './UIStore';
 import singleton from 'singleton';
 import $ from 'jquery';
@@ -26,6 +27,7 @@ class Store extends singleton {
   @observable properties = [];
   @observable cartitems = [];
   @observable orders = [];
+  @observable delivery = {};
 
   constructor() {
     super();
@@ -109,6 +111,16 @@ class Store extends singleton {
     const cartitems = await API.request(API.ENDPOINTS.GET_CARTITEMS());
     this.cartitems.replace(cartitems.map(item => new CartItem(this, item)));
 
+    const deliveries = await API.request(API.ENDPOINTS.GET_DELIVERIES());
+    if (deliveries.length === 0) {
+      this.delivery = new Delivery(this, {cart_id: this.getCartId()});
+      const newDelivery = await API.request(API.ENDPOINTS.POST_DELIVERY(), {cart_id: this.getCartId(), price: 0});
+      this.delivery.setId(newDelivery.id);
+    }
+    else {
+      this.delivery = new Delivery(this, deliveries[0]);
+    }
+
     uiStore.finishLoading();
   }
 
@@ -121,11 +133,6 @@ class Store extends singleton {
     };
     if (product.activeCartitem) {
       product.activeCartitem.increment();
-      // data.count = product.activeCartitem.count;
-      // const response = await API.request(API.ENDPOINTS.POST_CARTITEM(), data);
-      // обновляем cartitem после получения ответа от сервера
-      // product.activeCartitem.setId(response.data.id);
-      // product.activeCartitem.setCartId(response.data.cart_id);
     }
     else {
       const cartitem = new CartItem(this, data);
@@ -139,22 +146,8 @@ class Store extends singleton {
 
   @action removeCartItem = async (productId) => {
     const product = this.products.find(p => p.id === productId);
-    // const data = {
-    //   product: product.id,
-    //   property: product.activeProperty ? product.activeProperty.id : null,
-    //   count: 1,
-    //   cart_id: this.getCartId(),
-    // };
     if (product.activeCartitem) {
       product.activeCartitem.decrement();
-      // data.count = product.activeCartitem.count;
-      // if (product.activeCartitem.count === 0) {
-      //   await API.request(API.ENDPOINTS.DELETE_CARTITEM(product.activeCartitem.id), data);
-      //   this.cartitems = this.cartitems.filter(item => item.id !== product.activeCartitem.id);
-      // }
-      // else {
-      //   await API.request(API.ENDPOINTS.POST_CARTITEM(), data);
-      // }
     }
   }
 
@@ -199,8 +192,89 @@ class Store extends singleton {
       }, 0);
   }
 
+  @computed get totalPriceWithDelivery() {
+    return this.delivery.price ? this.totalPrice + this.delivery.price : this.totalPrice + 0;
+  }
+
   @computed get totalItems() {
     return this.cartitems.filter(item => item.cartId === this.getCartId()).length;
+  }
+
+  providers() {
+    return {
+      Cse: {
+        name: '«КурьерСервисЭкспрес»',
+        url: 'http://www.cse.ru/',
+      },
+      Kts: {
+        name: '«Курьер Транс Сервис»',
+        url: '',
+      },
+      UnionPost: {
+        name: '«UNION POST»',
+        url: '',
+      },
+      Latella: {
+        name: '«ЛАТЭЛЛА»',
+        url: '',
+      },
+      Tnt: {
+        name: '«TNT»',
+        url: '',
+      },
+      Pek: {
+        name: '«ПЭК»',
+        url: '',
+      },
+      Fox: {
+        name: '«Фокс-Экспресс»',
+        url: '',
+      },
+      Ups: {
+        name: '«Ups»',
+        url: '',
+      },
+      Dpd: {
+        name: '«DPD»',
+        url: '',
+      },
+      Dellin: {
+        name: '«Деловые линии»',
+        url: '',
+      },
+      ExpressRu: {
+        name: '«Экспресс Точка Ру»',
+        url: '',
+      },
+      Bringo: {
+        name: '«Бринго»',
+        url: '',
+      },
+      Dhl: {
+        name: '«DHL»',
+        url: '',
+      },
+      Spsr: {
+        name: '«СПСР-ЭКСПРЕСС»',
+        url: '',
+      },
+      CityExpress: {
+        name: '«City Express»',
+        url: '',
+      },
+      Cdek: {
+        name: '«Курьерская компания СДЭК»',
+        url: '',
+      },
+      Pony: {
+        name: '«PONY EXPRESS»',
+        url: '',
+      },
+      Peshkariki: {
+        name: '«Пешкарики»',
+        url: '',
+      },
+    };
   }
 
   @computed get toJS() {

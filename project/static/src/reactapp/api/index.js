@@ -43,5 +43,25 @@ export async function suggestion(endpoint, data = undefined) {
   return responseData;
 }
 
+export async function sendit(endpoint, data = undefined) {
+  const params = `from[country]=Россия&from[label]=Новоалтайск&to[country]=${data.country}&to[label]=${data.settlement ? data.settlement : data.city}&weight=${data.weight}`;
+  const response = await fetch(`http://sendit.ru/api/v1/${endpoint.url}?${params}`, {
+    method: endpoint.method,
+    // credentials: 'same-origin',
+    headers: {
+      Authorization: 'Token ' + '9a9d84efb959429ca18e5fd0b9a1618d',
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  });
+  const responseData = response.status === 204 // NO ceontent status
+    ? null
+    : await response.json();
+  if (!response.ok) {
+    throw responseData;
+  }
+  return responseData;
+}
+
 import * as ENDPOINTS from './endpoints';
 export {ENDPOINTS};

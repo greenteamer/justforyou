@@ -52,9 +52,31 @@ class Order(models.Model):
 
 
 class Delivery(models.Model):
+    area = models.CharField(max_length=240, blank=True, null=True)
+    area_type = models.CharField(max_length=240, blank=True, null=True)
+    block = models.CharField(max_length=240, blank=True, null=True)
+    block_type = models.CharField(max_length=240, blank=True, null=True)
+    postal_code = models.CharField(max_length=240, blank=True, null=True)
+    country = models.CharField(max_length=240, blank=True, null=True)
+    region = models.CharField(max_length=240, blank=True, null=True)
+    region_type = models.CharField(max_length=240, blank=True, null=True)
+    city = models.CharField(max_length=240, blank=True, null=True)
+    city_type = models.CharField(max_length=240, blank=True, null=True)
+    street = models.CharField(max_length=240, blank=True, null=True)
+    street_type = models.CharField(max_length=240, blank=True, null=True)
+    settlement = models.CharField(max_length=240, blank=True, null=True)
+    settlement_type = models.CharField(max_length=240, blank=True, null=True)
+    house = models.CharField(max_length=240, blank=True, null=True)
+    house_type = models.CharField(max_length=240, blank=True, null=True)
+    flat = models.CharField(max_length=240, blank=True, null=True)
+    flat_type = models.CharField(max_length=240, blank=True, null=True)
+
     cart_id = models.CharField(max_length=240)
-    city = models.CharField(max_length=100)
-    price = models.IntegerField()
+
+    provider_name = models.CharField(max_length=240, blank=True, null=True)
+    provider_type = models.CharField(max_length=240, blank=True, null=True)
+    days = models.IntegerField(default=0, blank=True, null=True)
+    price = models.IntegerField(default=0, blank=True, null=True)
 
     class Meta:
         verbose_name = u'Доставка'

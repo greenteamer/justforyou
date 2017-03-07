@@ -116,7 +116,7 @@
     "quotes": [
       2, "single", "avoid-escape"
     ],
-    "camelcase": [2, {
+    "camelcase": ["error", {
       "properties": "never"
     }],
     "comma-spacing": [2, {

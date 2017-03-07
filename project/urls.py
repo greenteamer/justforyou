@@ -13,6 +13,7 @@ router.register(r'images', viewsets.ProductImagesViewSet)
 router.register(r'categories', viewsets.CategoryViewSet)
 router.register(r'cartitems', viewsets.CartItemViewSet)
 router.register(r'orders', viewsets.OrderViewSet)
+router.register(r'deliveries', viewsets.DeliveryViewSet)
 router.register(r'property-types', viewsets.PropertyTypeViewSet)
 router.register(r'properties', viewsets.PropertiesViewSet)
 

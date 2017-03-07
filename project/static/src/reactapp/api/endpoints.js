@@ -22,5 +22,12 @@ export const PUT_CARTITEM = (id) => ({url: `api/v1/cartitems/${id}/`, method: 'P
 export const GET_ORDERS = () => ({url: 'api/v1/orders/', method: 'GET'});
 export const GET_ORDER = (id) => ({url: `api/v1/orders/${id}/`, method: 'GET'});
 
+export const GET_DELIVERIES = () => ({url: 'api/v1/deliveries/', method: 'GET'});
+export const GET_DELIVERY = (id) => ({url: `api/v1/deliveries/${id}/`, method: 'GET'});
+export const POST_DELIVERY = () => ({url: 'api/v1/deliveries/', method: 'POST'});
+export const PUT_DELIVERY = (id) => ({url: `api/v1/deliveries/${id}/`, method: 'PUT'});
+
 export const GET_SUGGEST_ADDRESS = () => ({url: 'suggest/address', method: 'POST'});
 export const GET_SUGGEST_ADDRESS_BY_IP = () => ({url: 'detectAddressByIp', method: 'GET'});
+
+export const GET_SENDIT = () => ({url: 'quotes', method: 'GET'});

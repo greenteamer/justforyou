@@ -1,11 +1,12 @@
 # coding: utf8
 from rest_framework import serializers
 from core.models import Category, ProductImage, Product, PropertyType, PropertyValue
-from cart.models import CartItem, Order
+from cart.models import CartItem, Order, Delivery
 
 
 class CategoryObj(serializers.ModelSerializer):
     absoluteUrl = serializers.CharField(max_length=200)
+
     class Meta:
         model = Category
         fields = ('id', 'absoluteUrl', 'name', 'slug', 'parent')
@@ -13,6 +14,7 @@ class CategoryObj(serializers.ModelSerializer):
 
 class ProductImageObj(serializers.ModelSerializer):
     croppedImage = serializers.CharField(max_length=200)
+
     class Meta:
         model = ProductImage
         fields = ('id', 'image', 'product', 'cropping', 'croppedImage')
@@ -53,3 +55,9 @@ class OrderObj(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ('url', 'id', 'user', 'cart_id', 'is_paid')
+
+
+class DeliveryObj(serializers.ModelSerializer):
+    class Meta:
+        model = Delivery
+        fields = '__all__'

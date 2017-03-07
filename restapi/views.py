@@ -2,12 +2,13 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from restapi import flatserializers
 from core.models import Product, ProductImage, Category, PropertyType, PropertyValue
-from cart.models import CartItem, Order
+from cart.models import CartItem, Order, Delivery
 from rest_framework.permissions import AllowAny
-from django.shortcuts import HttpResponse
+from restapi import permissions as restapi_permissions
+#  from django.shortcuts import HttpResponse
 from cart import utils as cartutils
-import json
-import ast
+#  import json
+#  import ast
 
 
 class ProductViewSet(viewsets.ModelViewSet):
@@ -106,3 +107,12 @@ class CartItemViewSet(viewsets.ModelViewSet):
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = flatserializers.OrderObj
+
+
+class DeliveryViewSet(viewsets.ModelViewSet):
+    permission_classes = (restapi_permissions.IsCartIdOwnerOrReadOnly,)
+    queryset = Delivery.objects.all()
+    serializer_class = flatserializers.DeliveryObj
+
+    def get_queryset(self):
+        return Delivery.objects.filter(cart_id=cartutils.set_cart_id(self.request))

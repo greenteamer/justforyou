@@ -2,43 +2,10 @@
 {% load static from staticfiles %}
 
 
-{% block page_js %}
-<script type="text/javascript" src="{% static "gammarus/js/form_validate.js" %}"></script>
-{% endblock %}
-
-
 {% block content %}
 
 <div class="col-md-12">
   <div class="row" id="cart-page">
-    <div class="col-md-6">
-      <form action="" method="post">
-        {% csrf_token %}
-        {{ delivery_form.region }}<br/>
-        <input type="submit" name="post_city" class="btn btn-primary" value="Посчитать доставку"/>
-      </form>
-      <table class="table">
-        <tbody>
-        <tr><td>ГОРОД</td><td>{{ region }}</td></tr>
-        <tr><td>СУММА ДОСТАВКИ</td><td>{{ cart_info.delivery_price }} руб</td></tr>
-        <tr><td>ЦЕНА КОРЗИНЫ </td><td>{{ cart_info.item_price }} руб</td></tr>
-        <tr><td>ОБЩАЯ СУММА </td><td>{{ cart_info.total_price }} руб</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="col-md-6">
-      <div class="pure_form">
-        <h3>Введите ваши данные</h3>
-        <form action="" method="post" id="form_cart">{% csrf_token %}
-          {% if not user.is_authenticated %}
-          {{ form.as_ul }}
-          {% else %}
-          {{ pureForm.as_p }}<br/>
-          {% endif %}
-          <input type="submit" name="checkout" class="btn btn-primary {% if delivery_status %}{% else %}disabled{% endif %}" value="Оформить заказ" />
-        </form>
-      </div>
-    </div>
   </div>
 </div>
 
