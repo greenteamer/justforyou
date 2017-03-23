@@ -8,6 +8,7 @@ from rest_framework import routers
 from restapi import views as viewsets
 admin.autodiscover()
 router = routers.DefaultRouter()
+router.register(r'users', viewsets.UserViewSet)
 router.register(r'products', viewsets.ProductViewSet)
 router.register(r'images', viewsets.ProductImagesViewSet)
 router.register(r'categories', viewsets.CategoryViewSet)

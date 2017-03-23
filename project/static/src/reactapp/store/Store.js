@@ -10,6 +10,7 @@ import { action, autorun, observable, runInAction, computed, toJS, peek} from 'm
 import { getCookie } from '../utils';
 import * as API from '../api';
 import Product from './Product';
+import User from './User';
 import Property from './Property';
 import CartItem from './CartItems';
 import Delivery from './Delivery';
@@ -28,6 +29,7 @@ class Store extends singleton {
   @observable cartitems = [];
   @observable orders = [];
   @observable delivery = {};
+  @observable user = null;
 
   constructor() {
     super();
@@ -93,6 +95,12 @@ class Store extends singleton {
   async pullAll() {
     uiStore.startLoading();
     // fetch данных
+    const users = await API.request(API.ENDPOINTS.GET_USER());
+    console.log('Store users: ', users);
+    if (users.length !== 0) {
+      this.user = new User(users[0]);
+    }
+
     const images = await API.request(API.ENDPOINTS.GET_IMAGES());
     this.images.replace(images);
 
@@ -151,6 +159,10 @@ class Store extends singleton {
     }
   }
 
+  @action pushOrder = () => {
+    // console.log('Store pushOrder');
+    this.x = 0;
+  }
 
   getCartId() {
     return getCookie('cart_id');
@@ -168,10 +180,12 @@ class Store extends singleton {
       .sort((a, b) => a.minPrice - b.minPrice)[0].minPrice;
   }
 
-  @computed get userCartitems() {
-    return this.cartitems
-      .filter(c => c.cartId === this.getCartId());
-  }
+  // @computed get userCartitems() {
+  //   console.log('computed userCartitems this.getCartId(): ', this.getCartId());
+  //   console.log('computed userCartitems cartitems: ', this.cartitems.find(i => i.id === 284));
+  //   return this.user;
+  //   // return this.cartitems.filter(item => item.cartId === this.getCartId());
+  // }
 
   findCartItem(product) {
     // finding existing cartItem by product.id, cartId & product.property
@@ -198,6 +212,10 @@ class Store extends singleton {
 
   @computed get totalItems() {
     return this.cartitems.filter(item => item.cartId === this.getCartId()).length;
+  }
+
+  @computed get userCartitems() {
+    return this.cartitems.filter(item => item.cartId === this.getCartId());
   }
 
   providers() {

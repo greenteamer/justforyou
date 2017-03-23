@@ -1,3 +1,5 @@
+export const GET_USER = () => ({url: 'api/v1/users/', method: 'GET'});
+
 export const GET_PRODUCTS = () => ({url: 'api/v1/products/', method: 'GET'});
 export const GET_PRODUCT = (id) => ({url: `api/v1/products/${id}/`, method: 'GET'});
 

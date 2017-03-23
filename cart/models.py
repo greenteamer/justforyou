@@ -86,7 +86,7 @@ class Delivery(models.Model):
         return Order.objects.get(cart_id=self.cart_id)
 
     def __unicode__(self):
-        return u"Delivery - %s" % self.get_current_order().id
+        return u"Delivery - %s" % self.id
 
 
 class CartInfoHelper():

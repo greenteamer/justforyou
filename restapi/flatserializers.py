@@ -2,6 +2,7 @@
 from rest_framework import serializers
 from core.models import Category, ProductImage, Product, PropertyType, PropertyValue
 from cart.models import CartItem, Order, Delivery
+from django.contrib.auth.models import User
 
 
 class CategoryObj(serializers.ModelSerializer):
@@ -61,3 +62,10 @@ class DeliveryObj(serializers.ModelSerializer):
     class Meta:
         model = Delivery
         fields = '__all__'
+
+
+class UserObj(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('url', 'id', 'username', 'email')
+        #  fields = '__all__'

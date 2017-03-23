@@ -1,11 +1,13 @@
 import React, { Component, PropTypes } from 'react';
-import { toJS, observable, autorunAsync, computed } from 'mobx';
+import { toJS, autorun, observable, autorunAsync, computed } from 'mobx';
 import { observer } from 'mobx-react';
 import { AddButton, RemoveButton } from './components/products';
-import { TextField } from './components/ui';
 import { tooltipFn } from './utils';
 import Select from 'react-select';
 import * as API from './api';
+import DeliveryDataTable from './components/cart/DeliveryDataTable';
+import DeliveryVariants from './components/cart/DeliveryVariants';
+import SpecifyDelivery from './components/cart/SpecifyDelivery';
 // import _ from 'underscore';
 
 
@@ -67,162 +69,6 @@ class CartItem extends Component {
 
 
 @observer
-class SpecifyDelivery extends Component {
-  static propTypes = {
-    delivery: PropTypes.object,
-  }
-
-  render() {
-    const { delivery } = this.props;
-    return <div className="mv3 bg-light-gray pa2 ba bd-1px bd-mild-gray2">
-      <div className="row mb3">
-        <div className="col-xs-9">
-          <p className="mb1">Регион:</p>
-          <TextField
-            placeholder="Регион"
-            value={delivery.region ? delivery.region : ''}
-            onChange={(e) => {
-              delivery.region = e.target.value;
-            }}
-          />
-        </div>
-        <div className="col-xs-3">
-          <p className="mb1">Тип региона:</p>
-          <TextField
-            placeholder=""
-            value={delivery.region_type ? delivery.region_type : ''}
-            onChange={(e) => { delivery.region_type = e.target.value; }}
-          />
-        </div>
-      </div>
-      <div className=" mb3">
-        <p className="mb1">Город:</p>
-        <TextField
-          placeholder="Город"
-          value={delivery.city ? delivery.city : ''}
-          onChange={(e) => { delivery.city = e.target.value; }}
-        />
-      </div>
-      <div className="row mb3">
-        <div className="col-xs-3">
-          <p className="mb1">Тип:</p>
-          <TextField
-            placeholder=""
-            value={delivery.settlement_type ? delivery.settlement_type : ''}
-            onChange={(e) => { delivery.settlement_type = e.target.value; }}
-          />
-        </div>
-        <div className="col-xs-9">
-          <p className="mb1">Населенный пункт:</p>
-          <TextField
-            placeholder="Населенный пункт"
-            value={delivery.settlement ? delivery.settlement : ''}
-            onChange={(e) => { delivery.settlement = e.target.value; }}
-          />
-        </div>
-      </div>
-      <div className="row mb3">
-        <div className="col-xs-3">
-          <p className="mb1">Тип:</p>
-          <TextField
-            placeholder=""
-            value={delivery.street_type ? delivery.street_type : ''}
-            onChange={(e) => { delivery.street_type = e.target.value; }}
-          />
-        </div>
-        <div className="col-xs-6">
-          <p className="mb1">Улица:</p>
-          <TextField
-            placeholder="Улица"
-            value={delivery.street ? delivery.street : ''}
-            onChange={(e) => { delivery.street = e.target.value; }}
-          />
-        </div>
-        <div className="col-xs-3">
-          <p className="mb1">Индекс:</p>
-          <TextField
-            placeholder=""
-            value={delivery.postal_code ? delivery.postal_code : ''}
-            onChange={(e) => { delivery.postal_code = e.target.value; }}
-          />
-        </div>
-      </div>
-      <div className="row mb3">
-        <div className="col-xs-4">
-          <p className="mb1">Дом:</p>
-          <TextField
-            placeholder="Дом"
-            value={delivery.house ? delivery.house : ''}
-            onChange={(e) => { delivery.house = e.target.value; }}
-          />
-        </div>
-        <div className="col-xs-2">
-          <p className="mb1">Тип:</p>
-          <TextField
-            placeholder=""
-            value={delivery.block_type ? delivery.block_type : ''}
-            onChange={(e) => { delivery.block_type = e.target.value; }}
-          />
-        </div>
-        <div className="col-xs-2">
-          <p className="mb1">к/стр:</p>
-          <TextField
-            placeholder=""
-            value={delivery.block ? delivery.block : ''}
-            onChange={(e) => { delivery.block = e.target.value; }}
-          />
-        </div>
-        <div className="col-xs-4">
-          <p className="mb1">Квартира:</p>
-          <TextField
-            placeholder="Квартира"
-            value={delivery.flat ? delivery.flat : ''}
-            onChange={(e) => { delivery.flat = e.target.value; }}
-          />
-        </div>
-      </div>
-    </div>;
-  }
-}
-
-
-@observer
-class DataTable extends Component {
-  static propTypes = {
-    delivery: PropTypes.object,
-  }
-
-  render() {
-    const { delivery } = this.props;
-    return <table className="table table-bordered">
-      <tbody>
-        <tr>
-          <td>Индекс</td>
-          <td>{delivery.postal_code}</td>
-        </tr>
-        <tr>
-          <td>Регион</td>
-          <td>{delivery.region} {delivery.region_type}</td>
-        </tr>
-        <tr>
-          <td>Город</td>
-          <td>{delivery.city_type} {delivery.city}</td>
-        </tr>
-        <tr>
-          <td>Населенный пункт</td>
-          <td>{delivery.settlement_type} {delivery.settlement}</td>
-        </tr>
-        <tr>
-          <td>Адрес</td>
-          <td>{delivery.street_type} {delivery.street}, {delivery.house_type} {delivery.house}, {delivery.flat_type} {delivery.flat}</td>
-        </tr>
-      </tbody>
-    </table>;
-  }
-}
-
-
-@observer
 class CartPage extends Component {
 
   @observable addressSuggestions = [];
@@ -233,14 +79,13 @@ class CartPage extends Component {
   @observable variants = null;
   @observable selectedVariant = null;
 
-  constructor() {
+  constructor(props) {
     super();
     // получаем город по ip и добавляем результат в массив
+    const { store } = props;
     API.suggestion(API.ENDPOINTS.GET_SUGGEST_ADDRESS_BY_IP())
       .then(result => {
         this.kladrId = result.location.data.kladr_id;
-        // const obj = result.location;
-        // obj.unrestricted_value = `${result.location.data.region_with_type}, ${result.location.data.city_with_type}`;
         if (result.location) {
           this.addressSuggestions.push(result.location);
         }
@@ -252,19 +97,14 @@ class CartPage extends Component {
       }
     }, 1500);
 
-    // autorun(() => {
-    //   if (this.addressArray.length !== 0) {
-    //     this.addressValue = 0;
-    //   }
-    // });
-    // autorun(() => {
-    //   if (this.variants) {
-    //     console.log('variants: ', toJS(this.variants));
-    //   }
-    //   if (this.selectedVariant) {
-    //     console.log('selectedVariant: ', toJS(this.selectedVariant));
-    //   }
-    // });
+    autorun(() => {
+      if (store.delivery && store.delivery.city || store.delivery && store.delivery.settlement) {
+        const region = store.delivery.region ? store.delivery.region : '';
+        const city = store.delivery.city ? store.delivery.city : '';
+        const address = `${store.delivery.street} ${store.delivery.home} ${store.delivery.flat}`;
+        this.query = `${region} ${city} ${address}`;
+      }
+    });
   }
 
   @computed get addressArray() {
@@ -314,26 +154,15 @@ class CartPage extends Component {
     this.addressValue = null;
   }
 
-  handleOnSelectDeliveryVariant = (item, provider) => {
-    const { store: { delivery } } = this.props;
-    if (delivery.provider_name === provider && delivery.provider_type === item.type_name && delivery.price === item.price) {
-      delivery.provider_name = '';
-      delivery.provider_type = '';
-      delivery.price = null;
-      delivery.days = null;
-    }
-    else {
-      delivery.provider_name = provider;
-      delivery.provider_type = item.type_name;
-      delivery.price = item.price;
-      delivery.days = item.days;
-    }
+  processingOrder = () => {
+    const { store } = this.props;
+    store.pushOrder();
   }
 
   render() {
     const { store } = this.props;
+    console.log('CartPage store.userCartitems: ', store.userCartitems);
     const { delivery } = store;
-    if (!delivery) return null;
     return <div className="col-md-12">
       <div className="row">
         <div className="col-md-12">
@@ -344,12 +173,12 @@ class CartPage extends Component {
         <div className="col-md-12">
           <div className="row">
             {store.userCartitems.length !== 0 &&
-                store.userCartitems.map((c, index) => <CartItem key={index} item={c}/>) ||
-                <div className="col-md-12">
-                  <h3>
-                    Ваша корзина пуста
-                  </h3>
-                </div>
+              store.userCartitems.map((c, index) => <CartItem key={index} item={c}/>)
+              || <div className="col-md-12">
+                <h3>
+                  Ваша корзина пуста
+                </h3>
+              </div>
             }
           </div>
         </div>
@@ -390,55 +219,57 @@ class CartPage extends Component {
               }
             </div>
             <div className="col-md-6">
-              <DataTable delivery={delivery} />
+              <DeliveryDataTable delivery={delivery} />
             </div>
           </div>
         </div>
-        <div className="col-xs-12">
-          {this.variants && <h3>Выберите вариант доставки:</h3>}
-          {this.variants &&
-            Object.keys(toJS(this.variants)).map((key, index) => {
-              return <div className="row" key={index}>
-                <div className="col-xs-12">
-                  <h4 className="card-title">{store.providers()[key].name}</h4>
-                </div>
-                {this.variants[key].map((item, index) => <div
-                  onClick={() => this.handleOnSelectDeliveryVariant(item, key)}
-                  className="col-xs-6 pointer"
-                  key={index}
-                >
-                  <div
-                    className={`card ${item.type_name === delivery.provider_type && key === delivery.provider_name ? 'selected' : ''}`}
-                  >
-                    <div className="card-block">
-                      <h4 className="card-title">{item.type_name}</h4>
-                      <h5 className="card-title">Время доставки: {item.days} дней</h5>
-                      <h3>{item.price} р.</h3>
-                    </div>
-                  </div>
-                </div>)}
-              </div>;
-            })
-          }
-        </div>
-        <div className="fixed bottom-0 right-0 pa3 bg-green white z-999 ba">
-          <div className="flex">
-            <div className="ph2">
-              <h5>Доставка: </h5>
-              <p className="mb1">{delivery.provider_name} {delivery.provider_type}</p>
-              <p className="mb1">срок доставки: {delivery.days}</p>
-              <p className="mb1">стоимость доставки: {delivery.price}</p>
+        {
+          <div className="col-xs-6">
+            {this.variants && <h3>Выберите вариант доставки:</h3>}
+            <DeliveryVariants variants={this.variants} store={store}/>
+          </div>
+        }
+        {
+          <div className="col-sm-6">
+            <h4>Ваши контактные данные</h4>
+            <div className="form-group mb0">
+              <label htmlFor="example-text-input" className="col-form-label">Телефон</label>
+              <input
+                className="form-control"
+                type="tel"
+                placeholder="Телефон"
+                id="example-text-input"/>
             </div>
-            <div className="ph2">
-              <h4 className="tr">Стоимость товаров: {store.totalPrice} р.</h4>
-              <h4 className="tr">Общая стоимость: {store.totalPriceWithDelivery} р.</h4>
-              <button
-                className="btn btn-medium rounded btn-white fr"
-                onClick={() => console.log('order')}
-              >Оформить заказ</button>
+            <div className="form-group mb0">
+              <label htmlFor="example-text-input" className="col-form-label">email</label>
+              <input
+                className="form-control"
+                type="search"
+                placeholder="email"
+                id="example-search-input"/>
             </div>
           </div>
-        </div>
+        }
+        {
+          <div className="fixed bottom-0 right-0 pa3 bg-green white z-999 ba">
+            <div className="flex">
+              <div className="ph2">
+                <h5>Доставка: </h5>
+                <p className="mb1">{delivery.provider_name} {delivery.provider_type}</p>
+                <p className="mb1">срок доставки: {delivery.days}</p>
+                <p className="mb1">стоимость доставки: {delivery.price}</p>
+              </div>
+              <div className="ph2">
+                <h4 className="tr">Стоимость товаров: {store.totalPrice} р.</h4>
+                <h4 className="tr">Общая стоимость: {store.totalPriceWithDelivery} р.</h4>
+                <button
+                  className="btn btn-medium rounded btn-white fr"
+                  onClick={() => this.processingOrder()}
+                >Оформить заказ</button>
+              </div>
+            </div>
+          </div>
+        }
       </div>
     </div>;
   }

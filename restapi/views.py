@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from restapi import flatserializers
 from core.models import Product, ProductImage, Category, PropertyType, PropertyValue
 from cart.models import CartItem, Order, Delivery
+from django.contrib.auth.models import User
 from rest_framework.permissions import AllowAny
 from restapi import permissions as restapi_permissions
 #  from django.shortcuts import HttpResponse
@@ -116,3 +117,12 @@ class DeliveryViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Delivery.objects.filter(cart_id=cartutils.set_cart_id(self.request))
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    permission_classes = (restapi_permissions.IsUserOwner, )
+    queryset = User.objects.all()
+    serializer_class = flatserializers.UserObj
+
+    def get_queryset(self):
+        return User.objects.filter(id=self.request.user.id)
