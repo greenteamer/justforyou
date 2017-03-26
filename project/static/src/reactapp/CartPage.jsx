@@ -157,6 +157,7 @@ class CartPage extends Component {
   processingOrder = () => {
     const { store } = this.props;
     store.pushOrder();
+    window.location.pathname = '/order/';
   }
 
   render() {
@@ -227,27 +228,6 @@ class CartPage extends Component {
           <div className="col-xs-6">
             {this.variants && <h3>Выберите вариант доставки:</h3>}
             <DeliveryVariants variants={this.variants} store={store}/>
-          </div>
-        }
-        {
-          <div className="col-sm-6">
-            <h4>Ваши контактные данные</h4>
-            <div className="form-group mb0">
-              <label htmlFor="example-text-input" className="col-form-label">Телефон</label>
-              <input
-                className="form-control"
-                type="tel"
-                placeholder="Телефон"
-                id="example-text-input"/>
-            </div>
-            <div className="form-group mb0">
-              <label htmlFor="example-text-input" className="col-form-label">email</label>
-              <input
-                className="form-control"
-                type="search"
-                placeholder="email"
-                id="example-search-input"/>
-            </div>
           </div>
         }
         {

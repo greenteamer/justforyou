@@ -2,66 +2,80 @@
 {% load static from staticfiles %}
 
 
-{% block page_js %}
+{% block content %}
+<div class="col-md-12" id="order-page">
+  <div class="row">
+    <div class="col-md-6">
+      <div>
+        <h3>Выбранные товары</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Наименование</th>
+              <th>Колличество</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for item in cart_items %}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ item.product.name }}</td>
+            <td>{{ item.count }}</td>
+          </tr>
+          {% endfor %}
+          <tr>
+            <th colspan="2">Цена с доставкой</th>
+            <th>{{ items_price }} р.</th>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-sm-6"> 
+      <h3>Доставка</h3>
+      <p>{{ unrestricted_address }}</p>
+      <h4>Ваш телефон:</h4> 
+      <div class="form-group mb0"> 
+        <label htmlFor="example-text-input" class="col-form-label">Телефон</label> 
+        <input 
+        class="form-control" 
+        type="tel" 
+        placeholder="Телефон" 
+        id="phone"/> 
+      </div> 
+      <!-- <div class="form-group mb0">  -->
+      <!--   <label htmlFor="example-text-input" class="col-form-label">email</label>  -->
+      <!--   <input  -->
+      <!--   class="form-control"  -->
+      <!--   type="search"  -->
+      <!--   placeholder="email"  -->
+      <!--   id="example-search-input"/>  -->
+      <!-- </div>  -->
+    </div>
+    <button
+      id="payment-button"
+      disabled="disabled"
+      class="btn btn-medium btn-green rounded">Перйти к оплате</button>
+    <form action="{{ form.target }}" method="POST">
+      <p>{{ form.as_p }}</p>
+      <p><input type="submit" value="Купить"></p>
+    </form>
+  </div>
+</div>
 {% endblock %}
 
-
-{% block content %}
-  <div class="col-md-12">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Имя продукта</th>
-          <th>Количесво</th>
-          <th>Цена</th>
-          <th>Стоимость</th>
-        </tr>
-      </thead>
-      <tbody>
-      {% for item in order.get_all_cart_items %}
-      <tr>
-        <td><a href="{{ item.url }}">{{ item.product.name }}</a></td>
-        <td>{{ item.count }}</td>
-        <td>{{ item.product.price }}</td>
-        <td>{{ item.total_price }}</td>
-      </tr>
-      {% endfor %}
-      <tr>
-        <td></td>
-        <td></td>
-        <td>Итого:</td>
-        <td>{{ order.total_price }}</td>
-      </tr>
-      </tbody>
-    </table>
-    <table class="table">
-      <tbody>
-      <tr><td>ГОРОД ДОСТАВКИ</td><td>{{ delivery.city }}</td></tr>
-      <tr><td>СУММА ДОСТАВКИ</td><td>{{ delivery.price }} руб</td></tr>
-      </tbody>
-    </table>
-
-    <table class="table">
-      <tbody>
-      <tr>
-        <td>Имя</td><td>{{ order.user.get_full_name }}</td>
-      </tr>
-      <tr>
-        <td>Телефон</td><td>{{ order.user.phone }}</td>
-      </tr>
-      <tr>
-        <td>Индекс</td><td>{{ order.user.zip }}</td>
-      </tr>
-      <tr>
-        <td>Город</td><td>{{ order.user.city }}</td>
-      </tr>
-      <tr>
-        <td>Адрес</td><td>{{ order.user.address }}</td>
-      </tr>
-      <tr>
-        <td>email</td><td>{{ order.user.email }}</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
+{% block page_js %}
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+  <script src="/static/jquery.maskedinput.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    jQuery(function($){
+      $("#phone").mask("+7(999) 999-9999", {
+        completed: function() {
+          // $("#payment-button").removeClass('disabled');
+          $("#payment-button").removeProp('disabled');
+        }
+      });
+    });
+  </script>
 {% endblock %}

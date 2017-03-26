@@ -3,6 +3,7 @@ from django.contrib import admin
 # static
 from project import settings
 from django.conf.urls.static import static
+from cart import views as cartviews
 # rest
 from rest_framework import routers
 from restapi import views as viewsets
@@ -26,4 +27,7 @@ urlpatterns = [
     url(r'^', include('core.urls')),
     url(r'^', include('cart.urls')),
     url(r'^pages/', include('django.contrib.flatpages.urls')),
+    url(r'^robokassa/fail/$', cartviews.fail_views, name="fail"),
+    url(r'^robokassa/success/$', cartviews.success_views, name="success"),
+    url(r'^robokassa/', include('robokassa.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'breadcrumbs',
     'image_cropping',
     'easy_thumbnails',
+    'robokassa',
     # 'corsheaders',
     # custom apps:
     'core',
@@ -82,7 +83,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'core.middleware.CookieProcessingMiddleware',
-    # 'corsheaders.middleware.CorsMiddleware',
+    #  'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -92,6 +93,20 @@ MIDDLEWARE = [
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'breadcrumbs.middleware.BreadcrumbsMiddleware',
 ]
+#  MIDDLEWARE_CLASSES = [
+#      'django.middleware.security.SecurityMiddleware',
+#      'django.contrib.sessions.middleware.SessionMiddleware',
+#      'core.middleware.CookieProcessingMiddleware',
+#      # 'corsheaders.middleware.CorsMiddleware',
+#      'django.middleware.common.CommonMiddleware',
+#      'django.middleware.csrf.CsrfViewMiddleware',
+#      'django.contrib.auth.middleware.AuthenticationMiddleware',
+#      'django.contrib.messages.middleware.MessageMiddleware',
+#      'django.middleware.clickjacking.XFrameOptionsMiddleware',
+#      'django.contrib.sites.middleware.CurrentSiteMiddleware',
+#      'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+#      'breadcrumbs.middleware.BreadcrumbsMiddleware',
+#  ]
 
 ROOT_URLCONF = 'project.urls'
 

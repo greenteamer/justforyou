@@ -55,7 +55,7 @@ class CartItemObj(serializers.ModelSerializer):
 class OrderObj(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ('url', 'id', 'user', 'cart_id', 'is_paid')
+        fields = ('url', 'id', 'price', 'cart_id', 'is_paid')
 
 
 class DeliveryObj(serializers.ModelSerializer):

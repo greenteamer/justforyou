@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from core.models import Product, PropertyValue
-from django.contrib.auth.models import User
+#  from django.contrib.auth.models import User
 # from authentication.models import Account
 
 
@@ -27,8 +27,9 @@ class CartItem(models.Model):
 
 
 class Order(models.Model):
-    user = models.ForeignKey(User)
-    cart_id = models.CharField(max_length=240)
+    #  user = models.ForeignKey(User)
+    price = models.IntegerField()
+    cart_id = models.CharField(max_length=240, unique=True)
     is_paid = models.BooleanField(default=False)
 
     def get_all_cart_items(self):
@@ -48,7 +49,7 @@ class Order(models.Model):
         verbose_name_plural = u'Заказы'
 
     def __unicode__(self):
-        return u"Order - " + self.user.get_full_name()
+        return u"Order - {}".format(self.id)
 
 
 class Delivery(models.Model):
@@ -84,6 +85,17 @@ class Delivery(models.Model):
 
     def get_current_order(self):
         return Order.objects.get(cart_id=self.cart_id)
+
+    def get_unrestricted_address(self):
+        region = "" if not self.region else u"{} {}, ".format(self.region, self.region_type)
+        area = "" if not self.area else u"{} {}, ".format(self.area, self.area_type)
+        city = "" if not self.city else u"{} {}, ".format(self.city_type, self.city)
+        settlement = "" if not self.settlement else u"{} {}, ".format(self.settlement_type, self.settlement)
+        street = "" if not self.street else u"{} {}, ".format(self.street_type, self.street)
+        house = "" if not self.house else u"{} {}, ".format(self.house_type, self.house)
+        block = "" if not self.block else u"{} {}, ".format(self.block_type, self.block)
+        flat = "" if not self.flat else u"{} {}".format(self.flat_type, self.flat)
+        return u"{}, {}{}{}{}{}{}{}{}".format(self.country, region, area, city, settlement, street, house, block, flat)
 
     def __unicode__(self):
         return u"Delivery - %s" % self.id

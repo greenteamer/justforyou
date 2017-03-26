@@ -14,8 +14,8 @@
     <meta name="description" content="{{ description }}"/>
     <meta name="keywords" content="">
   {% endblock %}
-  <!--<link rel="stylesheet" type="text/css" href="{% static "dist/bundle.css" %}">-->
-  <link rel="stylesheet" type="text/css" href="http://localhost:8080/dist/bundle.css" >
+  <link rel="stylesheet" type="text/css" href="{% static "dist/bundle.css" %}">
+  <!-- <link rel="stylesheet" type="text/css" href="http://localhost:8080/dist/bundle.css" > -->
   <link rel="stylesheet" href="{% static "src/libs/ionicons/css/ionicons.min.css" %}" >
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css">
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
@@ -94,7 +94,9 @@
       </div>
     </div>
   </div>
-  <script src="http://localhost:8080/dist/bundle.js"></script>
-  <!--<script src="{% static 'dist/bundle.js' %}"></script>-->
+  <!-- <script src="http://localhost:8080/dist/bundle.js"></script> -->
+  <script src="{% static 'dist/bundle.js' %}"></script>
+  {% block page_js %}
+  {% endblock %}
 </body>
 </html>

@@ -96,7 +96,6 @@ class Store extends singleton {
     uiStore.startLoading();
     // fetch данных
     const users = await API.request(API.ENDPOINTS.GET_USER());
-    console.log('Store users: ', users);
     if (users.length !== 0) {
       this.user = new User(users[0]);
     }
