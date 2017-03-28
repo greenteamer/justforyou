@@ -35,8 +35,9 @@
     <div class="col-sm-6"> 
       <h3>Доставка</h3>
       <p>{{ unrestricted_address }}</p>
-      <h4>Ваш телефон:</h4> 
+      <h4>Ваш телефон:</h4>
       <div class="form-group mb0"> 
+        <input id="delivery-id" type="hidden" value="{{ delivery.id }}" />
         <label htmlFor="example-text-input" class="col-form-label">Телефон</label> 
         <input 
         class="form-control" 
@@ -53,13 +54,13 @@
       <!--   id="example-search-input"/>  -->
       <!-- </div>  -->
     </div>
-    <button
-      id="payment-button"
-      disabled="disabled"
-      class="btn btn-medium btn-green rounded">Перйти к оплате</button>
     <form action="{{ form.target }}" method="POST">
       <p>{{ form.as_p }}</p>
-      <p><input type="submit" value="Купить"></p>
+      <button
+        type="submit"
+        id="payment-button"
+        disabled="disabled"
+        class="btn btn-medium btn-green rounded">Перйти к оплате</button>
     </form>
   </div>
 </div>
@@ -70,10 +71,34 @@
   <script src="/static/jquery.maskedinput.min.js" type="text/javascript"></script>
   <script type="text/javascript">
     jQuery(function($){
+      function getCookie(name) {
+        var matches = document.cookie.match(new RegExp(
+          "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+        ));
+        return matches ? decodeURIComponent(matches[1]) : undefined;
+      }
       $("#phone").mask("+7(999) 999-9999", {
         completed: function() {
-          // $("#payment-button").removeClass('disabled');
-          $("#payment-button").removeProp('disabled');
+          var cart_id = getCookie('cart_id');
+          var phone = $('#phone').val();
+          var id = $('#delivery-id').val();
+          var data = {
+            id: id,
+            cart_id: cart_id,
+            phone: phone,
+          };
+          $.ajax({
+            type: "PUT",
+            url: '/api/v1/deliveries/' + id + '/',
+            headers: {
+              "X-CSRFToken": getCookie('csrftoken'),
+            },
+            data: data,
+            success: function() {
+              $("#payment-button").removeProp('disabled');
+            },
+            dataType: 'json',
+          });
         }
       });
     });

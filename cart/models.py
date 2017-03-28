@@ -79,6 +79,8 @@ class Delivery(models.Model):
     days = models.IntegerField(default=0, blank=True, null=True)
     price = models.IntegerField(default=0, blank=True, null=True)
 
+    phone = models.CharField(max_length=16, blank=True, null=True)
+
     class Meta:
         verbose_name = u'Доставка'
         verbose_name_plural = u'Доставка'
