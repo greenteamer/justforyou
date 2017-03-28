@@ -1,27 +1,22 @@
 import React, { Component, PropTypes } from 'react';
 import { observer } from 'mobx-react';
+import AddButton from './AddButton';
+import RemoveButton from './RemoveButton';
 
 
 @observer
 class AddToCart extends Component {
   static propTypes = {
     product: PropTypes.object,
-    store: PropTypes.object,
   }
 
   render() {
     const { product } = this.props;
     if (product.activeCartitem) {
       return <div className="bg-green c-white pa-8px tc br2 br--bottom pointer flex justify-center items-center min-h-50px">
-        <div onClick={product.removeFromCart}
-          className="btn btn-small btn-white rounded w-30px h-30px pa-0px bra-30px justify-center fs-120r">
-          <i className="ion-android-remove"></i>
-        </div>
+        <RemoveButton decrement={product.removeFromCart}/>
         <span className="count fs-120r pl-10px pr-10px">{product.activeCartitem.count}</span>
-        <div onClick={product.addToCart}
-          className="btn btn-small btn-white rounded w-30px h-30px pa-0px bra-30px justify-center fs-120r">
-          <i className="ion-android-add"></i>
-        </div>
+        <AddButton increment={product.addToCart}/>
       </div>;
     }
     return <div className="bg-green c-white pa-8px tc br2 br--bottom pointer min-h-50px flex justify-center items-center" onClick={product.addToCart}>
@@ -53,7 +48,6 @@ class Property extends Component {
       onClick={this.setActiveProperty}>
       {propObject.value} {propObject.type.unit}
     </button>;
-
   }
 }
 

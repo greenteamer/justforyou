@@ -1,7 +1,8 @@
 import Swiper from 'swiper';
+import $ from 'jquery';
 
 
-var mySwiper = new Swiper ('.swiper-container', {
+const mySwiper = new Swiper('.swiper-container', {
   // Optional parameters
   direction: 'horizontal',
   loop: true,
@@ -16,3 +17,5 @@ var mySwiper = new Swiper ('.swiper-container', {
   // And if we need scrollbar
   // scrollbar: '.swiper-scrollbar',
 });
+
+

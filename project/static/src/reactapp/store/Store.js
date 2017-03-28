@@ -7,13 +7,16 @@
 
 
 import { action, autorun, observable, runInAction, computed, toJS, peek} from 'mobx';
-import { makeId, getCookie } from '../utils';
+import { getCookie } from '../utils';
 import * as API from '../api';
 import Product from './Product';
+import User from './User';
 import Property from './Property';
 import CartItem from './CartItems';
+import Delivery from './Delivery';
 import uiStore from './UIStore';
 import singleton from 'singleton';
+import $ from 'jquery';
 
 
 class Store extends singleton {
@@ -25,6 +28,8 @@ class Store extends singleton {
   @observable properties = [];
   @observable cartitems = [];
   @observable orders = [];
+  @observable delivery = {};
+  @observable user = null;
 
   constructor() {
     super();
@@ -37,13 +42,14 @@ class Store extends singleton {
         if (this.categories.length !== 0 && catalogSlug) {
           const catalog = this.categories.find(c => c.slug === catalogSlug);
           uiStore.setCatalogFilter(catalog.id);
-        };
+        }
+      }
+      else {
+        setTimeout(() => {
+          $('[data-toggle="tooltip"]').tooltip();
+        }, 1000);
       }
     });
-
-    // autorun(() => {
-    //   console.log('***** store products: ', toJS(this.products));
-    // });
 
     window.mobx = {action, observable, runInAction, computed, toJS, peek};
     window.store = this;
@@ -62,12 +68,9 @@ class Store extends singleton {
         .map(p => p.name)
         .sort()
         .map(name => this.products.find(prod => prod.name === name));
-      console.log('newArr1: ', newArr);
       return observable(newArr);
     }
-    else {
-      return this.filterProductsByPrice;
-    }
+    return this.filterProductsByPrice;
   }
 
   @computed get productsByCategory() {
@@ -92,6 +95,11 @@ class Store extends singleton {
   async pullAll() {
     uiStore.startLoading();
     // fetch данных
+    const users = await API.request(API.ENDPOINTS.GET_USER());
+    if (users.length !== 0) {
+      this.user = new User(users[0]);
+    }
+
     const images = await API.request(API.ENDPOINTS.GET_IMAGES());
     this.images.replace(images);
 
@@ -110,6 +118,16 @@ class Store extends singleton {
     const cartitems = await API.request(API.ENDPOINTS.GET_CARTITEMS());
     this.cartitems.replace(cartitems.map(item => new CartItem(this, item)));
 
+    const deliveries = await API.request(API.ENDPOINTS.GET_DELIVERIES());
+    if (deliveries.length === 0) {
+      this.delivery = new Delivery(this, {cart_id: this.getCartId()});
+      const newDelivery = await API.request(API.ENDPOINTS.POST_DELIVERY(), {cart_id: this.getCartId(), price: 0});
+      this.delivery.setId(newDelivery.id);
+    }
+    else {
+      this.delivery = new Delivery(this, deliveries[0]);
+    }
+
     uiStore.finishLoading();
   }
 
@@ -122,14 +140,9 @@ class Store extends singleton {
     };
     if (product.activeCartitem) {
       product.activeCartitem.increment();
-      data.count = product.activeCartitem.count;
-      const response = await API.request(API.ENDPOINTS.POST_CARTITEM(), data);
-      // обновляем cartitem после получения ответа от сервера
-      product.activeCartitem.setId(response.data.id);
-      product.activeCartitem.setCartId(response.data.cart_id);
     }
     else {
-      let cartitem = new CartItem(this, data);
+      const cartitem = new CartItem(this, data);
       this.cartitems.push(cartitem);
       const response = await API.request(API.ENDPOINTS.POST_CARTITEM(), data);
       // обновляем локальный cartitem после получения ответа от сервера
@@ -140,25 +153,15 @@ class Store extends singleton {
 
   @action removeCartItem = async (productId) => {
     const product = this.products.find(p => p.id === productId);
-    const data = {
-      product: product.id,
-      property: product.activeProperty ? product.activeProperty.id : null,
-      count: 1,
-      cart_id: this.getCartId(),
-    };
     if (product.activeCartitem) {
       product.activeCartitem.decrement();
-      data.count = product.activeCartitem.count;
-      if (product.activeCartitem.count === 0) {
-        await API.request(API.ENDPOINTS.DELETE_CARTITEM(product.activeCartitem.id), data);
-        this.cartitems = this.cartitems.filter(item => item.id !== product.activeCartitem.id);
-      }
-      else {
-        await API.request(API.ENDPOINTS.POST_CARTITEM(), data);
-      }
     }
   }
 
+  @action pushOrder = () => {
+    // console.log('Store pushOrder');
+    this.x = 0;
+  }
 
   getCartId() {
     return getCookie('cart_id');
@@ -167,7 +170,7 @@ class Store extends singleton {
   @computed get maxProductPrice() {
     if (this.products.length === 0) return null;
     return this.products
-      .sort((a, b) => a.maxPrice - b.maxPrice)[this.products.length-1].maxPrice;
+      .sort((a, b) => a.maxPrice - b.maxPrice)[this.products.length - 1].maxPrice;
   }
 
   @computed get minProductPrice() {
@@ -175,6 +178,13 @@ class Store extends singleton {
     return this.products
       .sort((a, b) => a.minPrice - b.minPrice)[0].minPrice;
   }
+
+  // @computed get userCartitems() {
+  //   console.log('computed userCartitems this.getCartId(): ', this.getCartId());
+  //   console.log('computed userCartitems cartitems: ', this.cartitems.find(i => i.id === 284));
+  //   return this.user;
+  //   // return this.cartitems.filter(item => item.cartId === this.getCartId());
+  // }
 
   findCartItem(product) {
     // finding existing cartItem by product.id, cartId & product.property
@@ -194,8 +204,94 @@ class Store extends singleton {
         return sum + current.totalPrice;
       }, 0);
   }
+
+  @computed get totalPriceWithDelivery() {
+    return this.delivery.price ? this.totalPrice + this.delivery.price : this.totalPrice + 0;
+  }
+
   @computed get totalItems() {
     return this.cartitems.filter(item => item.cartId === this.getCartId()).length;
+  }
+
+  @computed get userCartitems() {
+    return this.cartitems.filter(item => item.cartId === this.getCartId());
+  }
+
+  providers() {
+    return {
+      Cse: {
+        name: '«КурьерСервисЭкспрес»',
+        url: 'http://www.cse.ru/',
+      },
+      Kts: {
+        name: '«Курьер Транс Сервис»',
+        url: '',
+      },
+      UnionPost: {
+        name: '«UNION POST»',
+        url: '',
+      },
+      Latella: {
+        name: '«ЛАТЭЛЛА»',
+        url: '',
+      },
+      Tnt: {
+        name: '«TNT»',
+        url: '',
+      },
+      Pek: {
+        name: '«ПЭК»',
+        url: '',
+      },
+      Fox: {
+        name: '«Фокс-Экспресс»',
+        url: '',
+      },
+      Ups: {
+        name: '«Ups»',
+        url: '',
+      },
+      Dpd: {
+        name: '«DPD»',
+        url: '',
+      },
+      Dellin: {
+        name: '«Деловые линии»',
+        url: '',
+      },
+      ExpressRu: {
+        name: '«Экспресс Точка Ру»',
+        url: '',
+      },
+      Bringo: {
+        name: '«Бринго»',
+        url: '',
+      },
+      Dhl: {
+        name: '«DHL»',
+        url: '',
+      },
+      Spsr: {
+        name: '«СПСР-ЭКСПРЕСС»',
+        url: '',
+      },
+      CityExpress: {
+        name: '«City Express»',
+        url: '',
+      },
+      Cdek: {
+        name: '«Курьерская компания СДЭК»',
+        url: '',
+      },
+      Pony: {
+        name: '«PONY EXPRESS»',
+        url: '',
+      },
+      Peshkariki: {
+        name: '«Пешкарики»',
+        url: '',
+      },
+    };
   }
 
   @computed get toJS() {

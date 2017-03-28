@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+
+
+{% block content %}
+<div class="col-md-12" id="order-page">
+  <div class="row">
+    <div class="col-md-6">
+      <div>
+        <h3>Выбранные товары</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Наименование</th>
+              <th>Колличество</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for item in cart_items %}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ item.product.name }}</td>
+            <td>{{ item.count }}</td>
+          </tr>
+          {% endfor %}
+          <tr>
+            <th colspan="2">Цена с доставкой</th>
+            <th>{{ items_price }} р.</th>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-sm-6"> 
+      <h3>Доставка</h3>
+      <p>{{ unrestricted_address }}</p>
+      <h4>Ваш телефон:</h4>
+      <div class="form-group mb0"> 
+        <input id="delivery-id" type="hidden" value="{{ delivery.id }}" />
+        <label htmlFor="example-text-input" class="col-form-label">Телефон</label> 
+        <input 
+        class="form-control" 
+        type="tel" 
+        placeholder="Телефон" 
+        id="phone"/> 
+      </div> 
+      <!-- <div class="form-group mb0">  -->
+      <!--   <label htmlFor="example-text-input" class="col-form-label">email</label>  -->
+      <!--   <input  -->
+      <!--   class="form-control"  -->
+      <!--   type="search"  -->
+      <!--   placeholder="email"  -->
+      <!--   id="example-search-input"/>  -->
+      <!-- </div>  -->
+    </div>
+    <form action="{{ form.target }}" method="POST">
+      <p>{{ form.as_p }}</p>
+      <button
+        type="submit"
+        id="payment-button"
+        disabled="disabled"
+        class="btn btn-medium btn-green rounded">Перйти к оплате</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block page_js %}
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+  <script src="/static/jquery.maskedinput.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    jQuery(function($){
+      function getCookie(name) {
+        var matches = document.cookie.match(new RegExp(
+          "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+        ));
+        return matches ? decodeURIComponent(matches[1]) : undefined;
+      }
+      $("#phone").mask("+7(999) 999-9999", {
+        completed: function() {
+          var cart_id = getCookie('cart_id');
+          var phone = $('#phone').val();
+          var id = $('#delivery-id').val();
+          var data = {
+            id: id,
+            cart_id: cart_id,
+            phone: phone,
+          };
+          $.ajax({
+            type: "PUT",
+            url: '/api/v1/deliveries/' + id + '/',
+            headers: {
+              "X-CSRFToken": getCookie('csrftoken'),
+            },
+            data: data,
+            success: function() {
+              $("#payment-button").removeProp('disabled');
+            },
+            dataType: 'json',
+          });
+        }
+      });
+    });
+  </script>
+{% endblock %}

@@ -53,9 +53,14 @@ $btnSizes: (small: 24, medium: 40, big: 60, lg: 100)
     &.active
       +btn-inner-shadow(0, 1, 2, 0.75)
 
-=btn-variant($bg, $color)
+=btn-variant($bg, $color, $size)
   background-color: $bg
   color: $color
+  @if $bg == #ffffff
+    @if $size >= 40
+      border: 1px solid #ccc
+      &:hover
+        border: 1px solid #ccc
   &.active
     background-color: $red
     color: $white
@@ -68,4 +73,4 @@ $btnSizes: (small: 24, medium: 40, big: 60, lg: 100)
       &.btn-#{$name}
         $bg: map-get($hash, bg)
         $font: map-get($hash, font)
-        +btn-variant($bg, $font)
+        +btn-variant($bg, $font, $size)

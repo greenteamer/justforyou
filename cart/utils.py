@@ -3,7 +3,6 @@ import random
 
 
 def set_cart_id(request):
-    test = request.session.get('cart_id', '')
     if request.session.get('cart_id', '') == '':
         request.session['cart_id'] = generate_cart_id()
 
