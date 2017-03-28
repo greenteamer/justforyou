@@ -1,8 +1,8 @@
 const path = require('path');
-const webpack = require('webpack');
+// const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ProvidePlugin = require('webpack/lib/ProvidePlugin');
-const FlowStatusWebpackPlugin = require('flow-status-webpack-plugin');
+// const FlowStatusWebpackPlugin = require('flow-status-webpack-plugin');
 
 
 // module.exports = {
@@ -57,10 +57,10 @@ module.exports = {
   entry: {
     bundle: [
       'babel-polyfill',
-      'webpack-dev-server/client?http://localhost:8000', // WebpackDevServer host and port
-      'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
-      './src/index' // Your appʼs entry point
-    ]
+      // 'webpack-dev-server/client?http://localhost:8000', // WebpackDevServer host and port
+      // 'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
+      './src/index', // Your appʼs entry point
+    ],
   },
   output: {
     path: path.join(__dirname, 'dist'),
@@ -99,7 +99,7 @@ module.exports = {
     ],
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
+    // new webpack.HotModuleReplacementPlugin(),
     new ExtractTextPlugin('[name].css'),
     new ProvidePlugin({
       jQuery: 'jquery',
@@ -108,9 +108,9 @@ module.exports = {
       Tether: 'tether',
       'window.Tether': 'tether',
     }),
-    new FlowStatusWebpackPlugin({
-      failOnError: true,
-    }),
+    // new FlowStatusWebpackPlugin({
+    //   failOnError: true,
+    // }),
   ],
   devtool: 'source-map',
 };
