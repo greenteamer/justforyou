@@ -4,6 +4,7 @@ from cart import utils
 from cart.models import CartItem, Delivery, Order
 from robokassa.forms import RobokassaForm
 from robokassa.signals import result_received
+from django.views.decorators.csrf import csrf_exempt
 
 
 def cart_view(request, template_name='cart/cart.html'):
@@ -52,11 +53,12 @@ def order_view(request, template_name='cart/order.html'):
     })
 
 
+@csrf_exempt
 def success_views(request, template_name="robokassa/success.html"):
     utils.del_session_cart_id(request)
     return render(request, template_name, {})
 
-
+@csrf_exempt
 def fail_views(request, template_name="robokassa/fail.html"):
 
     return render(request, template_name, {})
