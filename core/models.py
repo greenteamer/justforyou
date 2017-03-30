@@ -3,6 +3,7 @@ from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 from image_cropping import ImageRatioField
 from image_cropping.utils import get_backend
+from ckeditor.fields import RichTextField
 
 # class Parent(models.Model):
 #     name = models.CharField(max_length=40)
@@ -29,7 +30,7 @@ class Category(MPTTModel):
 class Product(models.Model):
     name = models.CharField(max_length=150)
     slug = models.SlugField(max_length=150, unique=True, blank=False)
-    description = models.TextField()
+    description = RichTextField()
     price = models.IntegerField()
     weight = models.IntegerField()
     category = models.ManyToManyField(Category)
