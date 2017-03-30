@@ -1,22 +1,28 @@
 # coding: utf8
 from rest_framework import serializers
 from core.models import Category, ProductImage, Product, PropertyType, PropertyValue
-from cart.models import CartItem, Order
+from cart.models import CartItem, Order, Delivery
+from django.contrib.auth.models import User
 
 
 class CategoryObj(serializers.ModelSerializer):
+    absoluteUrl = serializers.CharField(max_length=200)
+
     class Meta:
         model = Category
-        fields = ('id', 'name', 'slug', 'parent')
+        fields = ('id', 'absoluteUrl', 'name', 'slug', 'parent')
 
 
 class ProductImageObj(serializers.ModelSerializer):
+    croppedImage = serializers.CharField(max_length=200)
+
     class Meta:
         model = ProductImage
-        fields = ('id', 'image', 'product')
+        fields = ('id', 'image', 'product', 'cropping', 'croppedImage')
 
 
 class PropertyTypeObj(serializers.ModelSerializer):
+    # url = serializers.CharField(read_only=True)
 
     class Meta:
         model = PropertyType
@@ -31,14 +37,13 @@ class PropertyValueObj(serializers.ModelSerializer):
 
 
 class ProductObj(serializers.ModelSerializer):
-    # images = ProductImageObj(read_only=True, many=True)
-    # properties = PropertyValueObj(read_only=True, many=True)
+    absoluteUrl = serializers.CharField(max_length=200)
     images = ProductImage.objects.all()
     properties = PropertyValue.objects.all()
 
     class Meta:
         model = Product
-        fields = ('url', 'id', 'category', 'name', 'slug', 'description', 'price', 'images', 'properties')
+        fields = ('url', 'absoluteUrl', 'id', 'category', 'name', 'slug', 'description', 'price', 'images', 'properties', 'attached', 'isPopular')
 
 
 class CartItemObj(serializers.ModelSerializer):
@@ -50,4 +55,17 @@ class CartItemObj(serializers.ModelSerializer):
 class OrderObj(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ('url', 'id', 'user', 'cart_id', 'is_paid')
+        fields = ('url', 'id', 'price', 'cart_id', 'is_paid')
+
+
+class DeliveryObj(serializers.ModelSerializer):
+    class Meta:
+        model = Delivery
+        fields = '__all__'
+
+
+class UserObj(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('url', 'id', 'username', 'email')
+        #  fields = '__all__'

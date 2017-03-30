@@ -1,0 +1,10 @@
+@import "colors"
+
+
+@each $name, $color in $colorsmap
+  .bg-#{$name}
+    background-color: $color
+  .c-#{$name}
+    color: $color
+  .bd-#{$name}
+    border-color: $color

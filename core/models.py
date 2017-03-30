@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
+from image_cropping import ImageRatioField
+from image_cropping.utils import get_backend
 
 # class Parent(models.Model):
 #     name = models.CharField(max_length=40)
@@ -19,6 +21,10 @@ class Category(MPTTModel):
     def __unicode__(self):
         return self.name
 
+    @property
+    def absoluteUrl(self):
+        return "/catalog/{0}/".format(self.slug)
+
 
 class Product(models.Model):
     name = models.CharField(max_length=150)
@@ -28,6 +34,9 @@ class Product(models.Model):
     weight = models.IntegerField()
     category = models.ManyToManyField(Category)
 
+    attached = models.ForeignKey('self', blank=True, null=True)
+    isPopular = models.BooleanField(default=False)
+
     class Meta:
         verbose_name = u'Продукты'
         verbose_name_plural = u'Продукты'
@@ -35,19 +44,20 @@ class Product(models.Model):
     def __unicode__(self):
         return self.name
 
-    def url(self):
-        return '/product/' + self.slug
-
     def get_image(self):
         return ProductImage.objects.filter(product=self)[0]
 
     def get_properties(self):
         return PropertyValue.objects.filter(product=self)
 
+    def absoluteUrl(self):
+        return "{0}{1}/".format(self.category.all()[0].absoluteUrl, self.slug)
+
 
 class ProductImage(models.Model):
     image = models.ImageField(upload_to="product")
     product = models.ForeignKey(Product, related_name='images')
+    cropping = ImageRatioField('image', '262x377')
 
     class Meta:
         verbose_name = u'Изображение'
@@ -58,6 +68,18 @@ class ProductImage(models.Model):
 
     def get_url(self):
         return "/media/%s" % self.image
+
+    @property
+    def croppedImage(self):
+        return get_backend().get_thumbnail_url(
+            self.image,
+            {
+                'size': (262, 377),
+                'box': self.cropping,
+                'crop': True,
+                'detail': True,
+            }
+        )
 
 
 class PropertyType(models.Model):

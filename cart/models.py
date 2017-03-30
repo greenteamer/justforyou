@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from core.models import Product, PropertyValue
-from django.contrib.auth.models import User
+#  from django.contrib.auth.models import User
 # from authentication.models import Account
 
 
@@ -19,16 +19,17 @@ class CartItem(models.Model):
     def total_price(self):
         return self.count * self.product.price
 
-    def url(self):
-        return self.product.url()
+    # def url(self):
+    #     return self.product.url()
 
     def __unicode__(self):
         return u"cartItem - " + self.product.name
 
 
 class Order(models.Model):
-    user = models.ForeignKey(User)
-    cart_id = models.CharField(max_length=240)
+    #  user = models.ForeignKey(User)
+    price = models.IntegerField()
+    cart_id = models.CharField(max_length=240, unique=True)
     is_paid = models.BooleanField(default=False)
 
     def get_all_cart_items(self):
@@ -48,13 +49,37 @@ class Order(models.Model):
         verbose_name_plural = u'Заказы'
 
     def __unicode__(self):
-        return u"Order - " + self.user.get_full_name()
+        return u"Order - {}".format(self.id)
 
 
 class Delivery(models.Model):
+    area = models.CharField(max_length=240, blank=True, null=True)
+    area_type = models.CharField(max_length=240, blank=True, null=True)
+    block = models.CharField(max_length=240, blank=True, null=True)
+    block_type = models.CharField(max_length=240, blank=True, null=True)
+    postal_code = models.CharField(max_length=240, blank=True, null=True)
+    country = models.CharField(max_length=240, blank=True, null=True)
+    region = models.CharField(max_length=240, blank=True, null=True)
+    region_type = models.CharField(max_length=240, blank=True, null=True)
+    city = models.CharField(max_length=240, blank=True, null=True)
+    city_type = models.CharField(max_length=240, blank=True, null=True)
+    street = models.CharField(max_length=240, blank=True, null=True)
+    street_type = models.CharField(max_length=240, blank=True, null=True)
+    settlement = models.CharField(max_length=240, blank=True, null=True)
+    settlement_type = models.CharField(max_length=240, blank=True, null=True)
+    house = models.CharField(max_length=240, blank=True, null=True)
+    house_type = models.CharField(max_length=240, blank=True, null=True)
+    flat = models.CharField(max_length=240, blank=True, null=True)
+    flat_type = models.CharField(max_length=240, blank=True, null=True)
+
     cart_id = models.CharField(max_length=240)
-    city = models.CharField(max_length=100)
-    price = models.IntegerField()
+
+    provider_name = models.CharField(max_length=240, blank=True, null=True)
+    provider_type = models.CharField(max_length=240, blank=True, null=True)
+    days = models.IntegerField(default=0, blank=True, null=True)
+    price = models.IntegerField(default=0, blank=True, null=True)
+
+    phone = models.CharField(max_length=16, blank=True, null=True)
 
     class Meta:
         verbose_name = u'Доставка'
@@ -63,8 +88,19 @@ class Delivery(models.Model):
     def get_current_order(self):
         return Order.objects.get(cart_id=self.cart_id)
 
+    def get_unrestricted_address(self):
+        region = "" if not self.region else u"{} {}, ".format(self.region, self.region_type)
+        area = "" if not self.area else u"{} {}, ".format(self.area, self.area_type)
+        city = "" if not self.city else u"{} {}, ".format(self.city_type, self.city)
+        settlement = "" if not self.settlement else u"{} {}, ".format(self.settlement_type, self.settlement)
+        street = "" if not self.street else u"{} {}, ".format(self.street_type, self.street)
+        house = "" if not self.house else u"{} {}, ".format(self.house_type, self.house)
+        block = "" if not self.block else u"{} {}, ".format(self.block_type, self.block)
+        flat = "" if not self.flat else u"{} {}".format(self.flat_type, self.flat)
+        return u"{}, {}{}{}{}{}{}{}{}".format(self.country, region, area, city, settlement, street, house, block, flat)
+
     def __unicode__(self):
-        return u"Delivery - %s" % self.get_current_order().id
+        return u"Delivery - %s" % self.id
 
 
 class CartInfoHelper():

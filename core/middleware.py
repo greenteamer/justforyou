@@ -15,5 +15,6 @@ class CookieProcessingMiddleware(object):
 
         # Code to be executed for each request/response after
         # the view is called.
-        response.set_cookie('cart_id', cartutils.set_cart_id(request))
+        cart_id = cartutils.set_cart_id(request)
+        response.set_cookie('cart_id', cart_id)
         return response

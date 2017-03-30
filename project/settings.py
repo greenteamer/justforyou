@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+from easy_thumbnails.conf import Settings as thumbnail_settings
+THUMBNAIL_PROCESSORS = (
+    'image_cropping.thumbnail_processors.crop_corners',
+) + thumbnail_settings.THUMBNAIL_PROCESSORS
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,8 +29,10 @@ SECRET_KEY = 's7z+3m49iktgu*o3lh2d77ynzw#p@%!n3*-n_+(mz8^on-!-v='
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+WEBPACK_DEV_SERVER = True
 
 ALLOWED_HOSTS = []
+SITE_ID = 1
 
 
 # Application definition
@@ -38,11 +44,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django.contrib.flatpages',
     # installed apps:
     'mptt',
     'mptt_tree_editor',
     'sitetree',
     'rest_framework',
+    'breadcrumbs',
+    'image_cropping',
+    'easy_thumbnails',
+    'robokassa',
+    # 'corsheaders',
     # custom apps:
     'core',
     'cart',
@@ -70,12 +83,30 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'core.middleware.CookieProcessingMiddleware',
+    #  'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.contrib.sites.middleware.CurrentSiteMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'breadcrumbs.middleware.BreadcrumbsMiddleware',
 ]
+#  MIDDLEWARE_CLASSES = [
+#      'django.middleware.security.SecurityMiddleware',
+#      'django.contrib.sessions.middleware.SessionMiddleware',
+#      'core.middleware.CookieProcessingMiddleware',
+#      # 'corsheaders.middleware.CorsMiddleware',
+#      'django.middleware.common.CommonMiddleware',
+#      'django.middleware.csrf.CsrfViewMiddleware',
+#      'django.contrib.auth.middleware.AuthenticationMiddleware',
+#      'django.contrib.messages.middleware.MessageMiddleware',
+#      'django.middleware.clickjacking.XFrameOptionsMiddleware',
+#      'django.contrib.sites.middleware.CurrentSiteMiddleware',
+#      'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+#      'breadcrumbs.middleware.BreadcrumbsMiddleware',
+#  ]
 
 ROOT_URLCONF = 'project.urls'
 
@@ -154,6 +185,6 @@ MEDIA_URL = '/media/'
 
 
 try:
-    from settings_local import *
+    from settings_local import *  # noqa
 except Exception:
     pass

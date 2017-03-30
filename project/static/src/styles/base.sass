@@ -1,4 +1,6 @@
 @import "colors"
+@import "buttons"
+
 
 body
   font-family: 'Roboto', sans-serif
@@ -31,3 +33,18 @@ h6
   line-height: 1rem
   max-height: 2rem
   overflow: hidden
+  &:hover
+    color: $brown
+
+.border-right
+  border-right: 1px solid $light-gray
+
+.btn-shadow
+  transition: all 0.3s ease
+  +btn-shadow(0, 0, 0, 0.55)
+  &:hover
+    +btn-shadow(3, 3, 7, 0.55)
+
+.selected
+  background-color: $green
+  color: $white
