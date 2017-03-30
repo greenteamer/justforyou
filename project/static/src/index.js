@@ -15,6 +15,7 @@ import './styles/sidebar.sass';
 import './styles/product.sass';
 import './styles/slider.sass';
 import './styles/breadcrumbs.sass';
+import './styles/header.sass';
 import 'react-select/dist/react-select.css';
 
 
