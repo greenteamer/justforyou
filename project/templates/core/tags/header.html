@@ -21,11 +21,34 @@
       <p class="f4 mb1 tr">+7 385 324 68 64</p>
     </div>
     <div class="col-md-3 flex items-center justify-end">
-      <form class="">
-        <button class="button-red bw0 flex justify-center items-center" type="submit">
-          <span class="mr2 ttu">Заказать звонок</span>
-          <i class="ion-iphone f3"></i></button>
-      </form>
+      <button class="button-red bw0 flex justify-center items-center" data-toggle="modal" data-target="#myModal">
+        <span class="mr2 ttu">Заказать звонок</span>
+        <i class="ion-iphone f3"></i>
+      </button>
     </div>
   </div>
 </header>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Заказть обратный звонок</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="post" action="/contact-form/">{% csrf_token %}
+        <div class="modal-body">
+          <input type="number" name="phone" placeholder="Ваш телефон" value="test"/>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn bg-green white bw0 flex justify-center items-center">Отправить</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+

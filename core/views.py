@@ -1,5 +1,8 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import render, get_object_or_404
 from core import models
+from django.core.mail import send_mail
+from project.settings import ADMIN_EMAIL
 # Create your views here.
 
 
@@ -31,3 +34,16 @@ def product_view(request, categorySlug, slug, template_name='core/product.html')
         "attachedProducts": attachedProducts,
         "popularProducts": popularProducts,
     })
+
+
+def contact_form(request, template_name='core/contact_form.html'):
+    if request.method == 'POST':
+        print "**** request.POST: %s" % request.POST
+        send_mail(
+            u'Заявка на звонок',
+            u'Телефон: %s' % request.POST['phone'],
+            'teamer777@example.com',
+            [ADMIN_EMAIL, ],
+            fail_silently=False,
+        )
+    return render(request, template_name, {})
