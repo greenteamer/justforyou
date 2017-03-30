@@ -30,4 +30,5 @@ urlpatterns = [
     url(r'^robokassa/fail/$', cartviews.fail_views, name="fail"),
     url(r'^robokassa/success/$', cartviews.success_views, name="success"),
     url(r'^robokassa/', include('robokassa.urls')),
+    url(r'^ckeditor/', include('ckeditor_uploader.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

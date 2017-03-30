@@ -55,6 +55,8 @@ INSTALLED_APPS = [
     'image_cropping',
     'easy_thumbnails',
     'robokassa',
+    'ckeditor',
+    'ckeditor_uploader',
     # 'corsheaders',
     # custom apps:
     'core',
@@ -77,6 +79,10 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
 }
+
+
+CKEDITOR_JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js'
+CKEDITOR_UPLOAD_PATH = "uploads/"
 
 
 MIDDLEWARE = [
