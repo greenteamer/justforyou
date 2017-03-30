@@ -8,8 +8,12 @@ from project.settings import ADMIN_EMAIL
 
 def index_view(request, template_name='core/index.html'):
     products = models.Product.objects.all()
+    popularProducts = models.Product.objects.filter(isPopular=True)
+    about = get_object_or_404(models.Page, slug="about")
     return render(request, template_name, {
+        "about": about,
         "products": products,
+        "popularProducts": popularProducts,
     })
 
 

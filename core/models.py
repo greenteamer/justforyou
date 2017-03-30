@@ -137,7 +137,8 @@ class ArticleImage(models.Model):
 class Page(models.Model):
     slug = models.SlugField(max_length=150, unique=False, blank=False)
     name = models.CharField(max_length=2000)
-    page = models.TextField()
+    page = RichTextField()
+    image = models.ImageField(upload_to="page")
 
     class Meta:
         verbose_name = u'Страницы'
@@ -145,6 +146,9 @@ class Page(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def get_image_url(self):
+        return "/media/%s" % self.image
 
 
 class PageImage(models.Model):
