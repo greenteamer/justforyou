@@ -1,5 +1,5 @@
 import Swiper from 'swiper';
-import $ from 'jquery';
+// import $ from 'jquery';
 
 
 const mySwiper = new Swiper('.swiper-container', {
