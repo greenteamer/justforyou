@@ -4,7 +4,6 @@ import { render } from 'react-dom';
 import { store, uiStore } from './store';
 import Cart from './Cart';
 import CartPage from './CartPage';
-import Order from './Order';
 import { ProductList, ProductCard, AttachedProducts } from './containers';
 import PriceSlider from './PriceSlider';
 
