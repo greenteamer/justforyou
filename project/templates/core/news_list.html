@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+
+{% block head %}
+<title>{{ title }}</title>
+<meta name="description" content="{{ description }}"/>
+{% endblock %}
+
+{% block content %}
+  {% for item in news %}
+    <div class="col-md-12 mb3">
+          {% if item.image %}
+            <img style="float: left; width: auto; height: 150px; margin-right: 20px;" src="{{ item.get_image_url }}" alt=""/>
+            <a href="{{ item.get_absolute_url }}"><h3>{{ item.name }}</h3></a>
+            <p>{{ item.description|truncatewords:50|safe }}</p>
+          {% else %}
+            <h3>{{ item.name }}</h3>
+            <p>{{ item.description|safe }}</p>
+          {% endif %}
+    </div>
+  {% endfor %}
+{% endblock %}

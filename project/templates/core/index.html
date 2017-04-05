@@ -2,6 +2,11 @@
 {% load static from staticfiles %}
 {% load header_tags %}
 
+{% block head %}
+  <title>{{ title }}</title>
+  <meta name="description" content="{{ description }}"/>
+{% endblock %}
+
 {% block content %}
   <div class="col-xs-9 col-md-9 push-md-3 mt-15px" id="react-product-list">
     <div class="row">
@@ -66,7 +71,7 @@
         </div>
       </div>
       <div class="col-md-9">
-        {{ about.page|safe }}
+        {{ about.description|safe }}
       </div>
     </div>
     

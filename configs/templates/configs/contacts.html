@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load configs_tags %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+	{% breadcrumb "Главная" "/" %}
+	{% breadcrumb "Контакты" "contacts" %}
+{% endblock breadcrumbs %}
+
+
+{% block content %}
+{% render_breadcrumbs "configs/breadcrumbs/main.html" %}
+
+<div class="maps"><script type="text/javascript" charset="utf-8" src="https://api-maps.yandex.ru/services/constructor/1.0/js/?sid=xGK20cc5MXFh6qtfs2GKiRbxowx7vkjy&width=100%&height=432&lang=ru_RU&sourceType=constructor"></script></div>
+
+<section id="contact" class="opt">
+	<div class="contact-info BGprime page-block">
+		<div class="container wow fadeInUp" data-wow-duration="0.50s" data-wow-delay="0.50s">
+			<div class="office">
+					<h2 class="white text-center">Свяжитесь с нами</h2>
+					<hr class="light">
+					<div class="col-md-4 col-sm-12 col-xs-12">
+						<span><i class="fa fa-map-marker squareSmall BGsec"></i> Адрес: г. Новороссийск,<br>
+							проспект Дзержинского, 183, офис 5.</span>
+					</div>
+					<div class="col-md-4 col-sm-12 col-xs-12">
+						<span><i class="fa fa-phone squareSmall BGsec"></i>
+							{% for phone in config.get_all_phones %}
+								{{ phone.site_phone }}<br/>
+							{% endfor %}
+						</span>
+					 </div>
+						<div class="col-md-4 col-sm-12 col-xs-12">
+						<span><i class="fa fa-envelope squareSmall BGsec"></i> <a href="mailto:{{ config.site_email }}" title="Contact">{{ config.site_email }}</a></span>
+					</div>
+			<div class="clear"></div>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="featured BGprime page-block-small" style="padding: 15px 0 0px 0;">
+	<div class="wow fadeInDown" data-wow-duration="0.30s" data-wow-delay="0.30s">
+		<div class="col-md-12">
+			<h2><small>Закажите обратный звонок</small> прямо сейчас</h2>
+			<div class="ostav_zayavku">
+				{% round_form2 request %}
+			</div>
+		</div>
+	</div>
+</section>
+
+{% endblock content %}

@@ -33,7 +33,7 @@ WEBPACK_DEV_SERVER = True
 
 ALLOWED_HOSTS = []
 SITE_ID = 1
-
+APPEND_SLASH = True
 
 # Application definition
 
@@ -88,9 +88,9 @@ CKEDITOR_UPLOAD_PATH = "uploads/"
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'core.middleware.CookieProcessingMiddleware',
     #  'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
