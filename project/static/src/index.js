@@ -21,6 +21,7 @@ import 'react-select/dist/react-select.css';
 
 
 // plain js
+import './libs/bootstrap/tab';
 import './libs/bootstrap/dropdown';
 import './libs/bootstrap/modal';
 import './libs/bootstrap/collapse';
