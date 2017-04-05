@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { observer } from 'mobx-react';
 import { ProductCardComponent } from '../components/products';
-import { toJS } from 'mobx';
 
 
 @observer
@@ -13,7 +12,7 @@ class ProductCard extends Component {
   }
 
   render() {
-    const { store, uiStore } = this.props;
+    const { store } = this.props;
     const arr = window.location.pathname.split('/');
     const slug = arr[arr.length - 2];
     if (store.products.length === 0) {

@@ -8,6 +8,11 @@
 {% block first_block %}
 {% endblock %}
 
+{% block head %}
+  <title>{{ title }}</title>
+  <meta name="description" content="{{ description }}"/>
+{% endblock %}
+
 {% block content %}
   <div class="col-md-12" id="react-product-item">
     <h1>{{ product.name }}</h1>
@@ -52,18 +57,46 @@
       </div>
       <div class="col-md-5">
         <p class="fs-150r mb-22px">Краткое описание:</p>
-        <div class="">{{ product.description|safe|truncatewords:100 }}</div>
+        <div class="">{{ product.preview_description|safe }}</div>
       </div>
       <div class="col-md-7">
-        <div class="inline-flex mt-50px">
-          <button type="button" name="button" class="btn btn-medium btn-green active">Описание</button>
-          <button type="button" name="button" class="btn btn-medium btn-white mr-1px">Отзывы</button>
-          <button type="button" name="button" class="btn btn-medium btn-white mr-1px">Доставка</button>
-          <button type="button" name="button" class="btn btn-medium btn-white mr-1px">Возврат</button>
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs mt5" id="myTab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#description" role="tab" aria-controls="description">Описание</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews">Отзывы</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#cartificate" role="tab" aria-controls="certificate">Сертификат</a>
+          </li>
+        </ul>
+
+        <div class="tab-content">
+          <div class="tab-pane active" id="description" role="tabpanel"><p>{{ product.description|safe }}</p></div>
+          <div class="tab-pane pt3" id="reviews" role="tabpanel">
+            {% for item in reviews %}
+              <div class="col-md-12 mb3">
+              <h3>{{ item.name }}</h3>
+              <p>{{ item.description|safe }}</p>
+              <p class="fr">Товар: <a href="{{ item.product.absoluteUrl }}">{{ item.product.name }}</a></p>
+              <a href="{{ item.get_absolute_url }}">Подробнее</a>
+              </div>
+            {% endfor %}
+          </div>
+          <div class="tab-pane" id="cartificate" role="tabpanel"><img src="{{ product.get_certificate_url }}"/></div>
         </div>
-        <div class="ba bd-red pa-26px">
-          <p>{{ product.description|safe }}</p>
-        </div>
+
+        <!-- <div class="inline-flex mt-50px"> -->
+        <!--   <button type="button" name="button" class="btn btn-medium btn-green active">Описание</button> -->
+        <!--   <button type="button" name="button" class="btn btn-medium btn-white mr-1px">Отзывы</button> -->
+        <!--   <button type="button" name="button" class="btn btn-medium btn-white mr-1px">Доставка</button> -->
+        <!--   <button type="button" name="button" class="btn btn-medium btn-white mr-1px">Возврат</button> -->
+        <!-- </div> -->
+        <!-- <div class="ba bd-red pa-26px"> -->
+        <!-- </div> -->
       </div>
       <div class="col-md-5">
         <p class="mt-50px fs-150r mb-0px pl-10px">С этим товаром покупают:</p>
@@ -98,7 +131,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-12">
+      <div class="col-md-12 mt4">
         <p class="tc fs-150r">Самые продоваемые товары</p>
         <!-- Slider main container -->
         <div class="swiper-container">

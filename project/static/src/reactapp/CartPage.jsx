@@ -162,7 +162,6 @@ class CartPage extends Component {
 
   render() {
     const { store } = this.props;
-    console.log('CartPage store.userCartitems: ', store.userCartitems);
     const { delivery } = store;
     return <div className="col-md-12">
       <div className="row">

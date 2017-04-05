@@ -38,7 +38,7 @@ export default class DeliveryVariants extends Component {
         Object.keys(toJS(variants)).map((key, index) => {
           return <div className="row" key={index}>
             <div className="col-xs-12">
-              <h4 className="card-title">{providers.name}</h4>
+              <h4 className="card-title">{providers[key].name}</h4>
             </div>
             {variants[key].map((item, index) => <div
               onClick={() => this.handleOnSelectDeliveryVariant(item, key)}

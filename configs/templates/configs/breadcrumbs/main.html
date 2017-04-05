@@ -1,0 +1,28 @@
+<!--  :::  BREADCRUMBS ::: -->
+	<section class="breadcrumbs breadcrumbs2 servicesBG wow fadeInDown" data-wow-duration="0.25s" data-wow-delay="0.45s">
+		<div class="boxedeb">
+			<div class="container page-block-small">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					{% for url, label in breadcrumbs %}
+			      {% if forloop.last %}
+			        <h1>{{ label }}</h1>
+			      {% endif %}
+				  {% endfor %}
+					<span class="line"></span>
+					<div class="rightText">
+						{% for url, label in breadcrumbs %}
+				      {% ifnotequal forloop.counter breadcrumbs_total %}
+				        <a href="{{ url }}">{{ label|safe }}</a>
+				      {% else %}
+				        {{ label|safe }}
+				      {% endifnotequal %}
+				      {% if not forloop.last %}
+				        <span class="divider">/</span>
+				      {% endif %}
+					  {% endfor %}
+					</div>
+				</div>
+			</div><!--end-container-->
+		</div>
+	</section>
+	<!-- ::: END ::: -->
