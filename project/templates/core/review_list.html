@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+
+{% block head %}
+<title>{{ title }}</title>
+<meta name="description" content="{{ description }}"/>
+{% endblock %}
+
+{% block content %}
+  {% for item in reviews %}
+    <div class="col-md-12 mb3">
+    <h3>{{ item.name }}</h3>
+    <p>{{ item.description|safe }}</p>
+    <p class="fr">Товар: <a href="{{ item.product.absoluteUrl }}">{{ item.product.name }}</a></p>
+    <a href="{{ item.get_absolute_url }}">Подробнее</a>
+    </div>
+  {% endfor %}
+{% endblock %}

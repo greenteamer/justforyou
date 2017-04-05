@@ -67,12 +67,25 @@
             <a class="nav-link active" data-toggle="tab" href="#description" role="tab" aria-controls="description">Описание</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews">Отзывы</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#cartificate" role="tab" aria-controls="certificate">Сертификат</a>
           </li>
         </ul>
 
         <div class="tab-content">
           <div class="tab-pane active" id="description" role="tabpanel"><p>{{ product.description|safe }}</p></div>
+          <div class="tab-pane pt3" id="reviews" role="tabpanel">
+            {% for item in reviews %}
+              <div class="col-md-12 mb3">
+              <h3>{{ item.name }}</h3>
+              <p>{{ item.description|safe }}</p>
+              <p class="fr">Товар: <a href="{{ item.product.absoluteUrl }}">{{ item.product.name }}</a></p>
+              <a href="{{ item.get_absolute_url }}">Подробнее</a>
+              </div>
+            {% endfor %}
+          </div>
           <div class="tab-pane" id="cartificate" role="tabpanel"><img src="{{ product.get_certificate_url }}"/></div>
         </div>
 
@@ -118,7 +131,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-12">
+      <div class="col-md-12 mt4">
         <p class="tc fs-150r">Самые продоваемые товары</p>
         <!-- Slider main container -->
         <div class="swiper-container">

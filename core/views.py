@@ -41,6 +41,7 @@ def product_view(request, categorySlug, slug, template_name='core/product.html')
     product = get_object_or_404(models.Product, category=category, slug=slug)
     title = u"{}".format(product.meta_title)
     description = u"{}".format(product.meta_description)
+    reviews = models.Review.objects.filter(product=product)
     attachedProducts = models.Product.objects.filter(attached=product)
     popularProducts = models.Product.objects.filter(isPopular=True)
     request.breadcrumbs([(category.name, category.absoluteUrl), (product.name, product.absoluteUrl)])
@@ -49,6 +50,7 @@ def product_view(request, categorySlug, slug, template_name='core/product.html')
         "description": description,
         "category": category,
         "product": product,
+        "reviews": reviews,
         "attachedProducts": attachedProducts,
         "popularProducts": popularProducts,
     })
@@ -111,6 +113,30 @@ def news_list_view(request, template_name='core/news_list.html'):
         "title": title,
         "description": description,
         "news": news,
+    })
+
+
+def reivew_view(request, slug, template_name='core/review.html'):
+    review = get_object_or_404(models.Review, slug=slug)
+    title = u"{}".format(review.meta_title)
+    description = u"{}".format(review.meta_description)
+    request.breadcrumbs([(u"Отзывы", '/reviews/'), (review.name, review.get_absolute_url)])
+    return render(request, template_name, {
+        "title": title,
+        "description": description,
+        "review": review,
+    })
+
+
+def review_list_view(request, template_name='core/review_list.html'):
+    reviews = models.Review.objects.all()
+    title = u"Отзывы | товары народной медицины gammarus.ru"
+    description = u"Отзывы о наших продуктах"
+    request.breadcrumbs([(u"Отзывы", '/reviews/')])
+    return render(request, template_name, {
+        "title": title,
+        "description": description,
+        "reviews": reviews,
     })
 
 

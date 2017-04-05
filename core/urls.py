@@ -12,4 +12,6 @@ urlpatterns = [
     url(r'^articles/$', views.article_list_view, name="article_list_view"),
     url(r'^news/(?P<slug>[-\w]+)/$', views.news_view, name="news_view"),
     url(r'^news/$', views.news_list_view, name="news_list_view"),
+    url(r'^reviews/(?P<slug>[-\w]+)/$', views.reivew_view, name="reivew_view"),
+    url(r'^reviews/$', views.review_list_view, name="review_list_view"),
 ]

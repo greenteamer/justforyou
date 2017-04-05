@@ -1,5 +1,5 @@
 from django.contrib.admin import TabularInline, StackedInline, ModelAdmin, site
-from core.models import Product, Article, Page, News, NewsImage, ProductImage, ArticleImage, PageImage, Category, PropertyType, PropertyValue
+from core.models import Product, Article, Page, News, Review, NewsImage, ProductImage, ArticleImage, PageImage, Category, PropertyType, PropertyValue
 from super_inlines.admin import SuperInlineModelAdmin, SuperModelAdmin
 from image_cropping import ImageCroppingMixin
 
@@ -31,6 +31,7 @@ site.register(Product, ProductAdmin)
 site.register(Article, InfoAdmin)
 site.register(Page, InfoAdmin)
 site.register(News, InfoAdmin)
+site.register(Review, InfoAdmin)
 site.register(ProductImage)
 site.register(ArticleImage)
 site.register(PageImage)
