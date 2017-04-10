@@ -46,7 +46,7 @@ class ProductObj(serializers.ModelSerializer):
         model = Product
         fields = (
             'url', 'absoluteUrl', 'id', 'category', 'name', 'slug',
-            'description', 'preview_description', 'price', 'images', 'properties',
+            'description', 'preview_description', 'price', 'weight', 'images', 'properties',
             'attached', 'isPopular', 'certificate'
         )
 

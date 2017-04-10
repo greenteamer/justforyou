@@ -121,7 +121,7 @@ class PropertyType(models.Model):
 class PropertyValue(models.Model):
     type = models.ForeignKey(PropertyType, related_name='propTypes')
     product = models.ForeignKey(Product, related_name='properties')
-    value = models.CharField(max_length=150, blank=False)
+    value = models.IntegerField()
     price = models.IntegerField()
 
     class Meta:
