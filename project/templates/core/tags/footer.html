@@ -1,0 +1,44 @@
+{% load static from staticfiles %}
+{% load sitetree %}
+
+<div class="bg-green mt-33px c-white pa-33px">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="row">
+          <div class="col-xs-12 col-md-6">
+            <div class="row">
+              <div class="col-xs-6 col-md-6 br b--white">
+                <p class="f5">
+                  Бесплатные консультации, заказ товара, тел:
+                </p>
+                <p class="mb-0">
+                  +7 902 998 58 23
+                </p>
+                <p>
+                  +7 385 324 68 64
+                </p>
+                <p class="mb-0">e-mail:</p>
+                <p>alt@gammarus.ru</p>
+              </div>
+              <div class="col-xs-6 col-md-6 br b--white">
+                <p class="f5">Разделы сайта:</p>
+                {% sitetree_menu from "base" include 'trunk' template "sitetree/flat_menu.html" %}
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-12 col-md-6">
+            <i class="fa fa-cc-visa" style="font-size: 30px" aria-hidden="true"></i>
+            <i class="fa fa-cc-mastercard" style="font-size: 30px" aria-hidden="true"></i>
+            <i class="fa fa-cc-paypal" style="font-size: 30px" aria-hidden="true"></i>
+
+            <p class="fs-75r bb b--white pv3">Производимые компанией ООО «Лиатон» биологически активные вещества природного происхождения не являются лекарствами и рекомендованы для применения в комплексной терапии под наблюдением врача.</p>
+            <p class="f6 mb0">© ООО «ЛИАТОН», 2009-2016.</p>
+            <p class="fs-75r">При использовании текстовой информации, фото и видео материалов, ссылка на сайт обязательна.</p>
+            <p class="f5">WWW.GAMMARUS.RU</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

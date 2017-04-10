@@ -19,6 +19,14 @@ def header(context, request):
     return {'nodes': Category.objects.all()}
 
 
+def footer(context, request):
+    return {
+        'user': request.user,
+        'request': request,
+    }
+
+
 register.inclusion_tag('core/tags/top_menu.html', takes_context=True)(top_menu)
 register.inclusion_tag('core/tags/category.html', takes_context=True)(category)
 register.inclusion_tag('core/tags/header.html', takes_context=True)(header)
+register.inclusion_tag('core/tags/footer.html', takes_context=True)(footer)

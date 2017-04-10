@@ -1,0 +1,12 @@
+{% load sitetree %}
+
+<ul class="pl-1">
+  <li class="">
+    <a class="white hover-white fw1" href="/">Главная страница</a>
+  </li>
+  {% for item in sitetree_items %}
+    <li class="">
+      <a class="white hover-white fw1" href="{% sitetree_url for item %}">{{ item.title_resolved }}</a>
+    </li>
+  {% endfor %}
+</ul>
