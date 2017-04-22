@@ -78,6 +78,7 @@ class Delivery(models.Model):
     provider_type = models.CharField(max_length=240, blank=True, null=True)
     days = models.IntegerField(default=0, blank=True, null=True)
     price = models.IntegerField(default=0, blank=True, null=True)
+    weight = models.IntegerField(default=0, blank=True, null=True)
 
     phone = models.CharField(max_length=16, blank=True, null=True)
 

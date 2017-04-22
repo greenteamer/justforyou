@@ -57,6 +57,13 @@ export default class CartItems {
     return this.count * price;
   }
 
+  @computed get totalWeight() {
+    const weight = this.propertyObj
+      ? this.propertyObj.value
+      : this.productObj.weight;
+    return this.count * weight;
+  }
+
   @computed get productObj() {
     if (!this._store.products.length) return null;
     return this._store.products.find(product => product.id === this.product);

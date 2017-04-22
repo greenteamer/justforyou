@@ -84,6 +84,7 @@ export default class Delivery {
       provider_type: this.provider_type,
       days: this.days,
       price: this.price,
+      weight: this.weight,
     };
     return obj;
   }
@@ -114,4 +115,5 @@ const initialData = {
   provider_type: null,
   days: null,
   price: null,
+  weight: null,
 };

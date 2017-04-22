@@ -144,7 +144,7 @@ class CartPage extends Component {
       country: data.country,
       city: data.city,
       settlement: data.settlement,
-      weight: '4.5',
+      weight: `${store.totalWeight / 1000}`,
     }).then(result => {
       this.variants = result;
     });

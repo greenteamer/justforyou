@@ -213,6 +213,14 @@ class Store extends singleton {
     return this.cartitems.filter(item => item.cartId === this.getCartId()).length;
   }
 
+  @computed get totalWeight() {
+    const filteredByCartId = this.cartitems.filter(item => item.cartId === this.getCartId());
+    return filteredByCartId
+      .reduce((sum, current) => {
+        return sum + current.totalWeight;
+      }, 0);
+  }
+
   @computed get userCartitems() {
     return this.cartitems.filter(item => item.cartId === this.getCartId());
   }
