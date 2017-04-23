@@ -4,6 +4,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 from image_cropping import ImageRatioField
 from image_cropping.utils import get_backend
 from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 
 
 """Абстрактный базовый класс для моделей"""
@@ -28,7 +29,7 @@ class BaseInfoModel(BaseModel):
     class Meta:
         abstract = True
 
-    description = RichTextField()
+    description = RichTextUploadingField()
 
 
 """Абстрактный базовый класс для расширенных информационных моделей"""
@@ -36,7 +37,7 @@ class BaseInfoExtendedModel(BaseModel):
     class Meta:
         abstract = True
 
-    description = RichTextField()
+    description = RichTextUploadingField()
     preview_description = models.TextField(verbose_name=u"preview описание")
 
 
