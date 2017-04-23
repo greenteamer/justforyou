@@ -151,3 +151,11 @@ def contact_form(request, template_name='core/contact_form.html'):
             fail_silently=False,
         )
     return render(request, template_name, {})
+
+def robots_view(request):
+    return render(request, "robots.txt", {}, content_type="text/plain")
+
+
+def page_not_found_view(request, template_name='404.html'):
+    return render(request, template_name, {})
+

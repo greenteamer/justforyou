@@ -29,9 +29,9 @@ SECRET_KEY = 's7z+3m49iktgu*o3lh2d77ynzw#p@%!n3*-n_+(mz8^on-!-v='
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-WEBPACK_DEV_SERVER = True
-
 ALLOWED_HOSTS = []
+
+WEBPACK_DEV_SERVER = True
 SITE_ID = 1
 APPEND_SLASH = True
 
@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django.contrib.sitemaps',
     'django.contrib.flatpages',
     # installed apps:
     'mptt',
