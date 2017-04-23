@@ -51,6 +51,12 @@ class Category(MPTTModel, BaseModel):
     def absoluteUrl(self):
         return "/catalog/{0}/".format(self.slug)
 
+    def __unicode__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return "/catalog/{0}/".format(self.slug)
+
 
 class Product(BaseInfoExtendedModel):
     price = models.IntegerField()
@@ -75,6 +81,9 @@ class Product(BaseInfoExtendedModel):
         return PropertyValue.objects.filter(product=self)
 
     def absoluteUrl(self):
+        return "{0}{1}/".format(self.category.all()[0].absoluteUrl, self.slug)
+
+    def get_absolute_url(self):
         return "{0}{1}/".format(self.category.all()[0].absoluteUrl, self.slug)
 
 
@@ -129,7 +138,7 @@ class PropertyValue(models.Model):
         verbose_name_plural = u'Свойства продуктов'
 
     def __unicode__(self):
-        return self.product.name + "-" + self.type.name + "-" + self.value
+        return u"%s - %s - %s " % (self.product.name, self.type.name, self.value)
 
 
 class Article(BaseInfoExtendedModel):

@@ -1,0 +1,18 @@
+User-agent: *
+Crawl-delay: 10
+Disallow: /
+Disallow: /admin/
+Disallow: /docs/
+Disallow: /cart/
+Disallow: /results/
+
+User-agent: Yandex
+Crawl-delay: 10
+Disallow: /
+Disallow: /admin/
+Disallow: /docs/
+Disallow: /cart/
+Disallow: /results/
+Host: gammarus.ru
+
+Sitemap: http://gammarus.ru/sitemap.xml

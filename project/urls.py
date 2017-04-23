@@ -1,13 +1,27 @@
 from django.conf.urls import url, include
 from django.contrib import admin
-# static
 from project import settings
 from django.conf.urls.static import static
 from cart import views as cartviews
-# rest
+from core import views as coreviews
 from rest_framework import routers
 from restapi import views as viewsets
+from django.contrib.sitemaps.views import sitemap
+from project.sitemap import ProductSitemap, CategorySitemap, IndexSitemap, PageSitemap, ArticleSitemap, NewsSitemap
+
+sitemaps = {
+    "products": ProductSitemap,
+    "category": CategorySitemap,
+    "index": IndexSitemap,
+    "page": PageSitemap,
+    "article": ArticleSitemap,
+    "news": NewsSitemap,
+}
+
+handler404 = 'core.views.page_not_found_view'
+
 admin.autodiscover()
+
 router = routers.DefaultRouter()
 router.register(r'users', viewsets.UserViewSet)
 router.register(r'products', viewsets.ProductViewSet)
@@ -31,4 +45,6 @@ urlpatterns = [
     url(r'^robokassa/success/$', cartviews.success_views, name="success"),
     url(r'^robokassa/', include('robokassa.urls')),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
+    url(r'^robots.txt$', coreviews.robots_view),
+    url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
