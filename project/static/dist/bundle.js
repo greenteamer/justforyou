@@ -53777,7 +53777,7 @@
 	      return _react2.default.createElement(
 	        'button',
 	        {
-	          className: 'property btn btn-small rounded ' + (propObject.isActive ? 'active' : '') + ' ' + (propObject.inUse ? 'btn-green' : 'btn-white') + ' mr-7px',
+	          className: 'property btn btn-small mb2 rounded ' + (propObject.isActive ? 'active' : '') + ' ' + (propObject.inUse ? 'btn-green' : 'btn-white') + ' mr-7px',
 	          onClick: this.setActiveProperty },
 	        propObject.value,
 	        ' ',
@@ -53883,7 +53883,7 @@
 	              { className: 'pl-14px pr-14px pb-24px pt-24px' },
 	              _react2.default.createElement(
 	                'div',
-	                { className: 'mb-0px flex justify-center' },
+	                { className: 'mb-0px flex justify-center flex-wrap' },
 	                product.properties.map(function (propObject, index) {
 	                  return _react2.default.createElement(Property, {
 	                    propObject: propObject,
