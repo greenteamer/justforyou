@@ -90,7 +90,7 @@ class Product(BaseInfoExtendedModel):
 class ProductImage(models.Model):
     image = models.ImageField(upload_to="product")
     product = models.ForeignKey(Product, related_name='images')
-    cropping = ImageRatioField('image', '262x377')
+    cropping = ImageRatioField('image', '300x300')
 
     class Meta:
         verbose_name = u'Изображение'
@@ -107,7 +107,7 @@ class ProductImage(models.Model):
         return get_backend().get_thumbnail_url(
             self.image,
             {
-                'size': (262, 377),
+                'size': (300, 300),
                 'box': self.cropping,
                 'crop': True,
                 'detail': True,
@@ -142,7 +142,7 @@ class PropertyValue(models.Model):
 
 
 class Article(BaseInfoExtendedModel):
-    image = models.ImageField(upload_to="article")
+    image = models.ImageField(upload_to="article", null=True, blank=True)
 
     class Meta:
         verbose_name = u'Статья'
@@ -168,7 +168,7 @@ class ArticleImage(models.Model):
 
 
 class Page(BaseInfoExtendedModel):
-    image = models.ImageField(upload_to="page")
+    image = models.ImageField(upload_to="page", null=True, blank=True)
 
     class Meta:
         verbose_name = u'Страницы'
@@ -194,7 +194,7 @@ class PageImage(models.Model):
 
 
 class News(BaseInfoExtendedModel):
-    image = models.ImageField(upload_to="page")
+    image = models.ImageField(upload_to="page", null=True, blank=True)
 
     class Meta:
         verbose_name = u'Новость'

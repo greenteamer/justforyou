@@ -44,7 +44,7 @@ class Property extends Component {
     const { propObject } = this.props;
 
     return <button
-      className={`property btn btn-small rounded ${propObject.isActive ? 'active' : ''} ${propObject.inUse ? 'btn-green' : 'btn-white'} mr-7px`}
+      className={`property btn btn-small mb2 rounded ${propObject.isActive ? 'active' : ''} ${propObject.inUse ? 'btn-green' : 'btn-white'} mr-7px`}
       onClick={this.setActiveProperty}>
       {propObject.value} {propObject.type.unit}
     </button>;
@@ -86,7 +86,7 @@ class ProductCardComponent extends Component {
             </ul>
           </div>
           <div className="pl-14px pr-14px pb-24px pt-24px">
-            <div className="mb-0px flex justify-center">
+            <div className="mb-0px flex justify-center flex-wrap">
               {product.properties
               .map((propObject, index) =>
                 <Property
