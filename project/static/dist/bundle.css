@@ -23673,6 +23673,9 @@ h6 {
     #base-menu.navbar #cart .price-block {
       float: left;
       padding: .19rem 1.9rem; }
+      @media (max-width: 767px) {
+        #base-menu.navbar #cart .price-block {
+          padding: .19rem .5rem; } }
       #base-menu.navbar #cart .price-block p {
         margin-bottom: 0;
         font-size: .75rem;
@@ -23700,6 +23703,16 @@ h6 {
         color: #373738; }
       .sidebar .catalog-list li:hover .link {
         color: #2d8677; }
+.properties-extends {
+  padding: 5px 0 5px 0px;
+  max-height: 47px;
+  overflow: hidden;
+  -webkit-transition: all ease-out 0.5s;
+  -moz-transition: all ease-out 0.5s;
+  -o-transition: all ease-out 0.5s;
+  transition: all ease-out 0.5s; }
+  .properties-extends:hover {
+    max-height: 300px; }
 .filter-price {
   background-color: #f5f5f5;
   min-height: 100px; }

@@ -53373,10 +53373,10 @@
 	
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'product-container' },
+	        { className: 'product-container flex-auto flex flex-column' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'ba bd-mild-gray2 pa-10px tc br2 br--top' },
+	          { className: 'ba bd-mild-gray2 pa-10px tc br2 br--top flex-auto' },
 	          _react2.default.createElement('img', { src: product.images[0].croppedImage, alt: '', className: 'max-h-150px' }),
 	          _react2.default.createElement(
 	            'p',
@@ -53391,10 +53391,10 @@
 	          ),
 	          product.properties && _react2.default.createElement(
 	            'div',
-	            { className: 'pb-24px pt-19px' },
+	            { className: 'pb-10px pt-10px' },
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'flex justify-center flex-wrap' },
+	              { className: 'flex justify-center flex-wrap properties-extends' },
 	              product.properties.map(function (propObject, index) {
 	                return _react2.default.createElement(Property, {
 	                  propObject: propObject,
@@ -57373,7 +57373,7 @@
 	        store.sortedProducts.length > 0 && store.sortedProducts.map(function (product, index) {
 	          return _react2.default.createElement(
 	            'div',
-	            { key: index, className: 'col-xs-6 col-md-3 mb3' },
+	            { key: index, className: 'col-xs-6 col-md-3 mb3 flex flex-column' },
 	            _react2.default.createElement(_products.Product, { product: product, store: store })
 	          );
 	        }) || _react2.default.createElement(

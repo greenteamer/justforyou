@@ -68,15 +68,15 @@ class Product extends Component {
 
   render() {
     const { product, store } = this.props;
-    return <div className="product-container">
-      <div className="ba bd-mild-gray2 pa-10px tc br2 br--top">
+    return <div className="product-container flex-auto flex flex-column">
+      <div className="ba bd-mild-gray2 pa-10px tc br2 br--top flex-auto">
         <img src={ product.images[0].croppedImage } alt="" className="max-h-150px" />
         <p className="fs-190r mb-0px">{product.activeProperty ? product.activeProperty.price : product.price}р.</p>
         <a href={ product.absoluteUrl } className="product-name c-brown">{ product.name }</a>
 
           {product.properties &&
-            <div className="pb-24px pt-19px">
-              <div className="flex justify-center flex-wrap">
+            <div className="pb-10px pt-10px">
+              <div className="flex justify-center flex-wrap properties-extends">
                 {product.properties.map((propObject, index) =>
                   <Property
                     propObject={propObject}
