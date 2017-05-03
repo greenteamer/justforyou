@@ -19,7 +19,7 @@ class ProductList extends Component {
       </div>
       {store.sortedProducts.length > 0
         && store.sortedProducts
-          .map((product, index) => <div key={index} className="col-xs-6 col-md-3 mb3">
+          .map((product, index) => <div key={index} className="col-xs-6 col-md-3 mb3 flex flex-column">
             <Product product={product} store={store} />
           </div>)
         || <h1>No products in this category</h1>
