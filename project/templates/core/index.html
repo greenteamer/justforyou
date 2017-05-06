@@ -3,113 +3,113 @@
 {% load header_tags %}
 
 {% block head %}
-  <title>{{ title }}</title>
-  <meta name="description" content="{{ description }}"/>
+<title>{{ title }}</title>
+<meta name="description" content="{{ description }}"/>
 {% endblock %}
 
 {% block content %}
-  <div class="col-xs-12 col-xs-9 col-md-9 push-md-3 mt-15px" id="react-product-list">
-    <div class="row">
-      {% for product in products %}
-        <div class="col-xs-6 col-md-3">
-          <div class="product-container">
-            <div class="ba bd-mild-gray2 pa-10px tc br2 br--top">
-              <img src={{ product.get_image.get_url }} alt="" class="max-h-150px"/>
-              <p class="fs-190r mb-0px">{{ product.price }}р.</p>
-              <a href="{{ product.get_absolute_url }}" class="product-name c-brown">{{ product.name }}</a>
-              {% if product.get_properties %}
-                <div class="pb-24px pt-19px">
-                  <div class="flex justify-center flex-wrap">
-                    {% for property in product.get_properties %}
-                      <button class="property btn btn-small btn-white rounded {% if forloop.counter == 1 %}active{% endif %} mr-7px mt-5px">{{ property.value }} {{ property.type.unit }}</button>
-                    {% endfor %}
-                  </div>
-                </div>
-              {% endif %}
-            </div>
-            <div class="bg-green c-white pa-8px tc br2 br--bottom">
-              <span class="ion-bag fs-120r mr-10px"></span>
-              <span>Добавить в корзину</span>
+<div class="col-xs-12 col-xs-9 col-md-9 push-md-3 mt-15px" id="react-product-list">
+  <div class="row">
+    {% for product in products %}
+    <div class="col-xs-6 col-md-3">
+      <div class="product-container">
+        <div class="ba bd-mild-gray2 pa-10px tc br2 br--top">
+          <img src={{ product.get_image.get_url }} alt="" class="max-h-150px"/>
+          <p class="fs-190r mb-0px">{{ product.price }}р.</p>
+          <a href="{{ product.get_absolute_url }}" class="product-name c-brown">{{ product.name }}</a>
+          {% if product.get_properties %}
+          <div class="pb-24px pt-19px">
+            <div class="flex justify-center flex-wrap">
+              {% for property in product.get_properties %}
+              <button class="property btn btn-small btn-white rounded {% if forloop.counter == 1 %}active{% endif %} mr-7px mt-5px">{{ property.value }} {{ property.type.unit }}</button>
+              {% endfor %}
             </div>
           </div>
+          {% endif %}
         </div>
-      {% endfor %}
+        <div class="bg-green c-white pa-8px tc br2 br--bottom">
+          <span class="ion-bag fs-120r mr-10px"></span>
+          <span>Добавить в корзину</span>
+        </div>
+      </div>
     </div>
+    {% endfor %}
   </div>
+</div>
 {% endblock %}
 
 {% block sidebar %}
-  <div class="hidden-sm-down col-xs-3 col-md-3 pull-md-9 border-right">
-    <div class="catalog sidebar">
-      <h4>Каталог</h4>
-      <ul class="catalog-list">
-        {% category request %}
-      </ul>
-    </div>
-    <div class="row filter-price">
-      <div class="col-md-12">
-        <div class="sidebar">
-          <h4>Фильтр по цене</h4>
-          <div id="react-price-slider"></div>
-        </div>
+<div class="hidden-sm-down col-xs-3 col-md-3 pull-md-9 border-right">
+  <div class="catalog sidebar">
+    <h4>Каталог</h4>
+    <ul class="catalog-list">
+      {% category request %}
+    </ul>
+  </div>
+  <div class="row filter-price">
+    <div class="col-md-12">
+      <div class="sidebar">
+        <h4>Фильтр по цене</h4>
+        <div id="react-price-slider"></div>
       </div>
     </div>
   </div>
+</div>
 {% endblock %}
 
 {% block about %}
-  <div class="col-md-12 mt4 mb4 pt4 pb4 bg-light-gray">
-    <div class="row">
-      <div class="col-md-3">
-        <h3>
-          {{ about.name }}
-        </h3>
-        <img src="{{ about.get_image_url }}" />
-        <div class="tr ">
-          <p class="mb1">Игорь Александрович</p>
-          <p>- директор компании</p>
-        </div>
-      </div>
-      <div class="col-md-9">
-        {{ about.description|safe }}
+<div class="col-md-12 mt4 mb4 pt4 pb4 bg-light-gray">
+  <div class="row">
+    <div class="col-md-3">
+      <h3>
+        {{ about.name }}
+      </h3>
+      <img src="{{ about.get_image_url }}" />
+      <div class="tr ">
+        <p class="mb1">Игорь Александрович</p>
+        <p>- директор компании</p>
       </div>
     </div>
-    
+    <div class="col-md-9">
+      {{ about.description|safe }}
+    </div>
   </div>
+
+</div>
 {% endblock %}
 
 {% block popular %}
-  <div class="hidden-sm-down col-md-12">
-    <p class="tc fs-150r">Самые продоваемые товары</p>
-    <!-- Slider main container -->
-    <div class="swiper-container">
-      <!-- Additional required wrapper -->
-      <div class="swiper-wrapper">
-        <!-- Slides -->
-        {% for product in popularProducts %}
-          <div class="swiper-slide">
-            <div class="pa-10px">
-              <div class="product-container">
-                <div class="ba bd-mild-gray2 pa-10px tc br2 br--top">
-                  <img src={{ product.get_image.croppedImage }} alt="" class="max-h-150px" />
-                  <p class="fs-190r mb-0px">{{ product.price }}р.</p>
-                  <a href="{{ product.get_absolute_url }}" class="product-name c-brown">
-                    {{ product.name }}
-                  </a>
-                </div>
-              </div>
+<div class="hidden-sm-down col-md-12">
+  <p class="tc fs-150r">Самые продоваемые товары</p>
+  <!-- Slider main container -->
+  <div class="swiper-container">
+    <!-- Additional required wrapper -->
+    <div class="swiper-wrapper">
+      <!-- Slides -->
+      {% for product in popularProducts %}
+      <div class="swiper-slide">
+        <div class="pa-10px">
+          <div class="product-container">
+            <div class="ba bd-mild-gray2 pa-10px tc br2 br--top">
+              <img src={{ product.get_image.croppedImage }} alt="" class="max-h-150px" />
+              <p class="fs-190r mb-0px">{{ product.price }}р.</p>
+              <a href="{{ product.get_absolute_url }}" class="product-name c-brown">
+                {{ product.name }}
+              </a>
             </div>
           </div>
-        {% endfor %}
+        </div>
       </div>
+      {% endfor %}
+    </div>
 
-    </div>
-    <!-- If we need navigation buttons -->
-    <div class="swiper-button-prev btn btn-small btn-white rounded w-30px h-30px pa-0px bra-30px justify-center fs-120r">
-      <i class="ion-ios-arrow-left"></i>
-    </div>
-    <div class="swiper-button-next btn btn-small btn-white rounded w-30px h-30px pa-0px bra-30px justify-center fs-120r">
-      <i class="ion-ios-arrow-right"></i>
-    </div>
   </div>
+  <!-- If we need navigation buttons -->
+  <div class="swiper-button-prev btn btn-small btn-white rounded w-30px h-30px pa-0px bra-30px justify-center fs-120r">
+    <i class="ion-ios-arrow-left"></i>
+  </div>
+  <div class="swiper-button-next btn btn-small btn-white rounded w-30px h-30px pa-0px bra-30px justify-center fs-120r">
+    <i class="ion-ios-arrow-right"></i>
+  </div>
+</div>
 {% endblock %}
