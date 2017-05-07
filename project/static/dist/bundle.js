@@ -65947,6 +65947,24 @@
 	  nextButton: '.swiper-button-next',
 	  prevButton: '.swiper-button-prev'
 	});
+	
+	var SliderSwiper = new _swiper2.default('.swiper-container2', {
+	  // Optional parameters
+	  pagination: '.swiper-pagination',
+	  paginationClickable: true
+	
+	});
+	
+	// const SliderSwiper = new Swiper('#front-slider', {
+	//   // Optional parameters
+	//   pagination: '.swiper-pagination',
+	//   paginationClickable: true,
+	
+	//   // Navigation arrows
+	//   // And if we need scrollbar
+	//   // scrollbar: '.swiper-scrollbar',
+	// });
+	
 	;
 	
 	var _temp = function () {
@@ -65955,6 +65973,8 @@
 	  }
 	
 	  __REACT_HOT_LOADER__.register(mySwiper, 'mySwiper', '/Users/aleksandrkorovkin/Desktop/evilmonkey/projects/gammarus/project/static/src/js/index.js');
+	
+	  __REACT_HOT_LOADER__.register(SliderSwiper, 'SliderSwiper', '/Users/aleksandrkorovkin/Desktop/evilmonkey/projects/gammarus/project/static/src/js/index.js');
 	}();
 
 	;

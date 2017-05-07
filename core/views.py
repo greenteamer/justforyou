@@ -14,6 +14,7 @@ def index_view(request, template_name='core/index.html'):
     about = get_object_or_404(models.Page, slug="about")
     articles = models.Article.objects.all().order_by('-created_at')[:3]
     news = models.News.objects.all().order_by('-date')[:3]
+    slides = models.News.objects.filter(is_slider=True).order_by('-date')
     return render(request, template_name, {
         "title": title,
         "description": description,
@@ -21,6 +22,7 @@ def index_view(request, template_name='core/index.html'):
         "products": products,
         "articles": articles,
         "news": news,
+        "slides": slides,
         "popularProducts": popularProducts,
     })
 
