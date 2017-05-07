@@ -30,6 +30,7 @@ SECRET_KEY = 's7z+3m49iktgu*o3lh2d77ynzw#p@%!n3*-n_+(mz8^on-!-v='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 ALLOWED_HOSTS = []
+INTERNAL_IPS = ['127.0.0.1', 'new.gammarus.ru']
 
 WEBPACK_DEV_SERVER = True
 SITE_ID = 1
@@ -62,7 +63,8 @@ INSTALLED_APPS = [
     # custom apps:
     'core',
     'cart',
-    'restapi'
+    'restapi',
+    'debug_toolbar'
 ]
 
 
@@ -98,6 +100,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.sites.middleware.CurrentSiteMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'breadcrumbs.middleware.BreadcrumbsMiddleware',
 ]
 #  MIDDLEWARE_CLASSES = [
