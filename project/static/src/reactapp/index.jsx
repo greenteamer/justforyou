@@ -6,6 +6,7 @@ import Cart from './Cart';
 import CartPage from './CartPage';
 import { ProductList, ProductCard, AttachedProducts } from './containers';
 import PriceSlider from './PriceSlider';
+import Loader from './components/Loader';
 
 
 renderApp(
@@ -47,6 +48,10 @@ renderApp(
   document.getElementById('react-attached-products')
 );
 
+renderApp(
+  <Loader store={store} />,
+  document.getElementById('react-loader')
+);
 
 function renderApp(component, domElement) {
   if (component && domElement) {

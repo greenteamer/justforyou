@@ -135,11 +135,11 @@ class CartPage extends Component {
   }
 
   handleOnChange = (value) => {
-    const { store: { delivery } } = this.props;
+    const { store, store: { delivery } } = this.props;
+    store.hasForegroundFetching = true;
     this.addressValue = value;
     const data = toJS(this.addressSuggestions[value.value].data);
     delivery.changeData(data);
-
     API.sendit(API.ENDPOINTS.GET_SENDIT(), {
       country: data.country,
       city: data.city,
@@ -147,6 +147,7 @@ class CartPage extends Component {
       weight: `${store.totalWeight / 1000}`,
     }).then(result => {
       this.variants = result;
+      store.hasForegroundFetching = false;
     });
   }
 

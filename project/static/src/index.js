@@ -3,6 +3,7 @@ import '../bootstrap/bootstrap.scss';
 import './libs/swiper/css/swiper.css';
 import 'rc-slider/assets/index.css';
 import './styles/tachyons.css';
+import './styles/spinner.css';
 import './styles/base.sass';
 import './styles/_rem_sizing.sass';
 import './styles/_px_sizing.sass';
