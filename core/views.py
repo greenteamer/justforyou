@@ -12,11 +12,15 @@ def index_view(request, template_name='core/index.html'):
     products = models.Product.objects.all()
     popularProducts = models.Product.objects.filter(isPopular=True)
     about = get_object_or_404(models.Page, slug="about")
+    articles = models.Article.objects.all().order_by('-created_at')[:3]
+    news = models.News.objects.all().order_by('-date')[:3]
     return render(request, template_name, {
         "title": title,
         "description": description,
         "about": about,
         "products": products,
+        "articles": articles,
+        "news": news,
         "popularProducts": popularProducts,
     })
 
