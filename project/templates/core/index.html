@@ -24,8 +24,8 @@
         <div class="swiper-pagination"></div>
       </div>
     </div>
-    <script>
-    </script>
+
+
     <div class="col-md-12" id="react-product-list">
       <div class="row">
         {% for product in products %}
@@ -174,4 +174,13 @@
     {% endfor %}
   </div>
 </div>
+{% endblock %}
+
+{% block page_js %}
+  <script>
+    {% if products %}
+      var products = {{ products_data }}
+      console.log('ahahah test products: ', products);
+    {% endif %}
+  </script>
 {% endblock %}

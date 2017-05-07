@@ -3,6 +3,10 @@ from django.shortcuts import render, get_object_or_404
 from core import models
 from django.core.mail import send_mail
 from project.settings import ADMIN_EMAIL
+from restapi.flatserializers import ProductObj
+from rest_framework.renderers import JSONRenderer
+from django.utils.safestring import SafeString
+
 # Create your views here.
 
 
@@ -15,6 +19,10 @@ def index_view(request, template_name='core/index.html'):
     articles = models.Article.objects.all().order_by('-created_at')[:3]
     news = models.News.objects.all().order_by('-date')[:3]
     slides = models.News.objects.filter(is_slider=True).order_by('-date')
+
+    products_sz = ProductObj(products, many=True, context={"request": request})
+    products_data = JSONRenderer().render(products_sz.data)
+
     return render(request, template_name, {
         "title": title,
         "description": description,
@@ -24,6 +32,8 @@ def index_view(request, template_name='core/index.html'):
         "news": news,
         "slides": slides,
         "popularProducts": popularProducts,
+
+        "products_data": SafeString(products_data),
     })
 
 

@@ -115,8 +115,13 @@ class Store extends singleton {
     const categories = await API.request(API.ENDPOINTS.GET_CATEGORIES());
     this.categories.replace(categories);
 
-    const products = await API.request(API.ENDPOINTS.GET_PRODUCTS());
-    this.products.replace(products.map(product => new Product(this, product)));
+    if (window.products.length !== 0) {
+      this.products.replace(window.products.map(product => new Product(this, product)));
+    }
+    // else {
+    //   const products = await API.request(API.ENDPOINTS.GET_PRODUCTS());
+    //   this.products.replace(products.map(product => new Product(this, product)));
+    // }
 
     const cartitems = await API.request(API.ENDPOINTS.GET_CARTITEMS());
     this.cartitems.replace(cartitems.map(item => new CartItem(this, item)));

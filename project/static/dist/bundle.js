@@ -44760,7 +44760,7 @@
 	      var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
 	        var _this2 = this;
 	
-	        var users, images, types, properties, categories, products, cartitems, deliveries, newDelivery;
+	        var users, images, types, properties, categories, cartitems, deliveries, newDelivery;
 	        return regeneratorRuntime.wrap(function _callee$(_context) {
 	          while (1) {
 	            switch (_context.prev = _context.next) {
@@ -44812,57 +44812,57 @@
 	
 	                this.categories.replace(categories);
 	
-	                _context.next = 24;
-	                return API.request(API.ENDPOINTS.GET_PRODUCTS());
+	                if (window.products.length !== 0) {
+	                  this.products.replace(window.products.map(function (product) {
+	                    return new _Product2.default(_this2, product);
+	                  }));
+	                }
+	                // else {
+	                //   const products = await API.request(API.ENDPOINTS.GET_PRODUCTS());
+	                //   this.products.replace(products.map(product => new Product(this, product)));
+	                // }
 	
-	              case 24:
-	                products = _context.sent;
-	
-	                this.products.replace(products.map(function (product) {
-	                  return new _Product2.default(_this2, product);
-	                }));
-	
-	                _context.next = 28;
+	                _context.next = 25;
 	                return API.request(API.ENDPOINTS.GET_CARTITEMS());
 	
-	              case 28:
+	              case 25:
 	                cartitems = _context.sent;
 	
 	                this.cartitems.replace(cartitems.map(function (item) {
 	                  return new _CartItems2.default(_this2, item);
 	                }));
 	
-	                _context.next = 32;
+	                _context.next = 29;
 	                return API.request(API.ENDPOINTS.GET_DELIVERIES());
 	
-	              case 32:
+	              case 29:
 	                deliveries = _context.sent;
 	
 	                if (!(deliveries.length === 0)) {
-	                  _context.next = 41;
+	                  _context.next = 38;
 	                  break;
 	                }
 	
 	                this.delivery = new _Delivery2.default(this, { cart_id: this.getCartId() });
-	                _context.next = 37;
+	                _context.next = 34;
 	                return API.request(API.ENDPOINTS.POST_DELIVERY(), { cart_id: this.getCartId(), price: 0 });
 	
-	              case 37:
+	              case 34:
 	                newDelivery = _context.sent;
 	
 	                this.delivery.setId(newDelivery.id);
-	                _context.next = 42;
+	                _context.next = 39;
 	                break;
 	
-	              case 41:
+	              case 38:
 	                this.delivery = new _Delivery2.default(this, deliveries[0]);
 	
-	              case 42:
+	              case 39:
 	
 	                this.hasForegroundFetching = false;
 	                _UIStore2.default.finishLoading();
 	
-	              case 44:
+	              case 41:
 	              case 'end':
 	                return _context.stop();
 	            }
