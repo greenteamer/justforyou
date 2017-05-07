@@ -85,6 +85,12 @@
 
 
   <!-- <script src="http://localhost:8080/dist/bundle.js"></script> -->
+  <script>
+    {% if initial_data %}
+      window.initial_data = {{ initial_data }}
+      console.log('**** initial_data: ', window.initial_data);
+    {% endif %}
+  </script>
   <script src="{% static 'dist/bundle.js' %}"></script>
   {% block page_js %}
   {% endblock %}

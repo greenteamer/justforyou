@@ -176,11 +176,3 @@
 </div>
 {% endblock %}
 
-{% block page_js %}
-  <script>
-    {% if products %}
-      var products = {{ products_data }}
-      console.log('ahahah test products: ', products);
-    {% endif %}
-  </script>
-{% endblock %}

@@ -44587,12 +44587,12 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _descriptor11, _descriptor12, _descriptor13, _descriptor14, _descriptor15; /*
-	                                                                                                                                                                                                                                                    products - начальный массив... может менятся только при запросе актуальных данных с сервера
-	                                                                                                                                                                                                                                                      products служит локальным источником правды (все существующие продукты)
-	                                                                                                                                                                                                                                                    computedProducts - вычесленный массив продуктов ... меняется в результате действий на сайте
-	                                                                                                                                                                                                                                                      таких как фильтрация, сортировка и т.д.
-	                                                                                                                                                                                                                                                  */
+	var _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _descriptor11, _descriptor12, _descriptor13, _descriptor14, _descriptor15, _descriptor16; /*
+	                                                                                                                                                                                                                                                                   products - начальный массив... может менятся только при запросе актуальных данных с сервера
+	                                                                                                                                                                                                                                                                     products служит локальным источником правды (все существующие продукты)
+	                                                                                                                                                                                                                                                                   computedProducts - вычесленный массив продуктов ... меняется в результате действий на сайте
+	                                                                                                                                                                                                                                                                     таких как фильтрация, сортировка и т.д.
+	                                                                                                                                                                                                                                                                 */
 	
 	var _mobx = __webpack_require__(530);
 	
@@ -44721,11 +44721,13 @@
 	
 	    _initDefineProp(_this, 'hasBackgroundFetching', _descriptor12, _this);
 	
-	    _initDefineProp(_this, 'addCartItem', _descriptor13, _this);
+	    _initDefineProp(_this, 'initial', _descriptor13, _this);
 	
-	    _initDefineProp(_this, 'removeCartItem', _descriptor14, _this);
+	    _initDefineProp(_this, 'addCartItem', _descriptor14, _this);
 	
-	    _initDefineProp(_this, 'pushOrder', _descriptor15, _this);
+	    _initDefineProp(_this, 'removeCartItem', _descriptor15, _this);
+	
+	    _initDefineProp(_this, 'pushOrder', _descriptor16, _this);
 	
 	    _this.pullAll();
 	
@@ -44760,109 +44762,102 @@
 	      var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
 	        var _this2 = this;
 	
-	        var users, images, types, properties, categories, cartitems, deliveries, newDelivery;
+	        var newDelivery;
 	        return regeneratorRuntime.wrap(function _callee$(_context) {
 	          while (1) {
 	            switch (_context.prev = _context.next) {
 	              case 0:
+	                console.log('*** STORE start pullAll');
 	                _UIStore2.default.startLoading();
 	                this.hasForegroundFetching = true;
-	                // fetch данных
-	                _context.next = 4;
-	                return API.request(API.ENDPOINTS.GET_USER());
 	
-	              case 4:
-	                users = _context.sent;
-	
-	                if (users.length !== 0) {
-	                  this.user = new _User2.default(users[0]);
+	                if (!window.initial_data) {
+	                  _context.next = 20;
+	                  break;
 	                }
 	
-	                _context.next = 8;
-	                return API.request(API.ENDPOINTS.GET_IMAGES());
-	
-	              case 8:
-	                images = _context.sent;
-	
-	                this.images.replace(images);
-	
-	                _context.next = 12;
-	                return API.request(API.ENDPOINTS.GET_TYPES());
-	
-	              case 12:
-	                types = _context.sent;
-	
-	                this.types.replace(types);
-	
-	                _context.next = 16;
-	                return API.request(API.ENDPOINTS.GET_PROPERTIES());
-	
-	              case 16:
-	                properties = _context.sent;
-	
-	                this.properties.replace(properties.map(function (prop) {
+	                this.user = new _User2.default(window.initial_data.user);
+	                this.images.replace(window.initial_data.images);
+	                this.types.replace(window.initial_data.types);
+	                this.properties.replace(window.initial_data.properties.map(function (prop) {
 	                  return new _Property2.default(_this2, prop);
 	                }));
-	
-	                _context.next = 20;
-	                return API.request(API.ENDPOINTS.GET_CATEGORIES());
-	
-	              case 20:
-	                categories = _context.sent;
-	
-	                this.categories.replace(categories);
-	
-	                if (window.products.length !== 0) {
-	                  this.products.replace(window.products.map(function (product) {
-	                    return new _Product2.default(_this2, product);
-	                  }));
-	                }
-	                // else {
-	                //   const products = await API.request(API.ENDPOINTS.GET_PRODUCTS());
-	                //   this.products.replace(products.map(product => new Product(this, product)));
-	                // }
-	
-	                _context.next = 25;
-	                return API.request(API.ENDPOINTS.GET_CARTITEMS());
-	
-	              case 25:
-	                cartitems = _context.sent;
-	
-	                this.cartitems.replace(cartitems.map(function (item) {
+	                this.categories.replace(window.initial_data.categories);
+	                this.products.replace(window.initial_data.products.map(function (product) {
+	                  return new _Product2.default(_this2, product);
+	                }));
+	                this.cartitems.replace(window.initial_data.cartitems.map(function (item) {
 	                  return new _CartItems2.default(_this2, item);
 	                }));
 	
-	                _context.next = 29;
-	                return API.request(API.ENDPOINTS.GET_DELIVERIES());
-	
-	              case 29:
-	                deliveries = _context.sent;
-	
-	                if (!(deliveries.length === 0)) {
-	                  _context.next = 38;
+	                if (!(window.initial_data.deliveries.length === 0)) {
+	                  _context.next = 19;
 	                  break;
 	                }
 	
 	                this.delivery = new _Delivery2.default(this, { cart_id: this.getCartId() });
-	                _context.next = 34;
+	                _context.next = 15;
 	                return API.request(API.ENDPOINTS.POST_DELIVERY(), { cart_id: this.getCartId(), price: 0 });
 	
-	              case 34:
+	              case 15:
 	                newDelivery = _context.sent;
 	
 	                this.delivery.setId(newDelivery.id);
-	                _context.next = 39;
+	                _context.next = 20;
 	                break;
 	
-	              case 38:
-	                this.delivery = new _Delivery2.default(this, deliveries[0]);
+	              case 19:
+	                this.delivery = new _Delivery2.default(this, window.initial_data.deliveries[0]);
 	
-	              case 39:
+	              case 20:
 	
-	                this.hasForegroundFetching = false;
+	                // fetch данных
+	
+	                // const users = await API.request(API.ENDPOINTS.GET_USER());
+	                // if (users.length !== 0) {
+	                //   this.user = new User(users[0]);
+	                // }
+	                // if (window.initial_data.images.length !== 0) {
+	                //   this.images.replace(initial_data.images);
+	                // }
+	
+	                // const images = await API.request(API.ENDPOINTS.GET_IMAGES());
+	                // this.images.replace(images);
+	
+	                // const types = await API.request(API.ENDPOINTS.GET_TYPES());
+	                // this.types.replace(types);
+	
+	                // const properties = await API.request(API.ENDPOINTS.GET_PROPERTIES());
+	                // this.properties.replace(properties.map(prop => new Property(this, prop)));
+	
+	                // const categories = await API.request(API.ENDPOINTS.GET_CATEGORIES());
+	                // this.categories.replace(categories);
+	
+	                // if (window.initial_data.products.length !== 0) {
+	                //   this.products.replace(window.initial_data.products.map(product => new Product(this, product)));
+	                // }
+	                //   const products = await API.request(API.ENDPOINTS.GET_PRODUCTS());
+	                //   this.products.replace(products.map(product => new Product(this, product)));
+	
+	                // const cartitems = await API.request(API.ENDPOINTS.GET_CARTITEMS());
+	                // this.cartitems.replace(cartitems.map(item => new CartItem(this, item)));
+	
+	                // const deliveries = await API.request(API.ENDPOINTS.GET_DELIVERIES());
+	                // if (deliveries.length === 0) {
+	                //   this.delivery = new Delivery(this, {cart_id: this.getCartId()});
+	                //   const newDelivery = await API.request(API.ENDPOINTS.POST_DELIVERY(), {cart_id: this.getCartId(), price: 0});
+	                //   this.delivery.setId(newDelivery.id);
+	                // }
+	                // else {
+	                //   this.delivery = new Delivery(this, deliveries[0]);
+	                // }
+	
+	                setTimeout(function () {
+	                  _this2.hasForegroundFetching = false;
+	                }, 1000);
 	                _UIStore2.default.finishLoading();
 	
-	              case 41:
+	              case 22:
 	              case 'end':
 	                return _context.stop();
 	            }
@@ -45156,7 +45151,12 @@
 	  initializer: function initializer() {
 	    return false;
 	  }
-	}), _applyDecoratedDescriptor(_class.prototype, 'sortedProducts', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'sortedProducts'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'productsByCategory', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'productsByCategory'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'filterProductsByPrice', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'filterProductsByPrice'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'popularProducts', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'popularProducts'), _class.prototype), _descriptor13 = _applyDecoratedDescriptor(_class.prototype, 'addCartItem', [_mobx.action], {
+	}), _descriptor13 = _applyDecoratedDescriptor(_class.prototype, 'initial', [_mobx.observable], {
+	  enumerable: true,
+	  initializer: function initializer() {
+	    return false;
+	  }
+	}), _applyDecoratedDescriptor(_class.prototype, 'sortedProducts', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'sortedProducts'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'productsByCategory', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'productsByCategory'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'filterProductsByPrice', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'filterProductsByPrice'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'popularProducts', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'popularProducts'), _class.prototype), _descriptor14 = _applyDecoratedDescriptor(_class.prototype, 'addCartItem', [_mobx.action], {
 	  enumerable: true,
 	  initializer: function initializer() {
 	    var _this9 = this;
@@ -45213,7 +45213,7 @@
 	      };
 	    }();
 	  }
-	}), _descriptor14 = _applyDecoratedDescriptor(_class.prototype, 'removeCartItem', [_mobx.action], {
+	}), _descriptor15 = _applyDecoratedDescriptor(_class.prototype, 'removeCartItem', [_mobx.action], {
 	  enumerable: true,
 	  initializer: function initializer() {
 	    var _this10 = this;
@@ -45246,7 +45246,7 @@
 	      };
 	    }();
 	  }
-	}), _descriptor15 = _applyDecoratedDescriptor(_class.prototype, 'pushOrder', [_mobx.action], {
+	}), _descriptor16 = _applyDecoratedDescriptor(_class.prototype, 'pushOrder', [_mobx.action], {
 	  enumerable: true,
 	  initializer: function initializer() {
 	    var _this11 = this;
