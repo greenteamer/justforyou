@@ -18,3 +18,23 @@ const mySwiper = new Swiper('.swiper-container', {
   // scrollbar: '.swiper-scrollbar',
 });
 
+const SliderSwiper = new Swiper('.swiper-container2', {
+  // Optional parameters
+  pagination: '.swiper-pagination',
+  paginationClickable: true,
+
+  // Navigation arrows
+  // And if we need scrollbar
+  // scrollbar: '.swiper-scrollbar',
+});
+
+// const SliderSwiper = new Swiper('#front-slider', {
+//   // Optional parameters
+//   pagination: '.swiper-pagination',
+//   paginationClickable: true,
+
+//   // Navigation arrows
+//   // And if we need scrollbar
+//   // scrollbar: '.swiper-scrollbar',
+// });
+

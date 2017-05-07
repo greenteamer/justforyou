@@ -197,6 +197,7 @@ class PageImage(models.Model):
 class News(BaseInfoExtendedModel):
     image = models.ImageField(upload_to="page", null=True, blank=True)
     date = models.DateTimeField(verbose_name=u'Дата события', null=True, blank=True)
+    is_slider = models.BooleanField(verbose_name=u'Добавить в слайдер', default=False)
 
     class Meta:
         verbose_name = u'Новость'
