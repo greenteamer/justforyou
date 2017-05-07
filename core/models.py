@@ -66,7 +66,7 @@ class Product(BaseInfoExtendedModel):
     certificate = models.ImageField(upload_to="certificate", blank=True, null=True)
 
     attached = models.ForeignKey('self', blank=True, null=True)
-    isPopular = models.BooleanField(default=False, db_index=True)
+    isPopular = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = u'Продукты'
