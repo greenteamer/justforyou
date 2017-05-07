@@ -30,6 +30,8 @@ class Store extends singleton {
   @observable orders = [];
   @observable delivery = {};
   @observable user = null;
+  @observable hasForegroundFetching = false;
+  @observable hasBackgroundFetching = false;
 
   constructor() {
     super();
@@ -94,6 +96,7 @@ class Store extends singleton {
 
   async pullAll() {
     uiStore.startLoading();
+    this.hasForegroundFetching = true;
     // fetch данных
     const users = await API.request(API.ENDPOINTS.GET_USER());
     if (users.length !== 0) {
@@ -128,6 +131,7 @@ class Store extends singleton {
       this.delivery = new Delivery(this, deliveries[0]);
     }
 
+    this.hasForegroundFetching = false;
     uiStore.finishLoading();
   }
 

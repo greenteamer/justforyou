@@ -20,7 +20,8 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   <script src="https://use.fontawesome.com/029364637b.js"></script>
 </head>
-<body>
+<body class="relative">
+  <div id="react-loader" class=""></div>
 
   <div class="container">
     <div class="row">
@@ -81,6 +82,7 @@
   </div>
 
   {% footer request %}
+
 
   <!-- <script src="http://localhost:8080/dist/bundle.js"></script> -->
   <script src="{% static 'dist/bundle.js' %}"></script>
