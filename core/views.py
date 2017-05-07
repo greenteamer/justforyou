@@ -1,49 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, get_object_or_404
 from core import models
-from cart import models as cartmodels
 from django.core.mail import send_mail
 from project.settings import ADMIN_EMAIL
-from restapi.flatserializers import ProductObj, ProductImageObj, UserObj, PropertyTypeObj, PropertyValueObj, CategoryObj, CartItemObj, DeliveryObj
-from rest_framework.renderers import JSONRenderer
-from django.utils.safestring import SafeString
-
-# Create your views here.
-
-
-def get_initial_json_data(request):
-
-    images = models.ProductImage.objects.all()
-    types = models.PropertyType.objects.all()
-    properties = models.PropertyValue.objects.all()
-    categories = models.Category.objects.all()
-    products = models.Product.objects.all()
-    cartitems = cartmodels.CartItem.objects.all()
-    deliveries = cartmodels.Delivery.objects.all()
-
-    if request.user.is_authenticated:
-        s_user = UserObj(request.user, context={"request": request})
-        user_data = s_user.data
-    else:
-        user_data = None
-    images_sz = ProductImageObj(images, many=True, context={"request": request})
-    types_sz = PropertyTypeObj(types, many=True, context={"request": request})
-    properties_sz = PropertyValueObj(properties, many=True, context={"request": request})
-    categories_sz = CategoryObj(categories, many=True, context={"request": request})
-    products_sz = ProductObj(products, many=True, context={"request": request})
-    cartitems_sz = CartItemObj(cartitems, many=True, context={"request": request})
-    deliveries_sz = DeliveryObj(deliveries, many=True, context={"request": request})
-    initial_data = JSONRenderer().render({
-        "user": user_data,
-        "images": images_sz.data,
-        "types": types_sz.data,
-        "properties": properties_sz.data,
-        "categories": categories_sz.data,
-        "products": products_sz.data,
-        "cartitems": cartitems_sz.data,
-        "deliveries": deliveries_sz.data,
-    })
-    return SafeString(initial_data)
+from core.utils import get_initial_json_data
 
 
 def index_view(request, template_name='core/index.html'):
@@ -130,10 +90,12 @@ def page_view(request, slug, template_name='core/page.html'):
     title = u"{}".format(page.meta_title)
     description = u"{}".format(page.meta_description)
     request.breadcrumbs([(page.name, page.get_absolute_url)])
+    initial_data = get_initial_json_data(request)
     return render(request, template_name, {
         "title": title,
         "description": description,
         "page": page,
+        "initial_data": initial_data,
     })
 
 
@@ -142,10 +104,12 @@ def article_view(request, slug, template_name='core/article.html'):
     title = u"{}".format(article.meta_title)
     description = u"{}".format(article.meta_description)
     request.breadcrumbs([(u"Статьи", '/articles/'), (article.name, article.get_absolute_url)])
+    initial_data = get_initial_json_data(request)
     return render(request, template_name, {
         "title": title,
         "description": description,
         "article": article,
+        "initial_data": initial_data,
     })
 
 
@@ -154,10 +118,12 @@ def article_list_view(request, template_name='core/article_list.html'):
     title = u"Статьи | товары народной медицины gammarus.ru"
     description = u"Статьи на тему здоровья"
     request.breadcrumbs([(u"Статьи", '/articles/')])
+    initial_data = get_initial_json_data(request)
     return render(request, template_name, {
         "title": title,
         "description": description,
         "articles": articles,
+        "initial_data": initial_data,
     })
 
 
@@ -166,10 +132,12 @@ def news_view(request, slug, template_name='core/news.html'):
     title = u"{}".format(news.meta_title)
     description = u"{}".format(news.meta_description)
     request.breadcrumbs([(u"Новости", '/news/'), (news.name, news.get_absolute_url)])
+    initial_data = get_initial_json_data(request)
     return render(request, template_name, {
         "title": title,
         "description": description,
         "news": news,
+        "initial_data": initial_data,
     })
 
 
@@ -178,10 +146,12 @@ def news_list_view(request, template_name='core/news_list.html'):
     title = u"Новости | товары народной медицины gammarus.ru"
     description = u"Наши новости"
     request.breadcrumbs([(u"Новости", '/news/')])
+    initial_data = get_initial_json_data(request)
     return render(request, template_name, {
         "title": title,
         "description": description,
         "news": news,
+        "initial_data": initial_data,
     })
 
 
@@ -190,10 +160,12 @@ def reivew_view(request, slug, template_name='core/review.html'):
     title = u"{}".format(review.meta_title)
     description = u"{}".format(review.meta_description)
     request.breadcrumbs([(u"Отзывы", '/reviews/'), (review.name, review.get_absolute_url)])
+    initial_data = get_initial_json_data(request)
     return render(request, template_name, {
         "title": title,
         "description": description,
         "review": review,
+        "initial_data": initial_data,
     })
 
 
@@ -202,10 +174,12 @@ def review_list_view(request, template_name='core/review_list.html'):
     title = u"Отзывы | товары народной медицины gammarus.ru"
     description = u"Отзывы о наших продуктах"
     request.breadcrumbs([(u"Отзывы", '/reviews/')])
+    initial_data = get_initial_json_data(request)
     return render(request, template_name, {
         "title": title,
         "description": description,
         "reviews": reviews,
+        "initial_data": initial_data,
     })
 
 
