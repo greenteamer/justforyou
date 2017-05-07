@@ -6,7 +6,7 @@
 */
 
 
-import { action, autorun, observable, runInAction, computed, toJS, peek} from 'mobx';
+import { action, autorun, autorunAsync, observable, runInAction, computed, toJS, peek} from 'mobx';
 import { getCookie } from '../utils';
 import * as API from '../api';
 import Product from './Product';
@@ -32,9 +32,11 @@ class Store extends singleton {
   @observable user = null;
   @observable hasForegroundFetching = false;
   @observable hasBackgroundFetching = false;
+  @observable initial = false;
 
   constructor() {
     super();
+
     this.pullAll();
 
     autorun(() => {
@@ -95,48 +97,72 @@ class Store extends singleton {
   }
 
   async pullAll() {
+    console.log('*** STORE start pullAll');
     uiStore.startLoading();
     this.hasForegroundFetching = true;
+
+    if (window.initial_data) {
+      this.user = new User(window.initial_data.user);
+      this.images.replace(window.initial_data.images);
+      this.types.replace(window.initial_data.types);
+      this.properties.replace(window.initial_data.properties.map(prop => new Property(this, prop)));
+      this.categories.replace(window.initial_data.categories);
+      this.products.replace(window.initial_data.products.map(product => new Product(this, product)));
+      this.cartitems.replace(window.initial_data.cartitems.map(item => new CartItem(this, item)));
+      if (window.initial_data.deliveries.length === 0) {
+        this.delivery = new Delivery(this, {cart_id: this.getCartId()});
+        const newDelivery = await API.request(API.ENDPOINTS.POST_DELIVERY(), {cart_id: this.getCartId(), price: 0});
+        this.delivery.setId(newDelivery.id);
+      }
+      else {
+        this.delivery = new Delivery(this, window.initial_data.deliveries[0]);
+      }
+    }
+
     // fetch данных
-    const users = await API.request(API.ENDPOINTS.GET_USER());
-    if (users.length !== 0) {
-      this.user = new User(users[0]);
-    }
 
-    const images = await API.request(API.ENDPOINTS.GET_IMAGES());
-    this.images.replace(images);
-
-    const types = await API.request(API.ENDPOINTS.GET_TYPES());
-    this.types.replace(types);
-
-    const properties = await API.request(API.ENDPOINTS.GET_PROPERTIES());
-    this.properties.replace(properties.map(prop => new Property(this, prop)));
-
-    const categories = await API.request(API.ENDPOINTS.GET_CATEGORIES());
-    this.categories.replace(categories);
-
-    if (window.products.length !== 0) {
-      this.products.replace(window.products.map(product => new Product(this, product)));
-    }
-    // else {
-    //   const products = await API.request(API.ENDPOINTS.GET_PRODUCTS());
-    //   this.products.replace(products.map(product => new Product(this, product)));
+    // const users = await API.request(API.ENDPOINTS.GET_USER());
+    // if (users.length !== 0) {
+    //   this.user = new User(users[0]);
+    // }
+    // if (window.initial_data.images.length !== 0) {
+    //   this.images.replace(initial_data.images);
     // }
 
-    const cartitems = await API.request(API.ENDPOINTS.GET_CARTITEMS());
-    this.cartitems.replace(cartitems.map(item => new CartItem(this, item)));
+    // const images = await API.request(API.ENDPOINTS.GET_IMAGES());
+    // this.images.replace(images);
 
-    const deliveries = await API.request(API.ENDPOINTS.GET_DELIVERIES());
-    if (deliveries.length === 0) {
-      this.delivery = new Delivery(this, {cart_id: this.getCartId()});
-      const newDelivery = await API.request(API.ENDPOINTS.POST_DELIVERY(), {cart_id: this.getCartId(), price: 0});
-      this.delivery.setId(newDelivery.id);
-    }
-    else {
-      this.delivery = new Delivery(this, deliveries[0]);
-    }
+    // const types = await API.request(API.ENDPOINTS.GET_TYPES());
+    // this.types.replace(types);
 
-    this.hasForegroundFetching = false;
+    // const properties = await API.request(API.ENDPOINTS.GET_PROPERTIES());
+    // this.properties.replace(properties.map(prop => new Property(this, prop)));
+
+    // const categories = await API.request(API.ENDPOINTS.GET_CATEGORIES());
+    // this.categories.replace(categories);
+
+    // if (window.initial_data.products.length !== 0) {
+    //   this.products.replace(window.initial_data.products.map(product => new Product(this, product)));
+    // }
+    //   const products = await API.request(API.ENDPOINTS.GET_PRODUCTS());
+    //   this.products.replace(products.map(product => new Product(this, product)));
+
+    // const cartitems = await API.request(API.ENDPOINTS.GET_CARTITEMS());
+    // this.cartitems.replace(cartitems.map(item => new CartItem(this, item)));
+
+    // const deliveries = await API.request(API.ENDPOINTS.GET_DELIVERIES());
+    // if (deliveries.length === 0) {
+    //   this.delivery = new Delivery(this, {cart_id: this.getCartId()});
+    //   const newDelivery = await API.request(API.ENDPOINTS.POST_DELIVERY(), {cart_id: this.getCartId(), price: 0});
+    //   this.delivery.setId(newDelivery.id);
+    // }
+    // else {
+    //   this.delivery = new Delivery(this, deliveries[0]);
+    // }
+
+    setTimeout(() => {
+      this.hasForegroundFetching = false;
+    }, 1000);
     uiStore.finishLoading();
   }
 
