@@ -18,7 +18,7 @@
     <h1>{{ product.name }}</h1>
     <div class="row">
       <div class="col-md-3">
-        <div class="product-image ba bd-1px bd-mild-gray2">
+        <div class="product-image ba bd-1px bd-mild-gray2 pv5 bg-warm-grey-5">
           <img src="{{ product.get_image.croppedImage }}" alt="" />
         </div>
       </div>
@@ -29,15 +29,15 @@
             <p class="fs-150r">Цена с доставкой</p>
             <ul class="list pl-0px">
               <li class="ion-android-car fs-125r">
-                <a href="" class="fs-87r c-ocean-green ml-16px">Доставка по Москве и МО: </a>
+                <a href="" class="fs-87r c-brown underline ml-16px">Доставка по Москве и МО: </a>
                 <span class="fs-113r c-brown b fr">400 р.</span>
               </li>
               <li class="ion-plane fs-125r">
-                <a href="" class="fs-87r c-ocean-green ml-16px">Доставка в Регионы: </a>
+                <a href="" class="fs-87r c-brown underline ml-16px">Доставка в Регионы: </a>
                 <span class="fs-113r c-brown b fr">от 450 р.</span>
               </li>
               <li class="ion-android-hand fs-125r">
-                <a href="" class="fs-87r c-ocean-green ml-16px">Самовывоз: </a>
+                <a href="" class="fs-87r c-brown underline ml-16px">Самовывоз: </a>
                 <span class="fs-113r c-brown fr">Бесплатно</span>
               </li>
             </ul>
@@ -50,9 +50,9 @@
             </div>
           </div>
         </div>
-        <div class="bg-green c-white pa-8px tc br2 br--bottom pointer min-h-50px flex justify-center items-center">
-          <span class="ion-bag fs-120r mr-10px"></span>
-          <span>Добавить в корзину</span>
+        <div class="bg-mild-gray2 brown c-white pa-8px tc br2 br--bottom pointer min-h-50px flex justify-center items-center">
+          <span class="b c-brown ion-bag fs-120r mr-10px" />
+          <span class="b ff-b c-brown ttu">Добавить в корзину</span>
         </div>
       </div>
       <div class="col-md-5">
@@ -134,7 +134,7 @@
       <div class="hidden-sm-down col-md-12 mt4">
         <p class="tc fs-150r">Самые продаваемые товары</p>
         <!-- Slider main container -->
-        <div class="swiper-container">
+        <div class="swiper-container swiper1">
           <!-- Additional required wrapper -->
           <div class="swiper-wrapper">
             <!-- Slides -->

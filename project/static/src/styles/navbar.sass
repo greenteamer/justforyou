@@ -2,15 +2,17 @@
 
 
 #base-menu.navbar
-  -webkit-box-shadow: inset 0 0 0 1px $green
-  -moz-box-shadow: inset 0 0 0 1px $green
-  box-shadow: inset 0 0 0 1px $green
+  -webkit-box-shadow: inset 0 0 0 1px $mild-gray2
+  -moz-box-shadow: inset 0 0 0 1px $mild-gray2
+  box-shadow: inset 0 0 0 1px $mild-gray2
   border-radius: 0px
-  background: linear-gradient(to right, #54b13c 50%, white 50%)
+  background: linear-gradient(to right, rgba(121, 121, 121, 0.05) 50%, white 50%)
   padding: 0
 
   .navbar-container
-    background: $green
+    background: $warm-grey-5
+    border-top: 1px solid $mild-gray2
+    border-bottom: 1px solid $mild-gray2
     padding-right: 0
     display: flex
     justify-content: space-between
@@ -22,17 +24,20 @@
 
         .nav-link
           padding: .9rem 1.2rem
-          color: $white
+          color: $black
           &.active
-            background: $dark-green
+            background: $black
+            color: $white
           &:hover
-            background: $dark-green
+            background: $black
+            color: $white
           &.catalog
             background: $red
+            color: $white
 
   #cart
-    border-top: 1px solid $green
-    border-bottom: 1px solid $green
+    // border-top: 1px solid $mild-gray2
+    // border-bottom: 1px solid $mild-gray2
     background: $white
     padding: .1rem 1.2rem
 
@@ -44,7 +49,7 @@
 
       .badge
         color: $white
-        background: $green
+        background: $red
         font-size: .8rem
         border-radius: .9rem
         border: 1px solid $white

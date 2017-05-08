@@ -68,6 +68,9 @@ class Product(BaseInfoExtendedModel):
     attached = models.ForeignKey('self', blank=True, null=True)
     isPopular = models.BooleanField(default=False)
 
+    isHotSlider = models.BooleanField(default=False)
+    hotImage = models.ImageField(upload_to="product", blank=True, null=True)
+
     class Meta:
         verbose_name = u'Продукты'
         verbose_name_plural = u'Продукты'
@@ -77,6 +80,9 @@ class Product(BaseInfoExtendedModel):
 
     def get_certificate_url(self):
         return "/media/%s" % self.certificate
+
+    def get_hot_image_url(self):
+        return "/media/%s" % self.hotImage
 
     def get_properties(self):
         return PropertyValue.objects.filter(product=self)
@@ -91,7 +97,7 @@ class Product(BaseInfoExtendedModel):
 class ProductImage(models.Model):
     image = models.ImageField(upload_to="product")
     product = models.ForeignKey(Product, related_name='images')
-    cropping = ImageRatioField('image', '300x300')
+    cropping = ImageRatioField('image', '300x222')
 
     class Meta:
         verbose_name = u'Изображение'
@@ -108,7 +114,7 @@ class ProductImage(models.Model):
         return get_backend().get_thumbnail_url(
             self.image,
             {
-                'size': (300, 300),
+                'size': (300, 222),
                 'box': self.cropping,
                 'crop': True,
                 'detail': True,
@@ -118,7 +124,7 @@ class ProductImage(models.Model):
 
 class PropertyType(models.Model):
     name = models.CharField(max_length=150, unique=True, blank=False)
-    unit = models.CharField(max_length=3, unique=True, blank=False)
+    unit = models.CharField(max_length=3, unique=True, blank=True, null=True)
 
     class Meta:
         verbose_name = u'Тип'
