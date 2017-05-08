@@ -1,4 +1,3 @@
-# Gammarus
-**продукты для здоровья**
+# LikeThis
+**Известные бренды кросовок**
 
-[![N|Solid](http://gammarus.ru/bitrix/templates/liaton_main/images/logo.gif)](http://gammarus.ru)

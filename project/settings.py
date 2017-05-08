@@ -30,7 +30,7 @@ SECRET_KEY = 's7z+3m49iktgu*o3lh2d77ynzw#p@%!n3*-n_+(mz8^on-!-v='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 ALLOWED_HOSTS = []
-INTERNAL_IPS = ['127.0.0.1', 'new.gammarus.ru']
+INTERNAL_IPS = ['127.0.0.1', ]
 
 WEBPACK_DEV_SERVER = True
 SITE_ID = 1

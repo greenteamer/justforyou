@@ -13,6 +13,6 @@ Disallow: /admin/
 Disallow: /docs/
 Disallow: /cart/
 Disallow: /results/
-Host: gammarus.ru
+Host: likethis.ru
 
-Sitemap: http://gammarus.ru/sitemap.xml
+Sitemap: http://likethis.ru/sitemap.xml
