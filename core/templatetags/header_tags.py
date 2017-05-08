@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import template
-from core.models import Category
+from core.models import Category, News
 register = template.Library()
 
 
@@ -16,7 +16,10 @@ def category(context, request):
 
 
 def header(context, request):
-    return {'nodes': Category.objects.all()}
+    return {
+        'nodes': Category.objects.all(),
+        'slides': News.objects.filter(is_slider=True)
+    }
 
 
 def footer(context, request):

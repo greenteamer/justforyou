@@ -15,6 +15,7 @@ def index_view(request, template_name='core/index.html'):
     articles = models.Article.objects.all().order_by('-created_at')[:3]
     news = models.News.objects.all().order_by('-date')[:3]
     slides = models.News.objects.filter(is_slider=True).order_by('-date')
+    hot_products = models.Product.objects.filter(isHotSlider=True)
 
     images = models.ProductImage.objects.select_related("product").all()
     products_list = []
@@ -38,6 +39,7 @@ def index_view(request, template_name='core/index.html'):
         "news": news,
         "slides": slides,
         "popularProducts": popularProducts,
+        "hot_products": hot_products,
 
         "initial_data": initial_data,
     })
