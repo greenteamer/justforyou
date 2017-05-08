@@ -12,7 +12,9 @@ export default class Product {
     this.slug = obj.slug;
     this.name = obj.name;
     this.description = obj.description;
+    this.preview_description = obj.preview_description;
     this.price = obj.price;
+    this.weight = obj.weight;
     this.category = obj.category;
     this.absoluteUrl = obj.absoluteUrl;
     this.isPopular = obj.isPopular;

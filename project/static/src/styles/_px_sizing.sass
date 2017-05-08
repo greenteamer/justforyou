@@ -24,9 +24,29 @@
     left: 5px * $i
 
 
-@for $i from 1 through 20
+@for $i from 0 through 20
   .bd-#{$i}px
     border-width: $i + px
+  .ba-#{$i}px
+    border-width: $i + px
+  .bt-#{$i}px
+    border-top-width: $i + px
+  .br-#{$i}px
+    border-right-width: $i + px
+  .bb-#{$i}px
+    border-bottom-width: $i + px
+  .bl-#{$i}px
+    border-left-width: $i + px
+  .ba-#{$i}px-i
+    border-width: $i + px + !important
+  .bt-#{$i}px-i
+    border-top-width: $i + px + !important
+  .br-#{$i}px-i
+    border-right-width: $i + px + !important
+  .bb-#{$i}px-i
+    border-bottom-width: $i + px + !important
+  .bl-#{$i}px-i
+    border-left-width: $i + px + !important
 
 
 @for $i from 0 through 50

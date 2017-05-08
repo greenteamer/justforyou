@@ -48,7 +48,7 @@ class CartItem extends Component {
         <div {...tooltipFn('Цена')} className="col-md-2 b bg-light-gray flex justify-center">
           <div className="pa2 fs-100r flex items-center justify-center">{ item.productObj.price } р.</div>
         </div>
-        <div className="col-md-2 bg-green">
+        <div className="col-md-2 bg-warm-grey-5">
           <Incrementer item={ item } />
         </div>
         <div {...tooltipFn('Стоимость')} className="col-md-2 b bg-light-gray flex justify-center">
@@ -135,18 +135,19 @@ class CartPage extends Component {
   }
 
   handleOnChange = (value) => {
-    const { store: { delivery } } = this.props;
+    const { store, store: { delivery } } = this.props;
+    store.hasForegroundFetching = true;
     this.addressValue = value;
     const data = toJS(this.addressSuggestions[value.value].data);
     delivery.changeData(data);
-
     API.sendit(API.ENDPOINTS.GET_SENDIT(), {
       country: data.country,
       city: data.city,
       settlement: data.settlement,
-      weight: '4.5',
+      weight: `${store.totalWeight / 1000}`,
     }).then(result => {
       this.variants = result;
+      store.hasForegroundFetching = false;
     });
   }
 
@@ -162,7 +163,6 @@ class CartPage extends Component {
 
   render() {
     const { store } = this.props;
-    console.log('CartPage store.userCartitems: ', store.userCartitems);
     const { delivery } = store;
     return <div className="col-md-12">
       <div className="row">
@@ -231,7 +231,7 @@ class CartPage extends Component {
           </div>
         }
         {
-          <div className="fixed bottom-0 right-0 pa3 bg-green white z-999 ba">
+          <div className="fixed bottom-0 right-0 pa3 bg-brown white z-999 ba">
             <div className="flex">
               <div className="ph2">
                 <h5>Доставка: </h5>

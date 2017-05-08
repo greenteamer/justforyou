@@ -22,7 +22,6 @@ $btnSizes: (small: 24, medium: 40, big: 60, lg: 100)
 =btn
   display: flex
   align-items: center
-  border: none
   transition: all 0.3s ease
   &:focus
     outline: none!important
@@ -36,31 +35,16 @@ $btnSizes: (small: 24, medium: 40, big: 60, lg: 100)
   @if $size >= 40
     font-size: $size / 3 + px
     text-transform: uppercase
-    +btn-shadow(2, 2, 3, 0.55)
-    &:hover
-      +btn-shadow(3, 3, 5, 0.65)
-      &.active
-        +btn-inner-shadow(0, 1, 2, 0.75)
-    &.active
-      +btn-inner-shadow(0, 1, 2, 0.75)
   @else
     font-size: $size / 2 + px
-    +btn-shadow(1, 1, 3, 0.55)
-    &:hover
-      +btn-shadow(2, 2, 5, 0.75)
-      &.active
-        +btn-inner-shadow(0, 1, 2, 0.75)
-    &.active
-      +btn-inner-shadow(0, 1, 2, 0.75)
 
 =btn-variant($bg, $color, $size)
   background-color: $bg
   color: $color
   @if $bg == #ffffff
-    @if $size >= 40
-      border: 1px solid #ccc
-      &:hover
-        border: 1px solid #ccc
+    border: 1px solid $mild-gray2
+    &.active
+      border: 1px solid $red
   &.active
     background-color: $red
     color: $white

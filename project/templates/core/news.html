@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+
+{% block head %}
+<title>{{ title }}</title>
+<meta name="description" content="{{ description }}"/>
+{% endblock %}
+
+{% block content %}
+  <div class="col-md-12">
+    <h2>{{ news.name }}</h3>
+    <img style="height:150px; width: auto; float: left; margin-right: 20px;" src="{{ news.get_image_url }}" alt=""/>
+    <p>{{ news.description|safe }}</p>
+  </div>
+{% endblock %}

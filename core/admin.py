@@ -1,5 +1,5 @@
 from django.contrib.admin import TabularInline, StackedInline, ModelAdmin, site
-from core.models import Product, Article, Page, ProductImage, ArticleImage, PageImage, Category, PropertyType, PropertyValue
+from core.models import Product, Article, Page, News, Review, NewsImage, ProductImage, ArticleImage, PageImage, Category, PropertyType, PropertyValue
 from super_inlines.admin import SuperInlineModelAdmin, SuperModelAdmin
 from image_cropping import ImageCroppingMixin
 
@@ -22,12 +22,18 @@ class CategoryAdmin(ModelAdmin):
     prepopulated_fields = {'slug': ('name',), }
 
 
-# Register your models here.
+class InfoAdmin(ModelAdmin):
+    prepopulated_fields = {'slug': ('name', )}
+
+
 site.register(PropertyType)
 site.register(Product, ProductAdmin)
-site.register(Article)
-site.register(Page)
+site.register(Article, InfoAdmin)
+site.register(Page, InfoAdmin)
+site.register(News, InfoAdmin)
+site.register(Review, InfoAdmin)
 site.register(ProductImage)
 site.register(ArticleImage)
 site.register(PageImage)
+site.register(NewsImage)
 site.register(Category, CategoryAdmin)

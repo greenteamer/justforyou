@@ -3,6 +3,7 @@ import '../bootstrap/bootstrap.scss';
 import './libs/swiper/css/swiper.css';
 import 'rc-slider/assets/index.css';
 import './styles/tachyons.css';
+import './styles/spinner.css';
 import './styles/base.sass';
 import './styles/_rem_sizing.sass';
 import './styles/_px_sizing.sass';
@@ -21,7 +22,9 @@ import 'react-select/dist/react-select.css';
 
 
 // plain js
+import './libs/bootstrap/tab';
 import './libs/bootstrap/dropdown';
+import './libs/bootstrap/modal';
 import './libs/bootstrap/collapse';
 import './libs/bootstrap/tooltip';
 import './reactapp/index';

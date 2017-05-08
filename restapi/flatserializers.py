@@ -10,7 +10,8 @@ class CategoryObj(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ('id', 'absoluteUrl', 'name', 'slug', 'parent')
+        #  fields = ('id', 'absoluteUrl', 'name', 'slug', 'parent')
+        fields = '__all__'
 
 
 class ProductImageObj(serializers.ModelSerializer):
@@ -43,7 +44,11 @@ class ProductObj(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ('url', 'absoluteUrl', 'id', 'category', 'name', 'slug', 'description', 'price', 'images', 'properties', 'attached', 'isPopular')
+        fields = (
+            'url', 'absoluteUrl', 'id', 'category', 'name', 'slug',
+            'description', 'preview_description', 'price', 'weight', 'images', 'properties',
+            'attached', 'isPopular', 'certificate'
+        )
 
 
 class CartItemObj(serializers.ModelSerializer):

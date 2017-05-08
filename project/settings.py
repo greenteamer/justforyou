@@ -29,11 +29,12 @@ SECRET_KEY = 's7z+3m49iktgu*o3lh2d77ynzw#p@%!n3*-n_+(mz8^on-!-v='
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-WEBPACK_DEV_SERVER = True
-
 ALLOWED_HOSTS = []
-SITE_ID = 1
+INTERNAL_IPS = ['127.0.0.1', ]
 
+WEBPACK_DEV_SERVER = True
+SITE_ID = 1
+APPEND_SLASH = True
 
 # Application definition
 
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django.contrib.sitemaps',
     'django.contrib.flatpages',
     # installed apps:
     'mptt',
@@ -55,11 +57,14 @@ INSTALLED_APPS = [
     'image_cropping',
     'easy_thumbnails',
     'robokassa',
+    'ckeditor',
+    'ckeditor_uploader',
     # 'corsheaders',
     # custom apps:
     'core',
     'cart',
-    'restapi'
+    'restapi',
+    'debug_toolbar'
 ]
 
 
@@ -79,18 +84,23 @@ REST_FRAMEWORK = {
 }
 
 
+CKEDITOR_JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js'
+CKEDITOR_UPLOAD_PATH = "uploads/"
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'core.middleware.CookieProcessingMiddleware',
     #  'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.sites.middleware.CurrentSiteMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'breadcrumbs.middleware.BreadcrumbsMiddleware',
 ]
 #  MIDDLEWARE_CLASSES = [
@@ -164,8 +174,6 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
@@ -173,6 +181,8 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+LANGUAGE_CODE = 'ru-RU'
 
 
 # Static files (CSS, JavaScript, Images)

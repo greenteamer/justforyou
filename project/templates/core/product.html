@@ -8,12 +8,17 @@
 {% block first_block %}
 {% endblock %}
 
+{% block head %}
+  <title>{{ title }}</title>
+  <meta name="description" content="{{ description }}"/>
+{% endblock %}
+
 {% block content %}
   <div class="col-md-12" id="react-product-item">
     <h1>{{ product.name }}</h1>
     <div class="row">
       <div class="col-md-3">
-        <div class="product-image ba bd-1px bd-mild-gray2">
+        <div class="product-image ba bd-1px bd-mild-gray2 pv5 bg-warm-grey-5">
           <img src="{{ product.get_image.croppedImage }}" alt="" />
         </div>
       </div>
@@ -24,15 +29,15 @@
             <p class="fs-150r">Цена с доставкой</p>
             <ul class="list pl-0px">
               <li class="ion-android-car fs-125r">
-                <a href="" class="fs-87r c-ocean-green ml-16px">Доставка по Москве и МО: </a>
+                <a href="" class="fs-87r c-brown underline ml-16px">Доставка по Москве и МО: </a>
                 <span class="fs-113r c-brown b fr">400 р.</span>
               </li>
               <li class="ion-plane fs-125r">
-                <a href="" class="fs-87r c-ocean-green ml-16px">Доставка в Регионы: </a>
+                <a href="" class="fs-87r c-brown underline ml-16px">Доставка в Регионы: </a>
                 <span class="fs-113r c-brown b fr">от 450 р.</span>
               </li>
               <li class="ion-android-hand fs-125r">
-                <a href="" class="fs-87r c-ocean-green ml-16px">Самовывоз: </a>
+                <a href="" class="fs-87r c-brown underline ml-16px">Самовывоз: </a>
                 <span class="fs-113r c-brown fr">Бесплатно</span>
               </li>
             </ul>
@@ -45,27 +50,55 @@
             </div>
           </div>
         </div>
-        <div class="bg-green c-white pa-8px tc br2 br--bottom pointer min-h-50px flex justify-center items-center">
-          <span class="ion-bag fs-120r mr-10px"></span>
-          <span>Добавить в корзину</span>
+        <div class="bg-mild-gray2 brown c-white pa-8px tc br2 br--bottom pointer min-h-50px flex justify-center items-center">
+          <span class="b c-brown ion-bag fs-120r mr-10px" />
+          <span class="b ff-b c-brown ttu">Добавить в корзину</span>
         </div>
       </div>
       <div class="col-md-5">
         <p class="fs-150r mb-22px">Краткое описание:</p>
-        <div class="">{{ product.description|safe|truncatewords:100 }}</div>
+        <div class="">{{ product.preview_description|safe }}</div>
       </div>
       <div class="col-md-7">
-        <div class="inline-flex mt-50px">
-          <button type="button" name="button" class="btn btn-medium btn-green active">Описание</button>
-          <button type="button" name="button" class="btn btn-medium btn-white mr-1px">Отзывы</button>
-          <button type="button" name="button" class="btn btn-medium btn-white mr-1px">Доставка</button>
-          <button type="button" name="button" class="btn btn-medium btn-white mr-1px">Возврат</button>
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs mt5" id="myTab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#description" role="tab" aria-controls="description">Описание</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews">Отзывы</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#cartificate" role="tab" aria-controls="certificate">Сертификат</a>
+          </li>
+        </ul>
+
+        <div class="tab-content">
+          <div class="tab-pane active" id="description" role="tabpanel"><p>{{ product.description|safe }}</p></div>
+          <div class="tab-pane pt3" id="reviews" role="tabpanel">
+            {% for item in reviews %}
+              <div class="col-md-12 mb3">
+              <h3>{{ item.name }}</h3>
+              <p>{{ item.description|safe }}</p>
+              <p class="fr">Товар: <a href="{{ item.product.absoluteUrl }}">{{ item.product.name }}</a></p>
+              <a href="{{ item.get_absolute_url }}">Подробнее</a>
+              </div>
+            {% endfor %}
+          </div>
+          <div class="tab-pane" id="cartificate" role="tabpanel"><img src="{{ product.get_certificate_url }}"/></div>
         </div>
-        <div class="ba bd-red pa-26px">
-          <p>{{ product.description|safe }}</p>
-        </div>
+
+        <!-- <div class="inline-flex mt-50px"> -->
+        <!--   <button type="button" name="button" class="btn btn-medium btn-green active">Описание</button> -->
+        <!--   <button type="button" name="button" class="btn btn-medium btn-white mr-1px">Отзывы</button> -->
+        <!--   <button type="button" name="button" class="btn btn-medium btn-white mr-1px">Доставка</button> -->
+        <!--   <button type="button" name="button" class="btn btn-medium btn-white mr-1px">Возврат</button> -->
+        <!-- </div> -->
+        <!-- <div class="ba bd-red pa-26px"> -->
+        <!-- </div> -->
       </div>
-      <div class="col-md-5">
+      <div class="hidden-sm-down col-md-5">
         <p class="mt-50px fs-150r mb-0px pl-10px">С этим товаром покупают:</p>
         <div id="react-attached-products">
           <div class="flex flex-wrap">
@@ -98,10 +131,10 @@
           </div>
         </div>
       </div>
-      <div class="col-md-12">
-        <p class="tc fs-150r">Самые продоваемые товары</p>
+      <div class="hidden-sm-down col-md-12 mt4">
+        <p class="tc fs-150r">Самые продаваемые товары</p>
         <!-- Slider main container -->
-        <div class="swiper-container">
+        <div class="swiper-container swiper1">
           <!-- Additional required wrapper -->
           <div class="swiper-wrapper">
             <!-- Slides -->

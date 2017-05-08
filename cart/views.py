@@ -5,11 +5,15 @@ from cart.models import CartItem, Delivery, Order
 from robokassa.forms import RobokassaForm
 from robokassa.signals import result_received
 from django.views.decorators.csrf import csrf_exempt
+from core.utils import get_initial_json_data
 
 
 def cart_view(request, template_name='cart/cart.html'):
     request.breadcrumbs([(u'Корзина', '')])
-    return render(request, template_name, {})
+    initial_data = get_initial_json_data(request)
+    return render(request, template_name, {
+        "initial_data": initial_data,
+    })
 
 
 def order_view(request, template_name='cart/order.html'):
@@ -44,12 +48,15 @@ def order_view(request, template_name='cart/order.html'):
         #  'Desc': order.name,
         #  'Email': request.user.email,
     })
+
+    initial_data = get_initial_json_data(request)
     return render(request, template_name, {
         "cart_items": cart_items,
         "items_price": items_price,
         "delivery": delivery,
         "unrestricted_address": unrestricted_address,
         "form": form,
+        "initial_data": initial_data,
     })
 
 

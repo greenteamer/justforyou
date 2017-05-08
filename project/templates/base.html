@@ -10,17 +10,18 @@
   <meta name="author" content="Kamleshyadav"/>
   <meta name="MobileOptimized" content="320">
   {% block head %}
-    <title>{{ title }}</title>
-    <meta name="description" content="{{ description }}"/>
-    <meta name="keywords" content="">
+    <title>Главная | фирменные кросовки по стоковым ценам</title>
+    <meta name="description" content="Магазин кросовок likethis.ru."/>
   {% endblock %}
   <link rel="stylesheet" type="text/css" href="{% static "dist/bundle.css" %}">
   <!-- <link rel="stylesheet" type="text/css" href="http://localhost:8080/dist/bundle.css" > -->
   <link rel="stylesheet" href="{% static "src/libs/ionicons/css/ionicons.min.css" %}" >
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css">
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <script src="https://use.fontawesome.com/029364637b.js"></script>
 </head>
-<body>
+<body class="relative">
+  <div id="react-loader" class=""></div>
 
   <div class="container">
     <div class="row">
@@ -30,6 +31,9 @@
     </div>
   </div>
 
+  {% block slider %}
+  {% endblock %}
+
   {% top_menu request %}
 
   <div class="container">
@@ -38,6 +42,11 @@
       {% block header %}
       {% endblock %}
 
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
       {% block breadcrumbs %}
         <div class="col-md-12">
           <ol class="breadcrumb">
@@ -62,6 +71,11 @@
       {% block sidebar %}
       {% endblock %}
 
+      {% block popular %}
+      {% endblock %}
+
+      {% block about %}
+      {% endblock %}
 
       <div class="row">
         <div class="col-md-12">
@@ -75,27 +89,16 @@
     </div>
   </div>
 
-  <div class="bg-green mt-33px c-white pa-33px">
-    <div class="container">
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="row">
-            {% block footer %}
-              <div class="col-xs-4">
-                Это текст футера
-              </div>
-              <div class="col-xs-2">
-                <h4>Контакты</h4>
-                <p>090909</p>
-                <p>mail</p>
-              </div>
-            {% endblock %}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  {% footer request %}
+
+
   <!-- <script src="http://localhost:8080/dist/bundle.js"></script> -->
+  <script>
+    {% if initial_data %}
+      window.initial_data = {{ initial_data }}
+      console.log('**** initial_data: ', window.initial_data);
+    {% endif %}
+  </script>
   <script src="{% static 'dist/bundle.js' %}"></script>
   {% block page_js %}
   {% endblock %}
