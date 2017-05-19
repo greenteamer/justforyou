@@ -7,8 +7,8 @@ from core.utils import get_initial_json_data
 
 
 def index_view(request, template_name='core/index.html'):
-    title = "Главная | товары народной медицины gammarus.ru"
-    description = "Магазин товаров народной медецины gammarus.ru. Бобровая струя, медвежий жир и другие товары у нас."
+    title = "Главная | брендовые кросовки"
+    description = "Магазин брендовых кросовок по лучшим ценам justforyou70.ru."
 
     popularProducts = models.Product.objects.filter(isPopular=True)
     about = get_object_or_404(models.Page, slug="about")
@@ -117,8 +117,8 @@ def article_view(request, slug, template_name='core/article.html'):
 
 def article_list_view(request, template_name='core/article_list.html'):
     articles = models.Article.objects.all()
-    title = u"Статьи | товары народной медицины gammarus.ru"
-    description = u"Статьи на тему здоровья"
+    title = u"Статьи | justforyou70.ru"
+    description = u"Статьи"
     request.breadcrumbs([(u"Статьи", '/articles/')])
     initial_data = get_initial_json_data(request)
     return render(request, template_name, {
@@ -145,7 +145,7 @@ def news_view(request, slug, template_name='core/news.html'):
 
 def news_list_view(request, template_name='core/news_list.html'):
     news = models.News.objects.all()
-    title = u"Новости | товары народной медицины gammarus.ru"
+    title = u"Новости | justforyou70.ru"
     description = u"Наши новости"
     request.breadcrumbs([(u"Новости", '/news/')])
     initial_data = get_initial_json_data(request)
@@ -173,8 +173,8 @@ def reivew_view(request, slug, template_name='core/review.html'):
 
 def review_list_view(request, template_name='core/review_list.html'):
     reviews = models.Review.objects.all()
-    title = u"Отзывы | товары народной медицины gammarus.ru"
-    description = u"Отзывы о наших продуктах"
+    title = u"Отзывы | justforyou70.ru"
+    description = u"Отзывы о наших товарах"
     request.breadcrumbs([(u"Отзывы", '/reviews/')])
     initial_data = get_initial_json_data(request)
     return render(request, template_name, {
