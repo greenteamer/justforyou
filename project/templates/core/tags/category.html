@@ -1,5 +1,13 @@
 {% load mptt_tags%}
 
+
 {% recursetree nodes %}
-  <li><a href="/catalog/{{ node.slug }}/" class="link">{{ node.name }}</a></li>
+<li>
+  <a href="/catalog/{{ node.slug }}/" class="link">{{ node.name }}</a>
+  {% if not node.is_leaf_node %}
+    <ul class="children">
+      {{ children }}
+    </ul>
+  {% endif %}
+</li>
 {% endrecursetree %}

@@ -12,6 +12,7 @@ import * as API from '../api';
 import Product from './Product';
 import User from './User';
 import Property from './Property';
+import Category from './Category';
 import Image from './Image';
 import CartItem from './CartItems';
 import Delivery from './Delivery';
@@ -43,7 +44,11 @@ class Store extends singleton {
     autorun(() => {
       if (!uiStore.isLoading) {
         const path = window.location.pathname.split('/');
-        const catalogSlug = path[1] === 'catalog' ? path[2] : null;
+        // console.log('*** Store path : ', path);
+        const mainCategorySlug = 'krosovki';
+        const catalogSlug = path[1] === 'catalog'
+          ? path[2] : path[1].length === 0
+            ? mainCategorySlug : null;
         if (this.categories.length !== 0 && catalogSlug) {
           const catalog = this.categories.find(c => c.slug === catalogSlug);
           uiStore.setCatalogFilter(catalog.id);
@@ -78,10 +83,18 @@ class Store extends singleton {
     return this.filterProductsByPrice;
   }
 
-  @computed get productsByCategory() {
-    return uiStore.catalogFilter !== null
-      ? observable(this.products.filter(product => product.category.includes(uiStore.catalogFilter)))
-      : this.products;
+  @computed get productsByCategory() {  // FIXME: override save method in django model insted
+    if (uiStore.catalogFilter !== null) {  // get all procucts fron descendants categories
+      const catalogFilterObj = this.categories.find(c => uiStore.catalogFilter === c.id);
+      const catIds = [uiStore.catalogFilter,
+        ...catalogFilterObj ? [...catalogFilterObj.descendants.map(c => c.id)] : [],
+      ];
+      return observable(this.products.filter(product => 
+        product.category.some(id => 
+          catIds.includes(id))
+      ));
+    }
+    return this.products;
   }
 
   @computed get filterProductsByPrice() {
@@ -107,7 +120,7 @@ class Store extends singleton {
       this.images.replace(window.initial_data.images.map(i => new Image(this, i)));
       this.types.replace(window.initial_data.types);
       this.properties.replace(window.initial_data.properties.map(prop => new Property(this, prop)));
-      this.categories.replace(window.initial_data.categories);
+      this.categories.replace(window.initial_data.categories.map(c => new Category(this, c)));
       this.products.replace(window.initial_data.products.map(product => new Product(this, product)));
       this.cartitems.replace(window.initial_data.cartitems.map(item => new CartItem(this, item)));
       if (window.initial_data.deliveries.length === 0) {
