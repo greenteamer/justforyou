@@ -18,8 +18,8 @@
     <h1>{{ product.name }}</h1>
     <div class="row">
       <div class="col-md-3">
-        <div class="product-image ba bd-1px bd-mild-gray2 pv5 bg-warm-grey-5">
-          <img src="{{ product.get_image.croppedImage }}" alt="" />
+        <div class="product-image bd-mild-gray2">
+          <img src="{{ product.get_image.get_relevant_url }}" alt="" />
         </div>
       </div>
       <div class="col-md-4" id="react-product-card">

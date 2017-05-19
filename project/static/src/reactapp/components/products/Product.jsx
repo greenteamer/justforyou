@@ -69,8 +69,8 @@ class Product extends Component {
   render() {
     const { product, store } = this.props;
     return <div className="product-container flex-auto flex flex-column">
-      <div className="ba bg-warm-grey-5 bd-mild-gray2 pa-10px tc br2 br--top flex-auto">
-        <img src={ product.images[0].croppedImage } alt="" className="max-h-150px" />
+      <div className="ba bg-warm-grey-5 bd-mild-gray2 pa-0px tc br2 br--top flex-auto">
+        <img src={ product.images[0].relevantUrl } alt="" className="w-100" />
         <p className="fs-190r mb-20px">{product.activeProperty ? product.activeProperty.price : product.price}р.</p>
         <a href={ product.absoluteUrl } className="fs-150r product-name c-brown">{ product.name }</a>
 

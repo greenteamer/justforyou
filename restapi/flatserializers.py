@@ -19,7 +19,7 @@ class ProductImageObj(serializers.ModelSerializer):
 
     class Meta:
         model = ProductImage
-        fields = ('id', 'image', 'product', 'cropping', 'croppedImage')
+        fields = ('id', 'image', 'product', 'mainCropper', 'cropping', 'croppedImage', 'croppingVertical', 'croppedVerticalImage')
 
 
 class PropertyTypeObj(serializers.ModelSerializer):

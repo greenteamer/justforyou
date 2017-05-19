@@ -12,6 +12,7 @@ import * as API from '../api';
 import Product from './Product';
 import User from './User';
 import Property from './Property';
+import Image from './Image';
 import CartItem from './CartItems';
 import Delivery from './Delivery';
 import uiStore from './UIStore';
@@ -103,7 +104,7 @@ class Store extends singleton {
 
     if (window.initial_data) {
       this.user = new User(window.initial_data.user);
-      this.images.replace(window.initial_data.images);
+      this.images.replace(window.initial_data.images.map(i => new Image(this, i)));
       this.types.replace(window.initial_data.types);
       this.properties.replace(window.initial_data.properties.map(prop => new Property(this, prop)));
       this.categories.replace(window.initial_data.categories);

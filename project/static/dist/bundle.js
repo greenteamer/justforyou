@@ -44631,6 +44631,10 @@
 	
 	var _Property2 = _interopRequireDefault(_Property);
 	
+	var _Image = __webpack_require__(727);
+	
+	var _Image2 = _interopRequireDefault(_Image);
+	
 	var _CartItems = __webpack_require__(542);
 	
 	var _CartItems2 = _interopRequireDefault(_CartItems);
@@ -44794,7 +44798,9 @@
 	                }
 	
 	                this.user = new _User2.default(window.initial_data.user);
-	                this.images.replace(window.initial_data.images);
+	                this.images.replace(window.initial_data.images.map(function (i) {
+	                  return new _Image2.default(_this2, i);
+	                }));
 	                this.types.replace(window.initial_data.types);
 	                this.properties.replace(window.initial_data.properties.map(function (prop) {
 	                  return new _Property2.default(_this2, prop);
@@ -53426,8 +53432,8 @@
 	        { className: 'product-container flex-auto flex flex-column' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'ba bg-warm-grey-5 bd-mild-gray2 pa-10px tc br2 br--top flex-auto' },
-	          _react2.default.createElement('img', { src: product.images[0].croppedImage, alt: '', className: 'max-h-150px' }),
+	          { className: 'ba bg-warm-grey-5 bd-mild-gray2 pa-0px tc br2 br--top flex-auto' },
+	          _react2.default.createElement('img', { src: product.images[0].relevantUrl, alt: '', className: 'w-100' }),
 	          _react2.default.createElement(
 	            'p',
 	            { className: 'fs-190r mb-20px' },
@@ -71559,6 +71565,103 @@
 	//# sourceMappingURL=maps/swiper.js.map
 	
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(339)))
+
+/***/ }),
+/* 727 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = undefined;
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _desc, _value, _class;
+	
+	var _mobx = __webpack_require__(530);
+	
+	var _utils = __webpack_require__(531);
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+	  var desc = {};
+	  Object['ke' + 'ys'](descriptor).forEach(function (key) {
+	    desc[key] = descriptor[key];
+	  });
+	  desc.enumerable = !!desc.enumerable;
+	  desc.configurable = !!desc.configurable;
+	
+	  if ('value' in desc || desc.initializer) {
+	    desc.writable = true;
+	  }
+	
+	  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+	    return decorator(target, property, desc) || desc;
+	  }, desc);
+	
+	  if (context && desc.initializer !== void 0) {
+	    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+	    desc.initializer = undefined;
+	  }
+	
+	  if (desc.initializer === void 0) {
+	    Object['define' + 'Property'](target, property, desc);
+	    desc = null;
+	  }
+	
+	  return desc;
+	}
+	
+	var initialObj = {
+	  id: null,
+	  product: null,
+	  image: '',
+	  mainCropper: '',
+	  croppedImage: '',
+	  croppedVerticalImage: ''
+	};
+	
+	var Image = (_class = function () {
+	  function Image(store, obj) {
+	    _classCallCheck(this, Image);
+	
+	    this._store = store;
+	    (0, _mobx.extendObservable)(this, initialObj, obj);
+	  }
+	
+	  _createClass(Image, [{
+	    key: 'relevantUrl',
+	    get: function get() {
+	      if (this.mainCropper === 'vertical') return this.croppedVerticalImage;
+	      return this.croppedImage;
+	    }
+	  }, {
+	    key: 'toJS',
+	    get: function get() {
+	      return (0, _mobx.toJS)(this);
+	    }
+	  }]);
+	
+	  return Image;
+	}(), (_applyDecoratedDescriptor(_class.prototype, 'relevantUrl', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'relevantUrl'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toJS', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'toJS'), _class.prototype)), _class);
+	exports.default = Image;
+	;
+	
+	var _temp = function () {
+	  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+	    return;
+	  }
+	
+	  __REACT_HOT_LOADER__.register(initialObj, 'initialObj', '/Users/aleksandrkorovkin/Desktop/evilmonkey/projects/likethis/project/static/src/reactapp/store/Image.js');
+	
+	  __REACT_HOT_LOADER__.register(Image, 'Image', '/Users/aleksandrkorovkin/Desktop/evilmonkey/projects/likethis/project/static/src/reactapp/store/Image.js');
+	}();
+
+	;
 
 /***/ })
 /******/ ]);
