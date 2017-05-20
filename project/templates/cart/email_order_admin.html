@@ -1,0 +1,30 @@
+<h3>Заказ товара на сайте justforyou70.ru</h3>
+
+<div>
+  <p>
+    id заказа: {{ order.id }}
+  </p>
+  <table style="border: 1px solid #333">
+    {% for item in order.get_all_cart_items %}
+    <tr>
+      <td>{{ item.product.name }}</td>
+      <td>{{ item.count }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+
+<p>адрес: {{unrestricted_address}}</p>
+<p>телефон: {{delivery.phone}}</p>
+
+<p>
+  {{ config.site_description }}
+</p>
+
+<div>
+  <br />
+  <h3>Служба поддержки, www.justforyou70.ru</h3>
+  <p><a␣href="http://justforyou70.ru/">http://justforyou70.ru/</a></p>
+  <p><a␣href="mailto:support@justforyou70.ru">support@justforyou70.ru</a></p>
+</div>
+

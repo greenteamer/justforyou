@@ -44604,12 +44604,12 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _desc, _value, _class, _descriptor, _descriptor2, _descriptor3; /*
-	                                                                      products - начальный массив... может менятся только при запросе актуальных данных с сервера
-	                                                                        products служит локальным источником правды (все существующие продукты)
-	                                                                      computedProducts - вычесленный массив продуктов ... меняется в результате действий на сайте
-	                                                                        таких как фильтрация, сортировка и т.д.
-	                                                                    */
+	var _desc, _value, _class, _descriptor, _descriptor2; /*
+	                                                        products - начальный массив... может менятся только при запросе актуальных данных с сервера
+	                                                          products служит локальным источником правды (все существующие продукты)
+	                                                        computedProducts - вычесленный массив продуктов ... меняется в результате действий на сайте
+	                                                          таких как фильтрация, сортировка и т.д.
+	                                                      */
 	
 	var _mobx = __webpack_require__(530);
 	
@@ -44743,8 +44743,6 @@
 	    _initDefineProp(_this, 'addCartItem', _descriptor, _this);
 	
 	    _initDefineProp(_this, 'removeCartItem', _descriptor2, _this);
-	
-	    _initDefineProp(_this, 'pushOrder', _descriptor3, _this);
 	
 	    (0, _mobx.extendObservable)(_this, initialData);
 	    _this.pullAll();
@@ -45180,16 +45178,6 @@
 	        return _ref3.apply(this, arguments);
 	      };
 	    }();
-	  }
-	}), _descriptor3 = _applyDecoratedDescriptor(_class.prototype, 'pushOrder', [_mobx.action], {
-	  enumerable: true,
-	  initializer: function initializer() {
-	    var _this11 = this;
-	
-	    return function () {
-	      // console.log('Store pushOrder');
-	      _this11.x = 0;
-	    };
 	  }
 	}), _applyDecoratedDescriptor(_class.prototype, 'maxProductPrice', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'maxProductPrice'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'minProductPrice', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'minProductPrice'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'totalPrice', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'totalPrice'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'totalPriceWithDelivery', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'totalPriceWithDelivery'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'totalItems', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'totalItems'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'totalWeight', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'totalWeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'userCartitems', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'userCartitems'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'siteConfig', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'siteConfig'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toJS', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'toJS'), _class.prototype)), _class);
 	
@@ -53056,8 +53044,6 @@
 	  }, {
 	    key: '__handleOnChange__REACT_HOT_LOADER__',
 	    value: function __handleOnChange__REACT_HOT_LOADER__(value) {
-	      var _this5 = this;
-	
 	      var _props = this.props,
 	          store = _props.store,
 	          delivery = _props.store.delivery;
@@ -53066,15 +53052,16 @@
 	      this.addressValue = value;
 	      var data = (0, _mobx.toJS)(this.addressSuggestions[value.value].data);
 	      delivery.changeData(data);
-	      API.sendit(API.ENDPOINTS.GET_SENDIT(), {
-	        country: data.country,
-	        city: data.city,
-	        settlement: data.settlement,
-	        weight: '' + store.totalWeight / 1000
-	      }).then(function (result) {
-	        _this5.variants = result;
-	        store.hasForegroundFetching = false;
-	      });
+	      // API.sendit(API.ENDPOINTS.GET_SENDIT(), {
+	      //   country: data.country,
+	      //   city: data.city,
+	      //   settlement: data.settlement,
+	      //   weight: `${store.totalWeight / 1000}`,
+	      // }).then(result => {
+	      //   this.variants = result;
+	      //   store.hasForegroundFetching = false;
+	      // });
+	      store.hasForegroundFetching = false;
 	    }
 	  }, {
 	    key: '__handleOnFocus__REACT_HOT_LOADER__',
@@ -53086,13 +53073,12 @@
 	    value: function __processingOrder__REACT_HOT_LOADER__() {
 	      var store = this.props.store;
 	
-	      store.pushOrder();
 	      window.location.pathname = '/order/';
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this6 = this;
+	      var _this5 = this;
 	
 	      var store = this.props.store;
 	      var delivery = store.delivery;
@@ -53195,7 +53181,7 @@
 	                  {
 	                    className: 'btn btn-medium rounded btn-green',
 	                    onClick: function onClick() {
-	                      _this6.specify = true;
+	                      _this5.specify = true;
 	                    }
 	                  },
 	                  '\u0423\u0442\u043E\u0447\u043D\u0438\u0442\u044C'
@@ -53229,41 +53215,6 @@
 	                'div',
 	                { className: 'ph2' },
 	                _react2.default.createElement(
-	                  'h5',
-	                  null,
-	                  '\u0414\u043E\u0441\u0442\u0430\u0432\u043A\u0430: '
-	                ),
-	                _react2.default.createElement(
-	                  'p',
-	                  { className: 'mb1' },
-	                  delivery.provider_name,
-	                  ' ',
-	                  delivery.provider_type
-	                ),
-	                _react2.default.createElement(
-	                  'p',
-	                  { className: 'mb1' },
-	                  '\u0441\u0440\u043E\u043A \u0434\u043E\u0441\u0442\u0430\u0432\u043A\u0438: ',
-	                  delivery.days
-	                ),
-	                _react2.default.createElement(
-	                  'p',
-	                  { className: 'mb1' },
-	                  '\u0441\u0442\u043E\u0438\u043C\u043E\u0441\u0442\u044C \u0434\u043E\u0441\u0442\u0430\u0432\u043A\u0438: ',
-	                  delivery.price
-	                )
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'ph2' },
-	                _react2.default.createElement(
-	                  'h4',
-	                  { className: 'tr' },
-	                  '\u0421\u0442\u043E\u0438\u043C\u043E\u0441\u0442\u044C \u0442\u043E\u0432\u0430\u0440\u043E\u0432: ',
-	                  store.totalPrice,
-	                  ' \u0440.'
-	                ),
-	                _react2.default.createElement(
 	                  'h4',
 	                  { className: 'tr' },
 	                  '\u041E\u0431\u0449\u0430\u044F \u0441\u0442\u043E\u0438\u043C\u043E\u0441\u0442\u044C: ',
@@ -53275,7 +53226,7 @@
 	                  {
 	                    className: 'btn btn-medium rounded btn-white fr',
 	                    onClick: function onClick() {
-	                      return _this6.processingOrder();
+	                      return _this5.processingOrder();
 	                    }
 	                  },
 	                  '\u041E\u0444\u043E\u0440\u043C\u0438\u0442\u044C \u0437\u0430\u043A\u0430\u0437'

@@ -140,15 +140,16 @@ class CartPage extends Component {
     this.addressValue = value;
     const data = toJS(this.addressSuggestions[value.value].data);
     delivery.changeData(data);
-    API.sendit(API.ENDPOINTS.GET_SENDIT(), {
-      country: data.country,
-      city: data.city,
-      settlement: data.settlement,
-      weight: `${store.totalWeight / 1000}`,
-    }).then(result => {
-      this.variants = result;
-      store.hasForegroundFetching = false;
-    });
+    // API.sendit(API.ENDPOINTS.GET_SENDIT(), {
+    //   country: data.country,
+    //   city: data.city,
+    //   settlement: data.settlement,
+    //   weight: `${store.totalWeight / 1000}`,
+    // }).then(result => {
+    //   this.variants = result;
+    //   store.hasForegroundFetching = false;
+    // });
+    store.hasForegroundFetching = false;
   }
 
   handleOnFocus = () => {
@@ -157,7 +158,6 @@ class CartPage extends Component {
 
   processingOrder = () => {
     const { store } = this.props;
-    store.pushOrder();
     window.location.pathname = '/order/';
   }
 
@@ -233,14 +233,18 @@ class CartPage extends Component {
         {
           <div className="fixed bottom-0 right-0 pa3 bg-brown white z-999 ba">
             <div className="flex">
+              {
+                // <div className="ph2">
+                //   <h5>Доставка: </h5>
+                //   <p className="mb1">{delivery.provider_name} {delivery.provider_type}</p>
+                //   <p className="mb1">срок доставки: {delivery.days}</p>
+                //   <p className="mb1">стоимость доставки: {delivery.price}</p>
+                // </div>
+              }
               <div className="ph2">
-                <h5>Доставка: </h5>
-                <p className="mb1">{delivery.provider_name} {delivery.provider_type}</p>
-                <p className="mb1">срок доставки: {delivery.days}</p>
-                <p className="mb1">стоимость доставки: {delivery.price}</p>
-              </div>
-              <div className="ph2">
-                <h4 className="tr">Стоимость товаров: {store.totalPrice} р.</h4>
+                {
+                  // <h4 className="tr">Стоимость товаров: {store.totalPrice} р.</h4>
+                }
                 <h4 className="tr">Общая стоимость: {store.totalPriceWithDelivery} р.</h4>
                 <button
                   className="btn btn-medium rounded btn-white fr"
