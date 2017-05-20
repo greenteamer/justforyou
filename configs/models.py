@@ -7,6 +7,7 @@ from core.models import Category
 class Config(models.Model):
     site = models.OneToOneField(Site, related_name="site")
     site_name = models.CharField(max_length=200, verbose_name=u"Название сайта")
+    site_short_description = models.CharField(max_length=200, verbose_name=u"Краткое описание")
     site_address = models.CharField(max_length=200, verbose_name=u"Адрес сайта")
     site_description = models.TextField(verbose_name=u"Описание сайта")
     site_logo = models.ImageField(upload_to="config")

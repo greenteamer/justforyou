@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import template
 from core.models import Category, News
+from configs.methods import get_site_config
 register = template.Library()
 
 
@@ -16,14 +17,18 @@ def category(context, request):
 
 
 def header(context, request):
+    config = get_site_config(request)
     return {
+        'config': config,
         'nodes': Category.objects.all(),
         'slides': News.objects.filter(is_slider=True)
     }
 
 
 def footer(context, request):
+    config = get_site_config(request)
     return {
+        'config': config,
         'user': request.user,
         'request': request,
     }
