@@ -78,6 +78,9 @@ class Product(BaseInfoExtendedModel):
     def get_image(self):
         return ProductImage.objects.filter(product=self)[0]
 
+    def get_all_images(self):
+        return ProductImage.objects.filter(product=self)
+
     def get_certificate_url(self):
         return "/media/%s" % self.certificate
 
@@ -108,6 +111,7 @@ class ProductImage(models.Model):
     )
     cropping = ImageRatioField('image', '300x222')
     croppingVertical = ImageRatioField('image', '250x375')
+    thumb = ImageRatioField('image', '60x60')
 
     class Meta:
         verbose_name = u'Изображение'
@@ -143,6 +147,18 @@ class ProductImage(models.Model):
             {
                 'size': (250, 375),
                 'box': self.croppingVertical,
+                'crop': True,
+                'detail': True,
+            }
+        )
+
+    @property
+    def thumbImage(self):
+        return get_backend().get_thumbnail_url(
+            self.image,
+            {
+                'size': (60, 60),
+                'box': self.thumb,
                 'crop': True,
                 'detail': True,
             }

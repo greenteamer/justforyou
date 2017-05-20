@@ -12,8 +12,8 @@ const mySwiper = new Swiper('.swiper1', {
   // pagination: '.swiper-pagination',
 
   // Navigation arrows
-  nextButton: '.swiper-button-next',
-  prevButton: '.swiper-button-prev',
+  nextButton: '.swiper-button-next2',
+  prevButton: '.swiper-button-prev2',
   // And if we need scrollbar
   // scrollbar: '.swiper-scrollbar',
 });
@@ -29,6 +29,21 @@ const SliderSwiper3 = new Swiper('.swiper3', {
   slidesPerView: 3,
   paginationClickable: true,
 });
+
+var galleryTop = new Swiper('.gallery-top', {
+  nextButton: '.swiper-button-next1',
+  prevButton: '.swiper-button-prev1',
+  spaceBetween: 10,
+});
+var galleryThumbs = new Swiper('.gallery-thumbs', {
+  spaceBetween: 10,
+  centeredSlides: true,
+  slidesPerView: 'auto',
+  touchRatio: 0.2,
+  slideToClickedSlide: true
+});
+galleryTop.params.control = galleryThumbs;
+galleryThumbs.params.control = galleryTop;
 
 // const SliderSwiper = new Swiper('#front-slider', {
 //   // Optional parameters

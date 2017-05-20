@@ -9,49 +9,85 @@
 {% endblock %}
 
 {% block head %}
-  <title>{{ title }}</title>
-  <meta name="description" content="{{ description }}"/>
+<title>{{ title }}</title>
+<meta name="description" content="{{ description }}"/>
 {% endblock %}
 
 {% block content %}
-  <div class="col-md-12" id="react-product-item">
-    <h1>{{ product.name }}</h1>
-    <div class="row">
-      <div class="col-md-3">
-        <div class="product-image bd-mild-gray2">
-          <img src="{{ product.get_image.get_relevant_url }}" alt="" />
+<div class="col-md-12" id="react-product-item">
+  <h1>{{ product.name }}</h1>
+  <div class="row">
+    <div class="col-md-3">
+
+      <style>
+        .gallery-top {
+          width: 100%;
+        }
+        .gallery-thumbs {
+          height: 20%;
+          box-sizing: border-box;
+          padding: 10px 0;
+        }
+        .gallery-thumbs .swiper-slide {
+          width: 25%;
+          height: 100%;
+          opacity: 0.4;
+        }
+        .gallery-thumbs .swiper-slide-active {
+          opacity: 1;
+        }
+      </style>
+      <!-- Swiper -->
+      <div class="swiper-container gallery-top product-swiper">
+        <div class="swiper-wrapper">
+          {% for image in product.get_all_images %}
+            <div class="swiper-slide" style="">
+              <a href="{{ image.get_url }}" data-lightbox="roadtrip">
+                <img src="{{ image.croppedImage }}" />
+              </a>
+            </div>
+          {% endfor %}
         </div>
       </div>
-      <div class="col-md-4" id="react-product-card">
-        <p class="fs-300r lh-300r b">{{ product.price }} р.</p>
-        <div class="ba bd-1px bd-mild-gray2">
-          <div class="bg-light-gray pa-14px">
-            <p class="fs-150r">Цена с доставкой</p>
-            <ul class="list pl-0px">
-              <li class="ion-android-car fs-125r">
-                <a href="" class="fs-87r c-brown underline ml-16px">Доставка по Москве и МО: </a>
-                <span class="fs-113r c-brown b fr">400 р.</span>
-              </li>
-              <li class="ion-plane fs-125r">
-                <a href="" class="fs-87r c-brown underline ml-16px">Доставка в Регионы: </a>
-                <span class="fs-113r c-brown b fr">от 450 р.</span>
-              </li>
-              <li class="ion-android-hand fs-125r">
-                <a href="" class="fs-87r c-brown underline ml-16px">Самовывоз: </a>
-                <span class="fs-113r c-brown fr">Бесплатно</span>
-              </li>
-            </ul>
-          </div>
-          <div class="pl-14px pr-14px pb-24px pt-19px">
-            <div class="mb-0px flex justify-center flex-wrap">
-              {% for property in product.get_properties %}
-                <button class="property btn btn-small btn-white rounded {% if forloop.counter == 1 %}active{% endif %} mr-7px mt-5px">{{ property.value }} {{ property.type.unit }}</button>
-              {% endfor %}
-            </div>
+      <div class="swiper-container gallery-thumbs">
+        <div class="swiper-wrapper">
+          {% for image in product.get_all_images %}
+            <div class="swiper-slide" style="background-image:url({{ image.thumbImage }})"></div>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+    <div class="col-md-4" id="react-product-card">
+      <p class="fs-300r lh-300r b">{{ product.price }} р.</p>
+      <div class="ba bd-1px bd-mild-gray2">
+        <div class="bg-light-gray pa-14px">
+          <p class="fs-150r">Цена с доставкой</p>
+          <ul class="list pl-0px">
+            <li class="ion-android-car fs-125r">
+            <a href="" class="fs-87r c-brown underline ml-16px">Доставка по Москве и МО: </a>
+            <span class="fs-113r c-brown b fr">400 р.</span>
+            </li>
+            <li class="ion-plane fs-125r">
+            <a href="" class="fs-87r c-brown underline ml-16px">Доставка в Регионы: </a>
+            <span class="fs-113r c-brown b fr">от 450 р.</span>
+            </li>
+            <li class="ion-android-hand fs-125r">
+            <a href="" class="fs-87r c-brown underline ml-16px">Самовывоз: </a>
+            <span class="fs-113r c-brown fr">Бесплатно</span>
+            </li>
+          </ul>
+        </div>
+        <div class="pl-14px pr-14px pb-24px pt-19px">
+          <div class="mb-0px flex justify-center flex-wrap">
+            {% for property in product.get_properties %}
+            <button class="property btn btn-small btn-white rounded {% if forloop.counter == 1 %}active{% endif %} mr-7px mt-5px">{{ property.value }} {{ property.type.unit }}</button>
+            {% endfor %}
           </div>
         </div>
-        <div class="bg-mild-gray2 brown c-white pa-8px tc br2 br--bottom pointer min-h-50px flex justify-center items-center">
-          <span class="b c-brown ion-bag fs-120r mr-10px" />
+      </div>
+      <div class="bg-mild-gray2 brown c-white pa-8px tc br2 br--bottom pointer min-h-50px flex justify-center items-center">
+        <span class="b c-brown ion-bag fs-120r mr-10px" />
           <span class="b ff-b c-brown ttu">Добавить в корзину</span>
         </div>
       </div>
@@ -64,13 +100,13 @@
         <!-- Nav tabs -->
         <ul class="nav nav-tabs mt5" id="myTab" role="tablist">
           <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#description" role="tab" aria-controls="description">Описание</a>
+          <a class="nav-link active" data-toggle="tab" href="#description" role="tab" aria-controls="description">Описание</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews">Отзывы</a>
+          <a class="nav-link" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews">Отзывы</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#cartificate" role="tab" aria-controls="certificate">Сертификат</a>
+          <a class="nav-link" data-toggle="tab" href="#cartificate" role="tab" aria-controls="certificate">Сертификат</a>
           </li>
         </ul>
 
@@ -78,55 +114,57 @@
           <div class="tab-pane active" id="description" role="tabpanel"><p>{{ product.description|safe }}</p></div>
           <div class="tab-pane pt3" id="reviews" role="tabpanel">
             {% for item in reviews %}
-              <div class="col-md-12 mb3">
+            <div class="col-md-12 mb3">
               <h3>{{ item.name }}</h3>
               <p>{{ item.description|safe }}</p>
               <p class="fr">Товар: <a href="{{ item.product.absoluteUrl }}">{{ item.product.name }}</a></p>
               <a href="{{ item.get_absolute_url }}">Подробнее</a>
-              </div>
+            </div>
             {% endfor %}
           </div>
           <div class="tab-pane" id="cartificate" role="tabpanel"><img src="{{ product.get_certificate_url }}"/></div>
         </div>
 
         <!-- <div class="inline-flex mt-50px"> -->
-        <!--   <button type="button" name="button" class="btn btn-medium btn-green active">Описание</button> -->
-        <!--   <button type="button" name="button" class="btn btn-medium btn-white mr-1px">Отзывы</button> -->
-        <!--   <button type="button" name="button" class="btn btn-medium btn-white mr-1px">Доставка</button> -->
-        <!--   <button type="button" name="button" class="btn btn-medium btn-white mr-1px">Возврат</button> -->
-        <!-- </div> -->
+          <!--   <button type="button" name="button" class="btn btn-medium btn-green active">Описание</button> -->
+          <!--   <button type="button" name="button" class="btn btn-medium btn-white mr-1px">Отзывы</button> -->
+          <!--   <button type="button" name="button" class="btn btn-medium btn-white mr-1px">Доставка</button> -->
+          <!--   <button type="button" name="button" class="btn btn-medium btn-white mr-1px">Возврат</button> -->
+          <!-- </div> -->
         <!-- <div class="ba bd-red pa-26px"> -->
-        <!-- </div> -->
+          <!-- </div> -->
       </div>
       <div class="hidden-sm-down col-md-5">
         <p class="mt-50px fs-150r mb-0px pl-10px">С этим товаром покупают:</p>
         <div id="react-attached-products">
           <div class="flex flex-wrap">
             {% for product in attachedProducts %}
-              <div class="w-50 pa-10px">
-                <div class="product-container">
-                  <div class="ba bd-mild-gray2 pa-10px tc br2 br--top">
-                    <img src={{ product.get_image.croppedImage }} alt="" class="max-h-150px" />
-                    <p class="fs-190r mb-0px">{{ product.price }}р.</p>
-                    <a href="{{ product.get_absolute_url }}" class="product-name c-brown">
-                      {{ product.name }}
-                    </a>
-                    {% if product.get_properties %}
-                      <div class="pb-24px pt-19px">
-                        <div class="flex justify-center flex-wrap">
-                          {% for property in product.get_properties %}
-                            <button class="property btn btn-small btn-white rounded {% if forloop.counter == 1 %}active{% endif %} mr-7px mt-5px">{{ property.value }} {{ property.type.unit }}</button>
-                          {% endfor %}
-                        </div>
-                      </div>
-                    {% endif %}
+            <div class="w-50 pa-10px">
+              <div class="product-container">
+                <div class="ba bd-mild-gray2 pa-10px tc br2 br--top">
+                  <img src={{ product.get_image.croppedImage }} alt="" class="max-h-150px" />
+
+
+                  <p class="fs-190r mb-0px">{{ product.price }}р.</p>
+                  <a href="{{ product.get_absolute_url }}" class="product-name c-brown">
+                    {{ product.name }}
+                  </a>
+                  {% if product.get_properties %}
+                  <div class="pb-24px pt-19px">
+                    <div class="flex justify-center flex-wrap">
+                      {% for property in product.get_properties %}
+                      <button class="property btn btn-small btn-white rounded {% if forloop.counter == 1 %}active{% endif %} mr-7px mt-5px">{{ property.value }} {{ property.type.unit }}</button>
+                      {% endfor %}
+                    </div>
                   </div>
-                  <div class="bg-green c-white pa-8px tc br2 br--bottom">
-                    <span class="ion-bag fs-120r mr-10px"></span>
-                    <span>Добавить в корзину</span>
-                  </div>
+                  {% endif %}
+                </div>
+                <div class="bg-green c-white pa-8px tc br2 br--bottom">
+                  <span class="ion-bag fs-120r mr-10px"></span>
+                  <span>Добавить в корзину</span>
                 </div>
               </div>
+            </div>
             {% endfor %}
           </div>
         </div>
@@ -139,31 +177,31 @@
           <div class="swiper-wrapper">
             <!-- Slides -->
             {% for product in popularProducts %}
-              <div class="swiper-slide">
-                <div class="pa-10px">
-                  <div class="product-container">
-                    <div class="ba bd-mild-gray2 pa-10px tc br2 br--top">
-                      <img src={{ product.get_image.croppedImage }} alt="" class="max-h-150px" />
-                      <p class="fs-190r mb-0px">{{ product.price }}р.</p>
-                      <a href="{{ product.get_absolute_url }}" class="product-name c-brown">
-                        {{ product.name }}
-                      </a>
-                    </div>
+            <div class="swiper-slide">
+              <div class="pa-10px">
+                <div class="product-container">
+                  <div class="ba bd-mild-gray2 pa-10px tc br2 br--top">
+                    <img src={{ product.get_image.croppedImage }} alt="" class="max-h-150px" />
+                    <p class="fs-190r mb-0px">{{ product.price }}р.</p>
+                    <a href="{{ product.get_absolute_url }}" class="product-name c-brown">
+                      {{ product.name }}
+                    </a>
                   </div>
                 </div>
               </div>
+            </div>
             {% endfor %}
           </div>
 
         </div>
         <!-- If we need navigation buttons -->
-        <div class="swiper-button-prev btn btn-small btn-white rounded w-30px h-30px pa-0px bra-30px justify-center fs-120r">
+        <div class="swiper-button-prev swiper-button-prev2 btn btn-small btn-white rounded w-30px h-30px pa-0px bra-30px justify-center fs-120r">
           <i class="ion-ios-arrow-left"></i>
         </div>
-        <div class="swiper-button-next btn btn-small btn-white rounded w-30px h-30px pa-0px bra-30px justify-center fs-120r">
+        <div class="swiper-button-next swiper-button-next2 btn btn-small btn-white rounded w-30px h-30px pa-0px bra-30px justify-center fs-120r">
           <i class="ion-ios-arrow-right"></i>
         </div>
       </div>
     </div>
   </div>
-{% endblock %}
+  {% endblock %}

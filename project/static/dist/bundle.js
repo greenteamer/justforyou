@@ -66244,8 +66244,8 @@
 	  // pagination: '.swiper-pagination',
 	
 	  // Navigation arrows
-	  nextButton: '.swiper-button-next',
-	  prevButton: '.swiper-button-prev'
+	  nextButton: '.swiper-button-next2',
+	  prevButton: '.swiper-button-prev2'
 	});
 	
 	var SliderSwiper = new _swiper2.default('.swiper2', {
@@ -66259,6 +66259,21 @@
 	  slidesPerView: 3,
 	  paginationClickable: true
 	});
+	
+	var galleryTop = new _swiper2.default('.gallery-top', {
+	  nextButton: '.swiper-button-next1',
+	  prevButton: '.swiper-button-prev1',
+	  spaceBetween: 10
+	});
+	var galleryThumbs = new _swiper2.default('.gallery-thumbs', {
+	  spaceBetween: 10,
+	  centeredSlides: true,
+	  slidesPerView: 'auto',
+	  touchRatio: 0.2,
+	  slideToClickedSlide: true
+	});
+	galleryTop.params.control = galleryThumbs;
+	galleryThumbs.params.control = galleryTop;
 	
 	// const SliderSwiper = new Swiper('#front-slider', {
 	//   // Optional parameters
@@ -66282,6 +66297,10 @@
 	  __REACT_HOT_LOADER__.register(SliderSwiper, 'SliderSwiper', '/Users/aleksandrkorovkin/Desktop/evilmonkey/projects/likethis/project/static/src/js/index.js');
 	
 	  __REACT_HOT_LOADER__.register(SliderSwiper3, 'SliderSwiper3', '/Users/aleksandrkorovkin/Desktop/evilmonkey/projects/likethis/project/static/src/js/index.js');
+	
+	  __REACT_HOT_LOADER__.register(galleryTop, 'galleryTop', '/Users/aleksandrkorovkin/Desktop/evilmonkey/projects/likethis/project/static/src/js/index.js');
+	
+	  __REACT_HOT_LOADER__.register(galleryThumbs, 'galleryThumbs', '/Users/aleksandrkorovkin/Desktop/evilmonkey/projects/likethis/project/static/src/js/index.js');
 	}();
 
 	;
