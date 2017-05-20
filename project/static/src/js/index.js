@@ -21,6 +21,8 @@ const mySwiper = new Swiper('.swiper1', {
 const SliderSwiper = new Swiper('.swiper2', {
   pagination: '.swiper-pagination',
   paginationClickable: true,
+  loop: true,
+  autoplay: 4000,
 });
 
 const SliderSwiper3 = new Swiper('.swiper3', {

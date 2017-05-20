@@ -66250,7 +66250,9 @@
 	
 	var SliderSwiper = new _swiper2.default('.swiper2', {
 	  pagination: '.swiper-pagination',
-	  paginationClickable: true
+	  paginationClickable: true,
+	  loop: true,
+	  autoplay: 4000
 	});
 	
 	var SliderSwiper3 = new _swiper2.default('.swiper3', {
