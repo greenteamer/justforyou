@@ -2,7 +2,33 @@
 from rest_framework import serializers
 from core.models import Category, ProductImage, Product, PropertyType, PropertyValue
 from cart.models import CartItem, Order, Delivery
+from configs.models import Config, SitePhone
 from django.contrib.auth.models import User
+from django.contrib.sites.models import Site
+
+
+class SitePhoneObj(serializers.ModelSerializer):
+    class Meta:
+        model = SitePhone
+        fields = ('id', 'config', 'site_phone', 'is_main')
+
+
+class SiteObj(serializers.ModelSerializer):
+    class Meta:
+        model = Site
+        fields = '__all__'
+
+
+class ConfigObj(serializers.ModelSerializer):
+    site = SiteObj(many=False, read_only=True)
+    phones = SitePhoneObj(many=True, read_only=True)
+
+    class Meta:
+        model = Config
+        fields = (
+            'id', 'site', 'site_name', 'site_address',
+            'site_description', 'site_logo', 'site_logo2', 'site_email', 'site_main_category', 'phones',
+        )
 
 
 class CategoryObj(serializers.ModelSerializer):
@@ -19,7 +45,7 @@ class ProductImageObj(serializers.ModelSerializer):
 
     class Meta:
         model = ProductImage
-        fields = ('id', 'image', 'product', 'cropping', 'croppedImage')
+        fields = ('id', 'image', 'product', 'mainCropper', 'cropping', 'croppedImage', 'croppingVertical', 'croppedVerticalImage')
 
 
 class PropertyTypeObj(serializers.ModelSerializer):

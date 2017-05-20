@@ -24,6 +24,8 @@ handler404 = 'core.views.page_not_found_view'
 admin.autodiscover()
 
 router = routers.DefaultRouter()
+router.register(r'configs', viewsets.ConfigViewSet)
+#  router.register(r'site-phones', viewsets.SitePhoneViewSet)
 router.register(r'users', viewsets.UserViewSet)
 router.register(r'products', viewsets.ProductViewSet)
 router.register(r'images', viewsets.ProductImagesViewSet)

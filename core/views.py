@@ -4,6 +4,7 @@ from core import models
 from django.core.mail import send_mail
 from project.settings import ADMIN_EMAIL
 from core.utils import get_initial_json_data
+from configs.methods import get_site_config
 
 
 def index_view(request, template_name='core/index.html'):
@@ -17,17 +18,15 @@ def index_view(request, template_name='core/index.html'):
     slides = models.News.objects.filter(is_slider=True).order_by('-date')
     hot_products = models.Product.objects.filter(isHotSlider=True)
 
-    images = models.ProductImage.objects.select_related("product").all()
-    products_list = []
+    #  getting only main categories in index
+    config = get_site_config(request)
+    categories = config.site_main_category.get_descendants(include_self=True)
+    products = models.Product.objects.filter(category__in=categories)
 
     def getKey(obj):
         return obj.created_at
-    for img in images:
-        prod = img.product
-        prod.image = img.get_url()
-        products_list.append(prod)
-    sorted_products = sorted(products_list, key=getKey)
 
+    sorted_products = sorted(products, key=getKey)
     initial_data = get_initial_json_data(request)
 
     return render(request, template_name, {

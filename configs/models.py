@@ -1,16 +1,18 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.sites.models import Site
+from core.models import Category
 
 
 class Config(models.Model):
-    site = models.OneToOneField(Site)
+    site = models.OneToOneField(Site, related_name="site")
     site_name = models.CharField(max_length=200, verbose_name=u"Название сайта")
     site_address = models.CharField(max_length=200, verbose_name=u"Адрес сайта")
     site_description = models.TextField(verbose_name=u"Описание сайта")
     site_logo = models.ImageField(upload_to="config")
     site_logo2 = models.ImageField(upload_to="config")
     site_email = models.CharField(max_length=200, verbose_name=u"Почта администратора")
+    site_main_category = models.OneToOneField(Category, null=True, blank=True)
 
     class Meta:
         verbose_name = u"Настройки сайта"
@@ -24,6 +26,7 @@ class Config(models.Model):
 
     def get_logo_url(self):
         return "/media/%s" % self.site_logo.name
+
     def get_logo2_url(self):
         return "/media/%s" % self.site_logo2.name
 
@@ -32,7 +35,7 @@ class Config(models.Model):
 
 
 class SitePhone(models.Model):
-    config = models.ForeignKey(Config)
+    config = models.ForeignKey(Config, related_name="phones")
     site_phone = models.CharField(max_length=200, verbose_name=u"Телефон сайта", help_text="вводите телефон в формате 8 (118) 716-20-19")
     is_main = models.BooleanField(default=False, verbose_name=u"Главный телефон")
 

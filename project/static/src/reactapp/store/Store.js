@@ -6,12 +6,14 @@
 */
 
 
-import { action, autorun, autorunAsync, observable, runInAction, computed, toJS, peek} from 'mobx';
+import { action, autorun, autorunAsync, observable, extendObservable, runInAction, computed, toJS, peek} from 'mobx';
 import { getCookie } from '../utils';
 import * as API from '../api';
 import Product from './Product';
 import User from './User';
 import Property from './Property';
+import Category from './Category';
+import Image from './Image';
 import CartItem from './CartItems';
 import Delivery from './Delivery';
 import uiStore from './UIStore';
@@ -19,30 +21,39 @@ import singleton from 'singleton';
 import $ from 'jquery';
 
 
+const initialData = {
+  configs: [],
+  categories: [],
+  products: [],
+  images: [],
+  types: [],
+  properties: [],
+  cartitems: [],
+  orders: [],
+  delivery: {},
+  user: null,
+  hasForegroundFetching: false,
+  hasBackgroundFetching: false,
+  initial: false,
+}
+
+
 class Store extends singleton {
-  @observable categories = [];
-  @observable products = [];
-  @observable computedProducts = [];
-  @observable images = [];
-  @observable types = [];
-  @observable properties = [];
-  @observable cartitems = [];
-  @observable orders = [];
-  @observable delivery = {};
-  @observable user = null;
-  @observable hasForegroundFetching = false;
-  @observable hasBackgroundFetching = false;
-  @observable initial = false;
 
   constructor() {
     super();
-
+    extendObservable(this, initialData);
     this.pullAll();
 
     autorun(() => {
       if (!uiStore.isLoading) {
         const path = window.location.pathname.split('/');
-        const catalogSlug = path[1] === 'catalog' ? path[2] : null;
+        // console.log('*** Store path : ', path);
+        const mainCategory = this.categories.find(item => item.id === this.siteConfig.site_main_category);
+        const mainCategorySlug = mainCategory ? mainCategory.slug : null;
+        const catalogSlug = path[1] === 'catalog'
+          ? path[2] : path[1].length === 0
+            ? mainCategorySlug : null;
         if (this.categories.length !== 0 && catalogSlug) {
           const catalog = this.categories.find(c => c.slug === catalogSlug);
           uiStore.setCatalogFilter(catalog.id);
@@ -77,10 +88,18 @@ class Store extends singleton {
     return this.filterProductsByPrice;
   }
 
-  @computed get productsByCategory() {
-    return uiStore.catalogFilter !== null
-      ? observable(this.products.filter(product => product.category.includes(uiStore.catalogFilter)))
-      : this.products;
+  @computed get productsByCategory() {  // FIXME: override save method in django model insted
+    if (uiStore.catalogFilter !== null) {  // get all procucts fron descendants categories
+      const catalogFilterObj = this.categories.find(c => uiStore.catalogFilter === c.id);
+      const catIds = [uiStore.catalogFilter,
+        ...catalogFilterObj ? [...catalogFilterObj.descendants.map(c => c.id)] : [],
+      ];
+      return observable(this.products.filter(product => 
+        product.category.some(id => 
+          catIds.includes(id))
+      ));
+    }
+    return this.products;
   }
 
   @computed get filterProductsByPrice() {
@@ -102,11 +121,12 @@ class Store extends singleton {
     this.hasForegroundFetching = true;
 
     if (window.initial_data) {
+      this.configs = window.initial_data.configs;
       this.user = new User(window.initial_data.user);
-      this.images.replace(window.initial_data.images);
+      this.images.replace(window.initial_data.images.map(i => new Image(this, i)));
       this.types.replace(window.initial_data.types);
       this.properties.replace(window.initial_data.properties.map(prop => new Property(this, prop)));
-      this.categories.replace(window.initial_data.categories);
+      this.categories.replace(window.initial_data.categories.map(c => new Category(this, c)));
       this.products.replace(window.initial_data.products.map(product => new Product(this, product)));
       this.cartitems.replace(window.initial_data.cartitems.map(item => new CartItem(this, item)));
       if (window.initial_data.deliveries.length === 0) {
@@ -118,47 +138,6 @@ class Store extends singleton {
         this.delivery = new Delivery(this, window.initial_data.deliveries[0]);
       }
     }
-
-    // fetch данных
-
-    // const users = await API.request(API.ENDPOINTS.GET_USER());
-    // if (users.length !== 0) {
-    //   this.user = new User(users[0]);
-    // }
-    // if (window.initial_data.images.length !== 0) {
-    //   this.images.replace(initial_data.images);
-    // }
-
-    // const images = await API.request(API.ENDPOINTS.GET_IMAGES());
-    // this.images.replace(images);
-
-    // const types = await API.request(API.ENDPOINTS.GET_TYPES());
-    // this.types.replace(types);
-
-    // const properties = await API.request(API.ENDPOINTS.GET_PROPERTIES());
-    // this.properties.replace(properties.map(prop => new Property(this, prop)));
-
-    // const categories = await API.request(API.ENDPOINTS.GET_CATEGORIES());
-    // this.categories.replace(categories);
-
-    // if (window.initial_data.products.length !== 0) {
-    //   this.products.replace(window.initial_data.products.map(product => new Product(this, product)));
-    // }
-    //   const products = await API.request(API.ENDPOINTS.GET_PRODUCTS());
-    //   this.products.replace(products.map(product => new Product(this, product)));
-
-    // const cartitems = await API.request(API.ENDPOINTS.GET_CARTITEMS());
-    // this.cartitems.replace(cartitems.map(item => new CartItem(this, item)));
-
-    // const deliveries = await API.request(API.ENDPOINTS.GET_DELIVERIES());
-    // if (deliveries.length === 0) {
-    //   this.delivery = new Delivery(this, {cart_id: this.getCartId()});
-    //   const newDelivery = await API.request(API.ENDPOINTS.POST_DELIVERY(), {cart_id: this.getCartId(), price: 0});
-    //   this.delivery.setId(newDelivery.id);
-    // }
-    // else {
-    //   this.delivery = new Delivery(this, deliveries[0]);
-    // }
 
     setTimeout(() => {
       this.hasForegroundFetching = false;
@@ -214,13 +193,6 @@ class Store extends singleton {
       .sort((a, b) => a.minPrice - b.minPrice)[0].minPrice;
   }
 
-  // @computed get userCartitems() {
-  //   console.log('computed userCartitems this.getCartId(): ', this.getCartId());
-  //   console.log('computed userCartitems cartitems: ', this.cartitems.find(i => i.id === 284));
-  //   return this.user;
-  //   // return this.cartitems.filter(item => item.cartId === this.getCartId());
-  // }
-
   findCartItem(product) {
     // finding existing cartItem by product.id, cartId & product.property
     const propertyId = product.activeProperty ? product.activeProperty.id : null;
@@ -258,6 +230,12 @@ class Store extends singleton {
 
   @computed get userCartitems() {
     return this.cartitems.filter(item => item.cartId === this.getCartId());
+  }
+
+  @computed get siteConfig() {
+    const byDomain = this.configs.find(item => item.site.domain === document.domain); 
+    if (byDomain) return byDomain;
+    return this.configs[this.configs.length - 1]; 
   }
 
   providers() {

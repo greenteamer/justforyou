@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     # 'corsheaders',
     # custom apps:
+    'configs',
     'core',
     'cart',
     'restapi',

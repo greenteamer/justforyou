@@ -1,5 +1,6 @@
 import { autorun, action, observable, computed, toJS, extendObservable} from 'mobx';
 import singleton from 'singleton';
+// import store from './Store';
 
 
 class UIStore extends singleton {
@@ -36,6 +37,11 @@ class UIStore extends singleton {
   @action finishLoading = () => {
     this.isLoading = false;
   }
+
+  // @computed get catalogFilterObj() {
+  //   if (!store.catalogs) return null;
+  //   return store.catalogs.find(c => this.catalogFilter === c.id);
+  // }
 
   @computed get toJS(): Object {
     return toJS(this);

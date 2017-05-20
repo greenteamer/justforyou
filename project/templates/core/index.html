@@ -35,8 +35,8 @@
         {% for product in products %}
         <div class="col-xs-6 col-md-4">
           <div class="product-container">
-            <div class="ba bg-warm-grey-5 bd-mild-gray2 pa-10px tc br2 br--top">
-              <img src={{ product.image }} alt="" class="max-h-150px"/>
+            <div class="ba bg-warm-grey-5 bd-mild-gray2 pa-0px tc br2 br--top">
+              <img src={{ product.get_image.get_relevant_url }} alt="" class="w-100"/>
               <p class="fs-190r mb-0px">{{ product.price }}р.</p>
               <a href="{{ product.get_absolute_url }}" class="product-name c-brown">{{ product.name }}</a>
               {% with properties=product.get_properties %}
