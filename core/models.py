@@ -3,7 +3,7 @@ from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 from image_cropping import ImageRatioField
 from image_cropping.utils import get_backend
-from ckeditor.fields import RichTextField
+#  from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
 
 
@@ -78,6 +78,9 @@ class Product(BaseInfoExtendedModel):
     def get_image(self):
         return ProductImage.objects.filter(product=self)[0]
 
+    def get_all_images(self):
+        return ProductImage.objects.filter(product=self)
+
     def get_certificate_url(self):
         return "/media/%s" % self.certificate
 
@@ -97,7 +100,18 @@ class Product(BaseInfoExtendedModel):
 class ProductImage(models.Model):
     image = models.ImageField(upload_to="product")
     product = models.ForeignKey(Product, related_name='images')
+    mainCropper = models.CharField(
+        verbose_name=u"Основной обрезчик",
+        max_length=240,
+        choices=(
+            ('horizontal', 'horizontal'),
+            ('vertical', 'vertical')
+        ),
+        default='horizontal'
+    )
     cropping = ImageRatioField('image', '300x222')
+    croppingVertical = ImageRatioField('image', '250x375')
+    thumb = ImageRatioField('image', '60x60')
 
     class Meta:
         verbose_name = u'Изображение'
@@ -109,6 +123,11 @@ class ProductImage(models.Model):
     def get_url(self):
         return "/media/%s" % self.image
 
+    def get_relevant_url(self):
+        if (self.mainCropper == 'vertical'):
+            return self.croppedVerticalImage
+        return self.croppedImage
+
     @property
     def croppedImage(self):
         return get_backend().get_thumbnail_url(
@@ -116,6 +135,30 @@ class ProductImage(models.Model):
             {
                 'size': (300, 222),
                 'box': self.cropping,
+                'crop': True,
+                'detail': True,
+            }
+        )
+
+    @property
+    def croppedVerticalImage(self):
+        return get_backend().get_thumbnail_url(
+            self.image,
+            {
+                'size': (250, 375),
+                'box': self.croppingVertical,
+                'crop': True,
+                'detail': True,
+            }
+        )
+
+    @property
+    def thumbImage(self):
+        return get_backend().get_thumbnail_url(
+            self.image,
+            {
+                'size': (60, 60),
+                'box': self.thumb,
                 'crop': True,
                 'detail': True,
             }

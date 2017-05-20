@@ -12,14 +12,11 @@
                 <p class="f5 c-white">
                   Бесплатные консультации, заказ товара, тел:
                 </p>
-                <p class="mb-0 c-mild-gray">
-                  +7 900 998 58 23
-                </p>
-                <p>
-                  +7 300 324 68 64
-                </p>
+                {% for phone in config.get_all_phones %}
+                  <p class="mb-0 c-mild-gray">{{ phone }}</p>
+                {% endfor %}
                 <p class="mb-0">e-mail:</p>
-                <p>alt@likethis.ru</p>
+                <p>{{ config.site_email }}</p>
               </div>
               <div class="col-xs-6 col-md-6 br b--white">
                 <p class="f5">Разделы сайта:</p>
@@ -33,10 +30,10 @@
             <i class="fa fa-cc-paypal" style="font-size: 30px" aria-hidden="true"></i>
 
             <div class="c-mild-gray">
-              <p class="fs-75r bb b--white pv3">Мы рады помочь Вам приобрести кросовки действительно высоког качества по лучшем ценам и самым удобным сервисом.</p>
-              <p class="f6 mb0">© ООО «LIKETHIS», 2009-2017.</p>
+              <p class="fs-75r bb b--white pv3">{{ config.site_description }}</p>
+              <p class="f6 mb0">© «{{ config.site_name }}», 2009-2017.</p>
               <p class="fs-75r">При использовании текстовой информации, фото и видео материалов, ссылка на сайт обязательна.</p>
-              <p class="f5">WWW.LIKETHIS.RU</p>
+              <p class="f5">{{ config.site }}</p>
             </div>
           </div>
         </div>
