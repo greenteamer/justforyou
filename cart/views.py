@@ -2,10 +2,15 @@
 from django.shortcuts import render
 from cart import utils
 from cart.models import CartItem, Delivery, Order
-from robokassa.forms import RobokassaForm
+#  from robokassa.forms import RobokassaForm
 from robokassa.signals import result_received
 from django.views.decorators.csrf import csrf_exempt
 from core.utils import get_initial_json_data
+from project.settings import ADMIN_EMAIL
+from configs.methods import get_site_config
+from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
+from django.shortcuts import redirect
 
 
 def cart_view(request, template_name='cart/cart.html'):
@@ -29,7 +34,7 @@ def order_view(request, template_name='cart/order.html'):
         if item["cart_id"] == cart_id:
             delivery = item
             unrestricted_address = Delivery.objects.get(cart_id=cart_id).get_unrestricted_address()
-            items_price = items_price + delivery["price"]
+            #  items_price = items_price + delivery["price"]
 
     try:
         order = Order()
@@ -42,12 +47,22 @@ def order_view(request, template_name='cart/order.html'):
         order.cart_id = cart_id
         order.save()
 
-    form = RobokassaForm(initial={
-        'OutSum': order.price,
-        'InvId': order.id,
-        #  'Desc': order.name,
-        #  'Email': request.user.email,
-    })
+    #  form = RobokassaForm(initial={
+    #      'OutSum': order.price,
+    #      'InvId': order.id,
+    #      #  'Desc': order.name,
+    #      #  'Email': request.user.email,
+    #  })
+    if request.method == 'POST':
+        config = get_site_config(request)
+        context_dict = {
+            'order': order,
+            'config': config,
+            'unrestricted_address': unrestricted_address,
+            'delivery': delivery,
+        }
+        send_mail_func('cart/email_order_admin.html', context_dict, config.site_email)
+        return redirect('success_views')
 
     initial_data = get_initial_json_data(request)
     return render(request, template_name, {
@@ -55,13 +70,23 @@ def order_view(request, template_name='cart/order.html'):
         "items_price": items_price,
         "delivery": delivery,
         "unrestricted_address": unrestricted_address,
-        "form": form,
+        #  "form": form,
         "initial_data": initial_data,
     })
 
 
-@csrf_exempt
-def success_views(request, template_name="robokassa/success.html"):
+def send_mail_func(template, context_dict, email):
+    subject = u'Уведомление JustForYou70.ru'
+    message = render_to_string(
+        template,
+        context_dict,
+    )
+    msg = EmailMultiAlternatives(subject, message, ADMIN_EMAIL, [email])
+    msg.content_subtype = "html"
+    msg.send()
+
+
+def success_views(request, template_name="cart/success.html"):
     utils.del_session_cart_id(request)
     return render(request, template_name, {})
 

@@ -172,11 +172,6 @@ class Store extends singleton {
     }
   }
 
-  @action pushOrder = () => {
-    // console.log('Store pushOrder');
-    this.x = 0;
-  }
-
   getCartId() {
     return getCookie('cart_id');
   }

@@ -25,7 +25,7 @@
           </tr>
           {% endfor %}
           <tr>
-            <th colspan="2">Цена с доставкой</th>
+            <th colspan="2">Стоимость без доставки</th>
             <th>{{ items_price }} р.</th>
           </tr>
           </tbody>
@@ -54,13 +54,13 @@
       <!--   id="example-search-input"/>  -->
       <!-- </div>  -->
     </div>
-    <form action="{{ form.target }}" method="POST">
-      <p>{{ form.as_p }}</p>
+    
+    <form action="." method="POST">{% csrf_token %}
       <button
         type="submit"
         id="payment-button"
         disabled="disabled"
-        class="btn btn-medium btn-green rounded">Перйти к оплате</button>
+        class="btn btn-medium btn-green rounded">Заказать</button>
     </form>
   </div>
 </div>
