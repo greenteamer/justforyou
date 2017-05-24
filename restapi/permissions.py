@@ -8,7 +8,6 @@ class IsCartIdOwnerOrReadOnly(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
 
-        # Instance must have an attribute named `owner`.
         return obj.cart_id == set_cart_id(request)
 
 
