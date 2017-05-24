@@ -18,7 +18,8 @@ export default class Delivery {
     extendObservable(this, initialData, obj ? obj : {});
 
     autorunAsync(() => {
-      if (store.getCartId() === this.cartId && this.id) {
+      if (this.id) {
+        console.log('*** Delivery change: ', this.toJS);
         API.request(API.ENDPOINTS.PUT_DELIVERY(this.id), this.toJS);
       }
     }, 1500);
@@ -41,6 +42,7 @@ export default class Delivery {
   }
 
   @action changeData = (data) => {
+    console.log('---- delivery changeData');
     for (const key of Object.keys(initialData)) {
       // console.log('key: ', key);
       if (data[key] !== '') {

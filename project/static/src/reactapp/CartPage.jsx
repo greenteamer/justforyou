@@ -157,7 +157,7 @@ class CartPage extends Component {
   }
 
   processingOrder = () => {
-    const { store } = this.props;
+    const { store: { delivery } } = this.props;
     window.location.pathname = '/order/';
   }
 

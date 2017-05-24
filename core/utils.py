@@ -4,6 +4,7 @@ from cart import models as cartmodels
 from restapi.flatserializers import ProductObj, ProductImageObj, UserObj, PropertyTypeObj, PropertyValueObj, CategoryObj, CartItemObj, DeliveryObj, ConfigObj
 from rest_framework.renderers import JSONRenderer
 from django.utils.safestring import SafeString
+from cart.utils import set_cart_id
 #  from configs.methods import get_site_config
 
 
@@ -16,7 +17,7 @@ def get_initial_json_data(request):
     categories = models.Category.objects.all()
     products = models.Product.objects.all()
     cartitems = cartmodels.CartItem.objects.all()
-    deliveries = cartmodels.Delivery.objects.all()
+    deliveries = cartmodels.Delivery.objects.filter(cart_id=set_cart_id(request))
 
     if request.user.is_authenticated:
         s_user = UserObj(request.user, context={"request": request})
