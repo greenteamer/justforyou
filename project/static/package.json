@@ -1,6 +1,6 @@
 {
-  "name": "mobx-react-boilerplate",
-  "version": "1.0.0",
+  "name": "JustForYou",
+  "version": "0.38.0",
   "description": "Boilerplate for MobX + React project with JSX, ES6 compilation and hot code reloading",
   "scripts": {
     "lint": "node_modules/.bin/eslint src/** --ext .js,.jsx",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mobxjs/mobx-react-boilerplate.git"
+    "url": ""
   },
   "keywords": [
     "react",
@@ -20,12 +20,12 @@
     "mobx",
     "starter-kit"
   ],
-  "author": "Michel Weststrate <mweststrate@gmail.com> (http://github.com/mweststrate)",
-  "license": "MIT",
+  "author": "",
+  "license": "",
   "bugs": {
-    "url": "https://github.com/mobxjs/mobx/issues"
+    "url": ""
   },
-  "homepage": "http://mobxjs.github.com/mobx",
+  "homepage": "",
   "devDependencies": {
     "babel-core": "^6.18.2",
     "babel-eslint": "^6.1.0",

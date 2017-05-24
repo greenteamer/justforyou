@@ -51195,7 +51195,8 @@
 	    (0, _mobx.extendObservable)(this, initialData, obj ? obj : {});
 	
 	    (0, _mobx.autorunAsync)(function () {
-	      if (store.getCartId() === _this.cartId && _this.id) {
+	      if (_this.id) {
+	        console.log('*** Delivery change: ', _this.toJS);
 	        API.request(API.ENDPOINTS.PUT_DELIVERY(_this.id), _this.toJS);
 	      }
 	    }, 1500);
@@ -51290,6 +51291,7 @@
 	    var _this5 = this;
 	
 	    return function (data) {
+	      console.log('---- delivery changeData');
 	      var _iteratorNormalCompletion = true;
 	      var _didIteratorError = false;
 	      var _iteratorError = undefined;
@@ -53071,7 +53073,7 @@
 	  }, {
 	    key: '__processingOrder__REACT_HOT_LOADER__',
 	    value: function __processingOrder__REACT_HOT_LOADER__() {
-	      var store = this.props.store;
+	      var delivery = this.props.store.delivery;
 	
 	      window.location.pathname = '/order/';
 	    }

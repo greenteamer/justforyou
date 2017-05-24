@@ -83,7 +83,10 @@ class DeliveryViewSet(viewsets.ModelViewSet):
     serializer_class = flatserializers.DeliveryObj
 
     def get_queryset(self):
-        return Delivery.objects.filter(cart_id=cartutils.set_cart_id(self.request))
+        if self.request.user.is_superuser:
+            return Delivery.objects.all()
+        else:
+            return Delivery.objects.filter(cart_id=cartutils.set_cart_id(self.request))
 
 
 class UserViewSet(viewsets.ModelViewSet):

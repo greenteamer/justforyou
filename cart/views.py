@@ -24,15 +24,19 @@ def cart_view(request, template_name='cart/cart.html'):
 def order_view(request, template_name='cart/order.html'):
     request.breadcrumbs([(u'Корзина', '/cart/'), (u'Оформление заказа', '')])
     cart_id = utils.set_cart_id(request)
+    print "**** cart_id: {}".format(cart_id)
     cart_items = CartItem.objects.filter(cart_id=cart_id)
     items_price = 0
     for item in cart_items:
         items_price = items_price + item.total_price()
     delivery = None
     delivery_list = Delivery.objects.values()
-    for item in delivery_list:
-        if item["cart_id"] == cart_id:
-            delivery = item
+    print "**** delivery_list: {}".format(delivery_list)
+    unrestricted_address = ''
+    for delvery_item in delivery_list:
+        if delvery_item["cart_id"] == cart_id:
+            delivery = delvery_item
+            print "**** delivery: {}".format(delivery)
             unrestricted_address = Delivery.objects.get(cart_id=cart_id).get_unrestricted_address()
             #  items_price = items_price + delivery["price"]
 
