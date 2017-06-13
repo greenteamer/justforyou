@@ -187,10 +187,11 @@ def review_list_view(request, template_name='core/review_list.html'):
 def contact_form(request, template_name='core/contact_form.html'):
     if request.method == 'POST':
         print "**** request.POST: %s" % request.POST
+        config = get_site_config(request)
         send_mail(
             u'Заявка на звонок',
             u'Телефон: %s' % request.POST['phone'],
-            'teamer777@example.com',
+            config.site_email,
             [ADMIN_EMAIL, ],
             fail_silently=False,
         )
