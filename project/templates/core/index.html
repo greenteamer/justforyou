@@ -9,9 +9,9 @@
 
 {% block slider %}
   {% if request.path == '/' %}
-    <div class="hidden-sm-down" style="margin-bottom: -1px;">
+    <div class="" style="margin-bottom: -1px;">
       <!-- Slider main container -->
-      <div class="swiper-container swiper2 overflow-hidden w-100 relative" id="front-slider" style="height: 470px">
+      <div class="swiper-container swiper2 overflow-hidden w-100 relative" id="front-slider" style="max-height: 470px">
         <div class="swiper-wrapper">
           {% for news_slide in slides %}
           <div class="swiper-slide">
@@ -164,13 +164,13 @@
         <h3 class=" flex justify-center">
           Полезная информация
         </h3>
-        <a href="/articles/" class="mb3 flex justify-center mt2 mr2 pa2 green fs-75r">
+        <a href="/articles/" class="mb3 flex justify-center mt2 mr2 pa2 gray fs-75r">
           <i class="ion-ios-list-outline fs-100r mr2"></i>
           все статьи
         </a>
         {% for article in articles %}
         <div>
-          <a class="fs-75r green" href="{{ article.get_absolute_url }}">
+          <a class="fs-75r gray" href="{{ article.get_absolute_url }}">
             {{ article.name }}
           </a>
           {{ article.description|safe|truncatewords:15 }}
@@ -181,7 +181,7 @@
     <div class="col-xs-12 col-md-6 mt4">
       <div class="ba br100 bd-mild-gray pa3 relative">
         <h3 class="flex justify-center">Новости компании</h3>
-        <a href="/news/" class="mb3 flex justify-center mt2 mr2 pa2 green fs-75r">
+        <a href="/news/" class="mb3 flex justify-center mt2 mr2 pa2 gray fs-75r">
           <i class="ion-ios-list-outline fs-100r mr2"></i>
           все новости
         </a>
@@ -190,7 +190,7 @@
           <div class="fs-65r">
             {{ news_item.date|date:"d M Y" }}
           </div>
-          <a class="fs-75r green" href="{{ news_item.get_absolute_url }}">
+          <a class="fs-75r gray" href="{{ news_item.get_absolute_url }}">
             {{ news_item.name }}
           </a>
           {{ news_item.description|safe|truncatewords:15 }}

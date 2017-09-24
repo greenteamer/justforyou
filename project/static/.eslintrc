@@ -47,7 +47,7 @@
       "args": "after-used"
     }],
     "no-use-before-define": 0,
-    "comma-dangle": [2, "always-multiline"],
+    "comma-dangle": ["error", "never"],
     "no-cond-assign": [2, "always"],
     "no-console": 1,
     "no-debugger": 1,
@@ -132,9 +132,6 @@
     }],
     "new-cap": 0,
     "no-multiple-empty-lines": 0,
-    # "no-multiple-empty-lines": [2, {
-    #   "max": 2
-    # }],
     "no-nested-ternary": 0,
     "no-new-object": 2,
     "no-spaced-func": 2,
@@ -143,7 +140,6 @@
     "no-underscore-dangle": 0,
     "one-var": [2, "never"],
     "padded-blocks": [2, "never"],
-    "semi": [2, "always"],
     "semi-spacing": [2, {
       "before": false,
       "after": true
