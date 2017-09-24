@@ -1,12 +1,12 @@
 <header class="header mt2">
   <div class="row">
-    <div class="col-md-4" >
+    <div class="col-md-7 site-name" >
       <a href="/" class="logo black fs-200r">
         {{ config.site_name }}
       </a>
       <p>{{ config.site_short_description }}</p>
     </div>
-    <div class="col-md-3 flex items-center justify-end">
+    <!-- <div class="col-md-3 flex items-center justify-end">
       <div class="input-group">
         <input type="text" class="form-control" placeholder="Поиск по сайту" />
         <span class="input-group-btn">
@@ -15,17 +15,22 @@
           </button>
         </span>
       </div>
-    </div>
-    <div class="col-xs-6 col-md-2 flex-column items-end justify-center flex">
+    </div> -->
+    <div class="hidden-lg-down col-xs-12 col-md-2 flex-column items-end justify-center flex">
       {% for phone in config.get_all_phones %}
-      <p class="f4 mb1 tr">{{ phone }}</p>
+        {% if phone.is_main %}
+          <p class="f4 mb1 tr">{{ phone }}</p>
+        {% endif %}
       {% endfor %}
     </div>
-    <div class="col-xs-6 col-md-3 flex items-center justify-end">
-      <button class="button-red bw0 flex justify-center items-center" data-toggle="modal" data-target="#myModal">
-        <span class="mr2 ttu">Заказать звонок</span>
-        <i class="ion-iphone f3"></i>
-      </button>
+    <div class="phone-button col-xs-12 col-md-3 flex items-center justify-end">
+      <!--<button class="button-red bw0 flex justify-center items-center" data-toggle="modal" data-target="#myModal">-->
+      <a href="#callbackwidget" class="no-underline pointer:hover">
+        <button class="button-red bw0 flex justify-center items-center">
+          <span class="mr2 ttu">Заказать звонок</span>
+          <i class="ion-iphone f3"></i>
+        </button>
+      </a>
     </div>
   </div>
 </header>

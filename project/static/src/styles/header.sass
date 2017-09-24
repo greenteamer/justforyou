@@ -1,5 +1,20 @@
 @import "colors"
 
+$small: 767px;
+$large: 1024px;
+
+@mixin respond-to($media)
+  @if $media == xs
+    @media only screen and (max-width: $small)
+      @content
+  @else if $media == md
+    @media only screen and (min-width: $small + 1) and (max-width: $large - 1)
+      @content
+  @else if $media == lg
+    @media only screen and (min-width: $large)
+      @content
+
+
 .header
   .button-red
     color: $white
@@ -8,6 +23,24 @@
     border-radius: 5px
     background-color: $red
     font-weight: 500
+
+  .site-name
+    @include respond-to(xs)
+      display: flex
+      flex-direction: column
+    a
+      @include respond-to(xs)
+        text-align: center
+        align-self: center
+    p
+      @include respond-to(xs)
+        text-align: center
+  
+  .phone-button
+    @include respond-to(xs)
+      display: flex
+      justify-content: center
+      margin-bottom: 5px
 
   .logo
     padding: 0px
