@@ -24322,6 +24322,26 @@ ol.breadcrumb {
   background-color: #e61e17;
   font-weight: 500; }
 
+@media only screen and (max-width: 767px) {
+  .header .site-name {
+    display: flex;
+    flex-direction: column; } }
+
+@media only screen and (max-width: 767px) {
+  .header .site-name a {
+    text-align: center;
+    align-self: center; } }
+
+@media only screen and (max-width: 767px) {
+  .header .site-name p {
+    text-align: center; } }
+
+@media only screen and (max-width: 767px) {
+  .header .phone-button {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5px; } }
+
 .header .logo {
   padding: 0px;
   width: 50%; }
@@ -24480,6 +24500,9 @@ ol.breadcrumb {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap; }
+
+.has-value.is-clearable.Select--single > .Select-control .Select-value {
+  padding-right: 42px; }
 
 .has-value.Select--single > .Select-control .Select-value .Select-value-label,
 .has-value.is-pseudo-focused.Select--single > .Select-control .Select-value .Select-value-label {

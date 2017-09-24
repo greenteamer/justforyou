@@ -1,4 +1,3 @@
-!/project/static/
 # OS
 .DS_Store
 
@@ -18,7 +17,6 @@ atlassian-ide-plugin.xml
 # Project
 settings_local.py
 logs/
-static/
 pids/
 save_2gis_data.py
 get_2gis_data.py

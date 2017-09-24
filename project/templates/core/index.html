@@ -9,9 +9,9 @@
 
 {% block slider %}
   {% if request.path == '/' %}
-    <div class="hidden-sm-down" style="margin-bottom: -1px;">
+    <div class="" style="margin-bottom: -1px;">
       <!-- Slider main container -->
-      <div class="swiper-container swiper2 overflow-hidden w-100 relative" id="front-slider" style="height: 470px">
+      <div class="swiper-container swiper2 overflow-hidden w-100 relative" id="front-slider" style="max-height: 470px">
         <div class="swiper-wrapper">
           {% for news_slide in slides %}
           <div class="swiper-slide">
