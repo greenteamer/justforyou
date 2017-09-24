@@ -54831,45 +54831,39 @@
 	        'nav',
 	        { id: 'product-menu', className: 'navbar navbar-toggleable-md navbar-light bg-faded' },
 	        _react2.default.createElement(
-	          'span',
-	          { className: 'label' },
-	          '\u0421\u043E\u0440\u0442\u0438\u0440\u043E\u0432\u0430\u0442\u044C \u043F\u043E: '
-	        ),
-	        _react2.default.createElement(
 	          'div',
-	          { className: 'btn-group', role: 'group', 'aria-label': 'Basic example' },
+	          { className: 'flex justify-start' },
 	          _react2.default.createElement(
-	            'button',
-	            {
-	              type: 'button',
-	              className: 'btn btn-secondary ' + (uiStore.sorting === 'byName' ? 'active' : ''),
-	              onClick: function onClick() {
-	                return _this2.toggleFilter('byName');
-	              } },
-	            '\u041D\u0430\u0437\u0432\u0430\u043D\u0438\u044E'
+	            'div',
+	            { className: 'flex jusdtify-center self-center items-center mh2' },
+	            _react2.default.createElement('span', { className: 'ion-android-funnel' })
 	          ),
 	          _react2.default.createElement(
-	            'button',
-	            {
-	              type: 'button',
-	              className: 'btn btn-secondary ' + (uiStore.sorting === 'byMinPrice' ? 'active' : ''),
-	              onClick: function onClick() {
-	                return _this2.toggleFilter('byMinPrice');
-	              } },
-	            '\u041C\u0438\u043D. \u0446\u0435\u043D\u0435'
-	          ),
-	          _react2.default.createElement(
-	            'button',
-	            {
-	              type: 'button',
-	              className: 'btn btn-secondary ' + (uiStore.sorting === 'byMaxPrice' ? 'active' : ''),
-	              onClick: function onClick() {
-	                return _this2.toggleFilter('byMaxPrice');
-	              } },
-	            '\u041C\u0430\u043A\u0441. \u0446\u0435\u043D\u0435'
+	            'div',
+	            { className: 'btn-group mb1', role: 'group', 'aria-label': 'Basic example' },
+	            _react2.default.createElement(
+	              'button',
+	              { type: 'button', className: 'btn btn-secondary pv1 ph2 fs-85r ' + (uiStore.sorting === 'byName' ? 'active' : ''), onClick: function onClick() {
+	                  return _this2.toggleFilter('byName');
+	                } },
+	              '\u041D\u0430\u0437\u0432\u0430\u043D\u0438\u044E'
+	            ),
+	            _react2.default.createElement(
+	              'button',
+	              { type: 'button', className: 'btn btn-secondary pv1 ph2 fs-85r ' + (uiStore.sorting === 'byMinPrice' ? 'active' : ''), onClick: function onClick() {
+	                  return _this2.toggleFilter('byMinPrice');
+	                } },
+	              '\u041C\u0438\u043D. \u0446\u0435\u043D\u0435'
+	            ),
+	            _react2.default.createElement(
+	              'button',
+	              { type: 'button', className: 'btn btn-secondary pv1 ph2 fs-85r ' + (uiStore.sorting === 'byMaxPrice' ? 'active' : ''), onClick: function onClick() {
+	                  return _this2.toggleFilter('byMaxPrice');
+	                } },
+	              '\u041C\u0430\u043A\u0441. \u0446\u0435\u043D\u0435'
+	            )
 	          )
-	        ),
-	        _react2.default.createElement(_CategoryFilter2.default, { store: store, uiStore: uiStore })
+	        )
 	      );
 	    }
 	  }]);
@@ -54940,15 +54934,15 @@
 	
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'btn-group' },
+	        { className: 'btn-group mb1' },
 	        _react2.default.createElement(
 	          'button',
-	          { type: 'button', className: 'btn btn-secondary' },
-	          '\u0424\u0438\u043B\u044C\u0442\u0440\u043E\u0432\u0430\u0442\u044C \u043F\u043E \u043A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u0438:'
+	          { type: 'button', className: 'btn btn-secondary pa1' },
+	          '\u0424\u0438\u043B\u044C\u0442\u0440'
 	        ),
 	        _react2.default.createElement(
 	          'button',
-	          { type: 'button', className: 'btn btn-secondary dropdown-toggle dropdown-toggle-split', 'data-toggle': 'dropdown', 'aria-haspopup': 'true', 'aria-expanded': 'false' },
+	          { type: 'button', className: 'btn btn-secondary pa1 dropdown-toggle dropdown-toggle-split', 'data-toggle': 'dropdown', 'aria-haspopup': 'true', 'aria-expanded': 'false' },
 	          _react2.default.createElement(
 	            'span',
 	            { className: 'sr-only' },
