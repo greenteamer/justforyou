@@ -1,3 +1,5 @@
 # Just For You
-**Известные бренды кросовок** v0.38.0
-
+- Brand shoe store v0.38.0
+- Monolith repo
+- Python / Django / PostgreSQL
+- React / SSR / Mobx
