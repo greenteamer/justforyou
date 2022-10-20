@@ -3,3 +3,4 @@
 - Monolith repo
 - Python / Django / PostgreSQL
 - React / SSR / Mobx
+- UI / UX design with Sketch
